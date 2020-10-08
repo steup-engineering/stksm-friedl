@@ -1,0 +1,76 @@
+component ksm_unidev "KSM universal device";
+
+author "Sascha Ittner, Dominik Braun";
+license "GPL";
+
+param rw float offset = 20.0;
+param rw float step = 10.0;
+param rw float window = 8.0;
+
+pin in bit pos_0;
+pin in bit pos_1;
+pin in bit pos_2;
+
+pin out s32 pos;
+
+pin in float height;
+pin out float selected;
+
+pin in bit automatic_running;
+pin out bit error;
+
+pin in bit in;
+pin out bit out;
+
+function _ fp;
+
+;;
+
+#define WINDOW	8.0
+
+static const int pos_lookup[] = {
+	-1,	// 0
+	5,	// 1
+	-1,	// 2
+	0,	// 3
+	3,	// 4
+	2,	// 5
+	4,	// 6
+	1, 	// 7
+}; 
+
+FUNCTION(_) {
+	int tmp;
+
+	tmp = 0;
+	if (pos_0) {
+		tmp |= 1;
+	}
+	if (pos_1) {
+		tmp |= 2;
+	}
+	if (pos_2) {
+		tmp |= 4;
+	}
+
+	out = 0;
+	error = 0;
+
+	pos = pos_lookup[tmp];
+	if (pos >= 0) {
+		selected = offset + (double) pos * step;
+		if (height >= (selected - window) && height <= (selected + window)) {
+			out = in;
+			error = 0;
+		} else if (in) {
+			error = 1;
+		}
+	} else {
+		selected = 0.0;
+		if (automatic_running) {
+			error = 1;
+		}
+	}
+
+}
+

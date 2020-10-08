@@ -1,0 +1,87 @@
+net ec-slaves-responding <= lcec.slaves-responding 
+net ec-all-op <= lcec.all-op 
+
+net ctrl-voltage <= lcec.0.S45A4.din-0
+net motor-protection-ok <= lcec.0.S45A4.din-1
+net amp-ready <= lcec.0.S45A4.din-2
+net air-press-ok <= lcec.0.S45A4.din-3
+net mat-switch-top <= lcec.0.S45A4.din-5
+net mat-switch-side <= lcec.0.S45A4.din-6
+
+net belt-stop <= lcec.0.S45A5.din-0
+net belt-start <= lcec.0.S45A5.din-1
+net speed-inc <= lcec.0.S45A5.din-2
+net speed-dec <= lcec.0.S45A5.din-3
+net inlet-roll-up <= lcec.0.S45A5.din-4
+net inlet-roll-down <= lcec.0.S45A5.din-5
+net inlet-roll-ack <= lcec.0.S45A5.din-6
+
+net calib-inc <= lcec.0.S45A6.din-0
+net calib-dec <= lcec.0.S45A6.din-1
+net calib-ok <= lcec.0.S45A6.din-2
+net inlet-roll-at-top <= lcec.0.S45A6.din-3
+net inlet-roll-at-bot <= lcec.0.S45A6.din-4
+
+net unidevs-0-pos-2 <= lcec.0.S45A7.din-0
+net unidevs-0-pos-1 <= lcec.0.S45A7.din-1
+net unidevs-0-pos-0 <= lcec.0.S45A7.din-2
+
+net enc-belt <= lcec.0.S45A8.enc-0-count
+
+setp lcec.0.S45A9.aout-0-absmode 1
+setp lcec.0.S45A9.aout-0-scale [BELT]SPEED_SCALE
+net amp-enable => lcec.0.S45A9.aout-0-enable
+net amp-speed => lcec.0.S45A9.aout-0-value
+
+net plc-run => lcec.0.S45A10.dout-0
+net water-face-on => lcec.0.S45A10.dout-1
+net water-bevel-on => lcec.0.S45A10.dout-2
+net amp-enable => lcec.0.S45A10.dout-3
+net automatic-running => lcec.0.S45A10.dout-4
+net inlet-roll-lamp => lcec.0.S45A10.dout-5
+net error-lamp => lcec.0.S45A10.dout-6
+net ctrl-voltage-lamp => lcec.0.S45A10.dout-7
+
+net amp-enable => lcec.0.S45A12.dout-0
+net inlet-up => lcec.0.S45A12.dout-1
+net inlet-down => lcec.0.S45A12.dout-2
+net faces-0-active => lcec.0.S45A12.dout-3
+net faces-1-active => lcec.0.S45A12.dout-4
+net faces-2-active => lcec.0.S45A12.dout-5
+net faces-3-active => lcec.0.S45A12.dout-6
+net faces-4-active => lcec.0.S45A12.dout-7
+
+net unidevs-0-active => lcec.0.S45A13.dout-8
+net bevel-0-mot-0-active => lcec.0.S45A13.dout-9
+net bevel-0-mot-1-active => lcec.0.S45A13.dout-10
+net bevel-1-mot-0-active => lcec.0.S45A13.dout-11
+net bevel-1-mot-1-active => lcec.0.S45A13.dout-12
+net bevel-1-mot-2-active => lcec.0.S45A13.dout-13
+
+net rolls-0-active => lcec.0.S45A16.dout-0
+net rolls-1-active => lcec.0.S45A16.dout-1
+net rolls-2-active => lcec.0.S45A16.dout-2
+net rolls-3-active => lcec.0.S45A16.dout-3
+net rolls-4-active => lcec.0.S45A16.dout-4
+net rolls-5-active => lcec.0.S45A16.dout-5
+net rolls-6-active => lcec.0.S45A16.dout-6
+net rolls-7-active => lcec.0.S45A16.dout-7
+net rolls-8-active => lcec.0.S45A16.dout-8
+net rolls-9-active => lcec.0.S45A16.dout-9
+net rolls-10-active => lcec.0.S45A16.dout-10
+net rolls-11-active => lcec.0.S45A16.dout-11
+net rolls-12-active => lcec.0.S45A16.dout-12
+net rolls-13-active => lcec.0.S45A16.dout-13
+net rolls-14-active => lcec.0.S45A16.dout-14
+net rolls-15-active => lcec.0.S45A16.dout-15
+
+net rolls-16-active => lcec.0.S45A17.dout-0
+net rolls-17-active => lcec.0.S45A17.dout-1
+net rolls-18-active => lcec.0.S45A17.dout-2
+net rolls-19-active => lcec.0.S45A17.dout-3
+net rolls-20-active => lcec.0.S45A17.dout-4
+net rolls-21-active => lcec.0.S45A17.dout-5
+net rolls-22-active => lcec.0.S45A17.dout-6
+net rolls-23-active => lcec.0.S45A17.dout-7
+net rolls-24-active => lcec.0.S45A17.dout-8
+
