@@ -1,18 +1,28 @@
 <masters>
   <master idx="0" appTimePeriod="1000000" refClockSyncCycles="-1">
     <slave idx="0" name="S45A1" type="EK1100"/>
-    <slave idx="1" name="S45A4" type="EL1018"/>
-    <slave idx="2" name="S45A5" type="EL1018"/>
-    <slave idx="3" name="S45A6" type="EL1018"/>
-    <slave idx="4" name="S45A7" type="EL1004"/>
-    <slave idx="5" name="S45A9" type="EL4102"/>
-    <slave idx="6" name="S45A10" type="EL2008"/>
-    <slave idx="7" name="S45A12" type="EL2008"/>
-    <slave idx="8" name="S45A13" type="EL2809"/>
-    <slave idx="9" name="S45A14" type="EL2008"/>
-    <slave idx="10" name="S45A15" type="EL2809"/>
-    <slave idx="11" name="S45A16" type="EL2809"/>
-    <slave idx="12" name="S45A17" type="EL2809"/>
-  </master>
+    <slave idx="1" name="S45A2" type="EL1018"/>
+    <slave idx="2" name="S45A3" type="EL1018"/>
+    <slave idx="3" name="S45A4" type="EL1018"/>
+    <slave idx="4" name="S45A5" type="EL5152"/>
+    <slave idx="5" name="S45A6" type="EL4102"/>
+    <slave idx="6" name="S45A7" type="EL2008"/>
+    <slave idx="7" name="S45A11" type="EL2008"/>
+    <slave idx="8" name="S45A12" type="EL2809"/>
+    <slave idx="9" name="S45A13" type="EK1122"/>
+
+    <slave idx="10" name="16M1" type="NanoPD4E"/>
+    <slave idx="11" name="16M2" type="NanoPD4E"/>
+    <slave idx="12" name="16M3" type="NanoPD4E"/>
+    <slave idx="13" name="16M4" type="NanoPD4E"/>
+    <slave idx="14" name="17M1" type="NanoPD4E"/>
+    <slave idx="15" name="17M2" type="NanoPD4E"/>
+    <!--slave idx="16" name="17M3" type="NanoPD4E"/-->
+    <!--slave idx="17" name="17M4" type="NanoPD4E"/-->
+
+    <slave idx="16" name="S46A3" type="EP2809"/>    
+    <slave idx="17" name="S46A2" type="EP2008"/>
+    <slave idx="18" name="S46A1" type="EP2809"/>
+   </master>
 </masters>
 

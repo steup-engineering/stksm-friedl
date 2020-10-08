@@ -1,0 +1,252 @@
+component ksm_mill_yz "KSM Profil Mills";
+
+author "Dominik Braun ";
+license "GPL";
+
+option singleton no;
+
+
+//PLC Interface
+pin in bit ctrl_voltage;
+pin in bit automatic_running;
+pin io bit home;
+
+
+pin out bit done;
+pin out bit busy;
+pin out bit error;
+pin out bit homed;
+pin out bit ready; 
+
+//mill stations
+pin in float home_offset_z;
+pin in float home_offset_y;
+pin in float tool_offset_z;
+pin in float tool_offset_y;
+
+
+pin in float target_z;
+pin in float target_y;
+
+pin in bit jog_pos_z;
+pin in bit jog_neg_z;
+pin in bit jog_pos_y;
+pin in bit jog_neg_y;
+pin in bit man_setup;
+
+pin in bit active;
+
+pin out bit softend_limit;
+
+pin out float act_pos_z;
+pin out float act_pos_y;
+
+pin out bit error_z;
+pin out bit error_y;
+pin out unsigned error_code_z;
+pin out unsigned error_code_y;
+
+//pin out bit homed-z
+//pin out bit homed-y
+
+
+/*
+jog-velo
+
+pos-velo
+
+softend-min
+
+softend-max
+*/
+//drives interface
+pin out bit drives_enable;
+
+pin out float drv_pos_cmd_z;
+pin out float drv_pos_cmd_y;
+pin io bit drv_new_setpoint_z;
+pin io bit drv_new_setpoint_y;
+
+pin io  bit drv_home_z;
+pin io  bit drv_home_y;
+
+pin out bit drv_jog_pos_z;
+pin out bit drv_jog_pos_y;
+pin out bit drv_jog_neg_z;
+pin out bit drv_jog_neg_y;
+
+pin in bit drv_enabled_z;
+pin in bit drv_enabled_y;
+pin in bit drv_fault_z;
+pin in bit drv_fault_y; 
+
+pin in bit drv_target_reached_z;
+pin in bit drv_target_reached_y;
+
+pin in bit drv_homed_z;
+pin in bit drv_homed_y;
+
+pin in float drv_act_pos_z;
+pin in float drv_act_pos_y;
+
+
+pin in signed drv_pos_fb_raw_z;
+pin in signed drv_pos_fb_raw_y;
+
+//parameter
+param rw float power_on_delay_time = 0.1 "Power on delay for 48V";
+param rw float drv_softend_max_z "Softend max z raw"; 
+param rw float drv_softend_max_y "Softend max y raw"; 
+param rw float drv_softend_min_z "Softend min z raw"; 
+param rw float drv_softend_min_y "Softend min y raw"; 
+
+
+
+
+//instance data
+variable bool home_old =0;
+variable bool automatic_running_old =0;
+variable bool active_old =0;
+variable bool homing =0;
+variable bool posi =0;
+variable bool ctrl_voltage_old = 0; 
+variable float pon_timer = 0; 
+
+function _;
+
+;;
+
+
+
+FUNCTION(_) {
+  double period_sec; 
+  bool drives_on; 
+
+  // get period in seconds
+  period_sec = (double)period * 1e-9;
+
+  //error state 
+  error = drv_fault_z || drv_fault_y;
+
+
+  //enable
+  
+  if (ctrl_voltage && !ctrl_voltage_old) {
+    pon_timer = power_on_delay_time; 
+  }
+
+  if (pon_timer <= 0) {
+    drives_enable = ctrl_voltage;
+  } else {
+    pon_timer -= period_sec;
+  }
+  
+  ctrl_voltage_old = ctrl_voltage; 
+
+  
+  drives_on = drv_enabled_z && drv_enabled_y; 
+
+  //homing
+  homed = drv_homed_z && drv_homed_y;     //homed state
+
+  if (home && homed && homing) {         //reset home input
+    home = 0;
+    homing = 0;
+  } 
+
+  if (home && !home_old && drives_on) {   //start homing
+    drv_home_z = 1;
+    drv_home_y = 1;
+    homing = 1; 
+  }
+  home_old = home; 
+
+
+  //positioning
+  if (posi && drv_target_reached_z && drv_target_reached_y) {
+    posi = 0; 
+    done = 1; 
+  }
+
+    //set position
+  if (drives_on && automatic_running && !automatic_running_old && homed) {
+    drv_pos_cmd_z = target_z + home_offset_z - tool_offset_z;
+    if (active) {
+      drv_pos_cmd_y = target_y + home_offset_y - tool_offset_y;    
+    } else {
+        drv_pos_cmd_y = 0;
+      }
+    drv_new_setpoint_z = 1;
+    drv_new_setpoint_y = 1; 
+    posi = 1;
+    done = 0; 
+  }
+  automatic_running_old = automatic_running; 
+ 
+
+  //active state
+  if (automatic_running && homed && (active != active_old)) {
+    if (active) {
+      drv_pos_cmd_y = target_y + home_offset_y - tool_offset_y;    
+    } else {
+        drv_pos_cmd_y = 0;
+      }
+    drv_new_setpoint_y = 1; 
+  }
+  active_old = active;
+
+
+  //jogging  
+  if (!automatic_running && !homing && !posi && (homed || man_setup)) {
+    drv_jog_pos_y = jog_pos_y;
+    drv_jog_neg_y = jog_neg_y;
+    drv_jog_pos_z = jog_pos_z;
+    drv_jog_neg_z = jog_neg_z;
+  } else {
+      drv_jog_pos_y = 0;
+      drv_jog_neg_y = 0;
+      drv_jog_pos_z = 0;
+      drv_jog_neg_z = 0;
+    }
+
+  //jog soft limits
+  if (!man_setup) {
+
+    if (drv_pos_fb_raw_y <= drv_softend_min_y) {
+      drv_jog_neg_y = 0; 
+    }
+    if (drv_pos_fb_raw_y >= drv_softend_max_y) {
+      drv_jog_pos_y = 0; 
+    }
+
+    if (drv_pos_fb_raw_z <= drv_softend_min_z) {
+      drv_jog_neg_z = 0; 
+    }
+    if (drv_pos_fb_raw_z >= drv_softend_max_z) {
+      drv_jog_pos_z = 0; 
+    }
+  }
+  //act position
+  if (homed) {
+    act_pos_z = drv_act_pos_z - home_offset_z + tool_offset_z;
+    act_pos_y = drv_act_pos_y - home_offset_y + tool_offset_y;        
+  } else {
+      act_pos_z = 0;
+      act_pos_y = 0;
+  }
+
+  busy = homing || posi;
+  ready = drives_on;
+
+  if (!ctrl_voltage) {
+    error = 0; 
+    busy = 0;
+    done = 0; 
+    drv_new_setpoint_z =0;
+    drv_new_setpoint_y =0;
+    drv_home_z = 0;
+    drv_home_y = 0; 
+  }
+
+}
+

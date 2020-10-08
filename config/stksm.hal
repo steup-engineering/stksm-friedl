@@ -14,7 +14,7 @@ loadrt trivkins
 loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AXES
 
 loadusr -W lcec_conf ethercat-conf.xml
-#loadrt lcec
+loadrt lcec
 
 # Realtime PLC Komponenten
 loadrt ksm_main
@@ -23,14 +23,16 @@ loadrt ksm_belt belt_length=[BELT]LENGTH bucket_count=[BELT]FIFO_BUCKETS station
 loadrt ksm_inlet names=inlet
 
 loadrt ksm_unidev names=unidev-0
+loadrt ksm_mill_yz names=mill-yz-0,mill-yz-1,mill-yz-2,mill-yz-3
+loadrt ksm_motor_test
 
-loadusr -W lcrest rest-config.xml
+#loadusr -W lcrest rest-config.xml
 
 ###########################################################
 # Functions
 ###########################################################
 
-#addf lcec.read-all servo-thread
+addf lcec.read-all servo-thread
 
 addf motion-command-handler servo-thread
 addf motion-controller servo-thread
@@ -38,9 +40,16 @@ addf motion-controller servo-thread
 addf ksm-belt servo-thread
 addf ksm-main servo-thread
 
+addf mill-yz-0 servo-thread
+addf mill-yz-1 servo-thread
+addf mill-yz-2 servo-thread
+addf mill-yz-3 servo-thread
+
+addf ksm-motor-test servo-thread
+
 addf inlet servo-thread
 
 addf unidev-0 servo-thread
 
-#addf lcec.write-all servo-thread
+addf lcec.write-all servo-thread
 
