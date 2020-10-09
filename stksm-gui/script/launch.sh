@@ -5,11 +5,9 @@ REST_URL="http://localhost:8080/hal/json/"
 PROC_DIR="$HOME/linuxcnc/ksm/proc"
 PARAM_DIR="$HOME/linuxcnc/ksm/param"
 
-BINDIR=`dirname $0`
-
-JAVADIR=$BINDIR/../java
-
 mkdir -p "$PROC_DIR" "$PARAM_DIR"
+
+JAVADIR="$EMC2_HOME/java"
 
 cd $JAVADIR
 java \
