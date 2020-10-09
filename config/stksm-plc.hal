@@ -11,7 +11,7 @@
 ###########################################################
 
 setp ksm-main.idle-timeout	[KSM]IDLE_TIMEOUT
-setp ksm-main.ec-slaves		13
+setp ksm-main.ec-slaves		19
 
 setp ksm-main.water-press-ok	1
 setp ksm-main.door-interlock	1
@@ -74,7 +74,7 @@ setp ksm-belt.speed-matprep	[BELT]MAX_SPEED
 # read height is always measured
 setp ksm-belt.selected-height	1.0
 
-# fifo 0 for rolls is alwasy enabled
+# fifo 0 for rolls is always enabled
 # fifo 1 only in automatic mode 
 setp ksm-belt.fi-0.enabled	1
 
