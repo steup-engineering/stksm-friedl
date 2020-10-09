@@ -3,7 +3,6 @@
     <halJsonPin name="errors" type="u32" dir="in"/>
     <halJsonPin name="running" type="bit" dir="in"/>
     <halJsonPin name="feedOverride" type="float" dir="in"/>
-    <halJsonPin name="probePos" type="float" dir="in"/>
     <halJsonArray name="faces" size="4">
       <halJsonPin name="active" type="bit" dir="in"/>
       <halJsonObject name="whm">
@@ -14,7 +13,7 @@
     <halJsonArray name="rolls" size="25">
       <halJsonPin name="active" type="bit" dir="in"/>
     </halJsonArray>
-    <halJsonArray name="mill" size="4">
+    <halJsonArray name="mills" size="4">
       <halJsonPin name="active" type="bit" dir="in"/>
       <halJsonObject name="whm">
         <halJsonPin name="secs" type="u32" dir="in"/>
@@ -29,16 +28,7 @@
         <halJsonPin name="dcms" type="u32" dir="in"/>
       </halJsonObject>
     </halJsonArray>
-    <halJsonObject name="bevels-0">
-      <halJsonArray name="motors" size="2">
-        <halJsonPin name="active" type="bit" dir="in"/>
-        <halJsonObject name="whm">
-          <halJsonPin name="secs" type="u32" dir="in"/>
-          <halJsonPin name="dcms" type="u32" dir="in"/>
-        </halJsonObject>
-      </halJsonArray>
-    </halJsonObject>
-    <halJsonObject name="bevels-1">
+    <halJsonArray name="bevels" size="2">
       <halJsonArray name="motors" size="3">
         <halJsonPin name="active" type="bit" dir="in"/>
         <halJsonObject name="whm">
@@ -46,7 +36,7 @@
           <halJsonPin name="dcms" type="u32" dir="in"/>
         </halJsonObject>
       </halJsonArray>
-    </halJsonObject>
+    </halJsonArray>
     <halJsonObject name="whm">
       <halJsonPin name="secs" type="u32" dir="in"/>
       <halJsonPin name="dcms" type="u32" dir="in"/>
@@ -69,7 +59,7 @@
       <halJsonPin name="manu" type="bit" dir="out"/>
       <halJsonPin name="ena" type="bit" dir="out"/>
     </halJsonArray>
-    <halJsonArray name="mill" size="4">
+    <halJsonArray name="mills" size="4">
       <halJsonPin name="manu" type="bit" dir="out"/>
       <halJsonPin name="ena" type="bit" dir="out"/>
     </halJsonArray>
@@ -79,16 +69,7 @@
       <halJsonPin name="marginStart" type="float" dir="out"/>
       <halJsonPin name="marginEnd" type="float" dir="out"/>
     </halJsonArray>
-    <halJsonObject name="bevels-0">
-      <halJsonArray name="motors" size="2">
-        <halJsonPin name="manu" type="bit" dir="out"/>
-        <halJsonPin name="ena" type="bit" dir="out"/>
-      </halJsonArray>
-      <halJsonPin name="width" type="float" dir="out"/>
-      <halJsonPin name="marginStart" type="float" dir="out"/>
-      <halJsonPin name="marginEnd" type="float" dir="out"/>
-    </halJsonObject>
-    <halJsonObject name="bevels-1">
+    <halJsonArray name="bevels" size="2">
       <halJsonArray name="motors" size="3">
         <halJsonPin name="manu" type="bit" dir="out"/>
         <halJsonPin name="ena" type="bit" dir="out"/>
@@ -96,7 +77,7 @@
       <halJsonPin name="width" type="float" dir="out"/>
       <halJsonPin name="marginStart" type="float" dir="out"/>
       <halJsonPin name="marginEnd" type="float" dir="out"/>
-    </halJsonObject>
+    </halJsonArray>
   </halJsonRoot>
 
   <halJsonRoot path="RetainMain">
@@ -105,7 +86,7 @@
       <halJsonPin name="onOffset" type="float" dir="io"/>
       <halJsonPin name="offOffset" type="float" dir="io"/>
     </halJsonArray>
-    <halJsonArray name="mill" size="4">
+    <halJsonArray name="mills" size="4">
       <halJsonPin name="pos" type="float" dir="io"/>
       <halJsonPin name="onOffset" type="float" dir="io"/>
       <halJsonPin name="offOffset" type="float" dir="io"/>
@@ -115,22 +96,14 @@
       <halJsonPin name="onOffset" type="float" dir="io"/>
       <halJsonPin name="offOffset" type="float" dir="io"/>
     </halJsonArray>
-    <halJsonObject name="bevels-0">
-      <halJsonPin name="widthOffset" type="float" dir="io"/>
-      <halJsonArray name="motors" size="2">
-        <halJsonPin name="pos" type="float" dir="io"/>
-        <halJsonPin name="onOffset" type="float" dir="io"/>
-        <halJsonPin name="offOffset" type="float" dir="io"/>
-      </halJsonArray>
-    </halJsonObject>
-    <halJsonObject name="bevels-1">
+    <halJsonArray name="bevels" size="2">
       <halJsonPin name="widthOffset" type="float" dir="io"/>
       <halJsonArray name="motors" size="3">
         <halJsonPin name="pos" type="float" dir="io"/>
         <halJsonPin name="onOffset" type="float" dir="io"/>
         <halJsonPin name="offOffset" type="float" dir="io"/>
       </halJsonArray>
-    </halJsonObject>
+    </halJsonArray>
     <halJsonArray name="rolls" size="25">
       <halJsonPin name="pos" type="float" dir="io"/>
       <halJsonPin name="onOffset" type="float" dir="io"/>

@@ -150,9 +150,10 @@ public class PersUtil {
             return;
         }
 
+        plcData.setMatHeight(process.getMatHeight());
         plcData.setBeltFeed(process.getBeltFeed());
         motorsPersToPlc(process.getFaces(), plcData.getFaces());
-        motorsPersToPlc(process.getCleaners(), plcData.getCleaners());
+        motorsPersToPlc(process.getMills(), plcData.getMills());
         unidevsPersToPlc(process.getUnidevs(), plcData.getUnidevs());
         bevelsPersToPlc(process.getBevels(), plcData.getBevels());
         plcData.setParamSetName(process.getParamSetName());
@@ -160,9 +161,10 @@ public class PersUtil {
 
     public void saveProcess(GuiInMain plcData, File file) {
         PersMainEnt process = new PersMainEnt();
+        process.setMatHeight(plcData.getMatHeight());
         process.setBeltFeed(plcData.getBeltFeed());
         process.setFaces(motorsPlcToPers(plcData.getFaces()));
-        process.setCleaners(motorsPlcToPers(plcData.getCleaners()));
+        process.setMills(motorsPlcToPers(plcData.getMills()));
         process.setUnidevs(unidevsPlcToPers(plcData.getUnidevs()));
         process.setBevels(bevelsPlcToPers(plcData.getBevels()));
         process.setParamSetName(plcData.getParamSetName());

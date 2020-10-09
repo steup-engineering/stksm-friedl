@@ -6,7 +6,6 @@ package de.steup.engineering.ksm.touchscreen;
 
 import de.steup.engineering.ksm.plc.rest.MachineThread;
 import de.steup.engineering.ksm.plc.entities.GuiInMain;
-import de.steup.engineering.ksm.plc.entities.GuiOutBevel;
 import de.steup.engineering.ksm.plc.entities.GuiOutMain;
 import de.steup.engineering.ksm.plc.entities.GuiOutUnidev;
 import de.steup.engineering.ksm.plc.entities.GuiOutWhm;
@@ -33,6 +32,7 @@ public class InfoPanel extends JPanel implements UpdatePanelInterface {
     private static final int TEXT_FIELD_COLUMNS = 15;
     private static final double FEED_FACTOR = 1000.0 / 60.0;
 
+    private final JTextField heightText;
     private final JTextField feedText;
 
     public InfoPanel(String title) {
@@ -53,6 +53,19 @@ public class InfoPanel extends JPanel implements UpdatePanelInterface {
         textConst.fill = GridBagConstraints.HORIZONTAL;
         textConst.gridx = 1;
         textConst.gridy = 0;
+
+        FloatSetter heightSetter = new FloatSetter() {
+
+            @Override
+            public void setValue(double value) {
+
+                GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
+                synchronized (guiInData) {
+                    guiInData.setMatHeight(value);
+                }
+            }
+        };
+        heightText = addParamItem(this, labelConst, textConst, "Materialhöhe [mm]", 1.0, 200.0, 0.0, heightSetter);
 
         FloatSetter feedSetter = new FloatSetter() {
 
@@ -100,60 +113,6 @@ public class InfoPanel extends JPanel implements UpdatePanelInterface {
                     @Override
                     public void run() {
                         uniPos.setText(String.format("%.2f", pos));
-                    }
-                });
-
-            }
-        });
-
-        final JTextField bevelUpper = addDisplayItem(this, labelConst, textConst, "Fase oben [mm]");
-        MachineThread.getInstance().addUpdateListener(new Runnable() {
-
-            @Override
-            public void run() {
-                GuiOutBevel[] data = MachineThread.getInstance().getGuiOutData().getBevels();
-                final double pos = data[1].getAxisPos();
-                SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        bevelUpper.setText(String.format("%.2f", pos));
-                    }
-                });
-
-            }
-        });
-
-        final JTextField bevelLower = addDisplayItem(this, labelConst, textConst, "Fase unten [mm]");
-        MachineThread.getInstance().addUpdateListener(new Runnable() {
-
-            @Override
-            public void run() {
-                GuiOutBevel[] data = MachineThread.getInstance().getGuiOutData().getBevels();
-                final double pos = data[0].getAxisPos();
-                SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        bevelLower.setText(String.format("%.2f", pos));
-                    }
-                });
-
-            }
-        });
-
-        final JTextField potPos = addDisplayItem(this, labelConst, textConst, "Höhenabtastung [mm]");
-        MachineThread.getInstance().addUpdateListener(new Runnable() {
-
-            @Override
-            public void run() {
-                GuiOutMain data = MachineThread.getInstance().getGuiOutData();
-                final double pos = data.getProbePos();
-                SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        potPos.setText(String.format("%.2f", pos));
                     }
                 });
 
@@ -232,6 +191,7 @@ public class InfoPanel extends JPanel implements UpdatePanelInterface {
     public void update() {
         GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
         synchronized (guiInData) {
+            heightText.setText(Double.toString(guiInData.getMatHeight()));
             feedText.setText(Double.toString(guiInData.getBeltFeed() / FEED_FACTOR));
         }
     }

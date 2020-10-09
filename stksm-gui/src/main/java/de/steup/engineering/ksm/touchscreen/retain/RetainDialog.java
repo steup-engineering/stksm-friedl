@@ -33,11 +33,6 @@ public class RetainDialog extends JDialog {
 
     private static final long serialVersionUID = 4896331450411664212L;
 
-    private static final String BEVEL_CAPTIONS[] = {
-        "Fase unten",
-        "Fase oben"
-    };
-
     public static void showDialog() {
         Machine mach = MachineThread.getInstance().getMachine();
         if (!mach.isConnected()) {
@@ -90,10 +85,10 @@ public class RetainDialog extends JDialog {
         buttonPanel.setLayout(buttonLayout);
 
         JButton loadButton = new JButton("Laden ...");
-        
+
         // used to referenced to this in ebmedded classes
         final RetainDialog context = this;
-        
+
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -170,15 +165,15 @@ public class RetainDialog extends JDialog {
     public final void setRetainData(RetainMain retainData) {
         this.retainData = retainData;
         this.spc.removeAll();
-        
+
         RetainFace faces[] = this.retainData.getFaces();
         for (int i = 0; i < Main.FACE_COUNT; i++) {
             spc.add(new PosOffsetRetainPanel(String.format("Flächenmotor %d", i + 1), faces[i]));
         }
 
-        RetainFace cleaners[] = retainData.getCleaners();
-        for (int i = 0; i < Main.CLEANER_COUNT; i++) {
-            spc.add(new PosOffsetRetainPanel(String.format("Cleaner %d", i + 1), cleaners[i]));
+        RetainFace mills[] = retainData.getMills();
+        for (int i = 0; i < Main.MILL_COUNT; i++) {
+            spc.add(new PosOffsetRetainPanel(String.format("Fräse %d", i + 1), mills[i]));
         }
 
         RetainFace unidevs[] = retainData.getUnidevs();
@@ -187,9 +182,8 @@ public class RetainDialog extends JDialog {
         }
 
         RetainBevel bevels[] = retainData.getBevels();
-        for (int i = 0; i < Main.BEVEL_COUNT; i++) {
-            spc.add(new BevelRetainPanel(BEVEL_CAPTIONS[i], bevels[i]));
-        }
+        spc.add(new BevelRetainPanel("Fase unten", bevels[0], 2));
+        spc.add(new BevelRetainPanel("Fase open", bevels[1], 3));
 
         RetainFace rolls[] = retainData.getRolls();
         for (int i = 0; i < Main.ROLLS_COUNT; i++) {

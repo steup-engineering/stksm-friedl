@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package de.steup.engineering.ksm.process;
 
 import java.io.Serializable;
@@ -23,19 +22,29 @@ public class PersMainEnt implements Serializable {
 
     private static final long serialVersionUID = -6939613832654309063L;
 
+    @XmlAttribute(name = "matHeight")
+    private double matHeight;
     @XmlAttribute(name = "beltFeed")
     private double beltFeed;
     @XmlElement(name = "face")
     private ArrayList<PersMotorEnt> faces;
-    @XmlElement(name = "cleaner")
-    private ArrayList<PersMotorEnt> cleaners;
+    @XmlElement(name = "mill")
+    private ArrayList<PersMotorEnt> mills;
     @XmlElement(name = "unidev")
     private ArrayList<PersUnidevEnt> unidevs;
     @XmlElement(name = "bevel")
     private ArrayList<PersBevelEnt> bevels;
     @XmlAttribute(name = "paramSetName")
     private String paramSetName;
-    
+
+    public double getMatHeight() {
+        return matHeight;
+    }
+
+    public void setMatHeight(double matHeight) {
+        this.matHeight = matHeight;
+    }
+
     public double getBeltFeed() {
         return beltFeed;
     }
@@ -52,12 +61,12 @@ public class PersMainEnt implements Serializable {
         this.bevels = bevels;
     }
 
-    public ArrayList<PersMotorEnt> getCleaners() {
-        return cleaners;
+    public ArrayList<PersMotorEnt> getMills() {
+        return mills;
     }
 
-    public void setCleaners(ArrayList<PersMotorEnt> cleaners) {
-        this.cleaners = cleaners;
+    public void setMills(ArrayList<PersMotorEnt> mills) {
+        this.mills = mills;
     }
 
     public ArrayList<PersMotorEnt> getFaces() {

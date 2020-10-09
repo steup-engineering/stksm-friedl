@@ -4,7 +4,6 @@
  */
 package de.steup.engineering.ksm.plc.rest;
 
-import de.steup.engineering.ksm.plc.entities.GuiInBevel;
 import de.steup.engineering.ksm.plc.entities.GuiInMain;
 import de.steup.engineering.ksm.plc.entities.GuiOutMain;
 import java.util.ArrayList;
@@ -96,10 +95,6 @@ public class MachineThread extends Thread {
 
                             // reset flags
                             guiInData.setResetError(false);
-                            for (GuiInBevel bevel : guiInData.getBevels()) {
-                                bevel.setCalibStart(false);
-                                bevel.setCalibCancel(false);
-                            }
                         }
 
                         try {

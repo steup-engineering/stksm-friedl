@@ -11,8 +11,6 @@ import de.steup.engineering.ksm.plc.entities.GuiOutMain;
 import de.steup.engineering.ksm.touchscreen.util.MotorData;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -54,13 +52,13 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
                     guiInData.getFaces()[i],
                     guiOutData.getFaces()[i]));
         }
-        MotorData cleanerMotors[] = new MotorData[Main.CLEANER_COUNT];
-        for (int i = 0; i < Main.CLEANER_COUNT; i++) {
+        MotorData millMotors[] = new MotorData[Main.MILL_COUNT];
+        for (int i = 0; i < Main.MILL_COUNT; i++) {
             MotorData md = new MotorData(
-                    String.format("Clean %d", i + 1),
-                    guiInData.getCleaners()[i],
-                    guiOutData.getCleaners()[i]);
-            cleanerMotors[i] = md;
+                    String.format("Fräse %d", i + 1),
+                    guiInData.getMills()[i],
+                    guiOutData.getMills()[i]);
+            millMotors[i] = md;
             faceMotors.add(md);
         }
         MotorPanel fp = new MotorPanel("Köpfe", faceMotors, true, true);
@@ -99,13 +97,6 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new GridLayout(0, 1));
 
-        CleanModePanel cmp = new CleanModePanel(
-                cleanerMotors[0],
-                guiOutData.getCleanersMode()[0],
-                guiInData.getCleanersMode()[0]);
-        updatePanels.add(cmp);
-        uniPanel.add(cmp);
-
         InfoPanel bp = new InfoPanel("Prozesswerte");
         updatePanels.add(bp);
         uniPanel.add(bp);
@@ -120,42 +111,22 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
 
         JPanel bevelPanel = new JPanel();
         bevelPanel.setLayout(new GridLayout(0, 2));
+
         List<MotorData> bevelUpperMotors = new ArrayList<>();
         bevelUpperMotors.add(new MotorData("Fräser", guiInData.getBevels()[1].getMotors()[0], guiOutData.getBevels()[1].getMotors()[0]));
         bevelUpperMotors.add(new MotorData("Poli 1", guiInData.getBevels()[1].getMotors()[1], guiOutData.getBevels()[1].getMotors()[1]));
         bevelUpperMotors.add(new MotorData("Poli 2", guiInData.getBevels()[1].getMotors()[2], guiOutData.getBevels()[1].getMotors()[2]));
-        ActionListener bevelUpperCalibAction = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
-
-                synchronized (guiInData) {
-                    guiInData.getBevels()[1].setCalibStart(true);
-                }
-            }
-        };
-        dp = new DevPanel("Fase oben", bevelUpperMotors, bevelUpperCalibAction, "Fasenbreite [mm]", true, guiInData.getBevels()[1]);
+        dp = new DevPanel("Fase oben", bevelUpperMotors, null, "Fasenbreite [mm]", true, guiInData.getBevels()[1]);
         updatePanels.add(dp);
         bevelPanel.add(dp);
+
         List<MotorData> bevelLowerMotors = new ArrayList<>();
         bevelLowerMotors.add(new MotorData("Fräser", guiInData.getBevels()[0].getMotors()[0], guiOutData.getBevels()[0].getMotors()[0]));
         bevelLowerMotors.add(new MotorData("Poli 1", guiInData.getBevels()[0].getMotors()[1], guiOutData.getBevels()[0].getMotors()[1]));
-        bevelLowerMotors.add(new MotorData("Poli 2", guiInData.getBevels()[0].getMotors()[2], guiOutData.getBevels()[0].getMotors()[2]));
-        ActionListener bevelLowerCalibAction = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
-
-                synchronized (guiInData) {
-                    guiInData.getBevels()[0].setCalibStart(true);
-                }
-            }
-        };
-        dp = new DevPanel("Fase unten", bevelLowerMotors, bevelLowerCalibAction, "Fasenbreite [mm]", true, guiInData.getBevels()[0]);
+        dp = new DevPanel("Fase unten", bevelLowerMotors, null, "Fasenbreite [mm]", true, guiInData.getBevels()[0]);
         updatePanels.add(dp);
         bevelPanel.add(dp);
+
         contentPanel.add(bevelPanel);
 
         add(contentPanel, BorderLayout.PAGE_START);

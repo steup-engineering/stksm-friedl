@@ -19,12 +19,12 @@ public class GuiInMain {
     private String paramSetName = null;
 
     private boolean resetError;
+    private double matHeight;
     private double beltFeed;
     private boolean whmJobReset;
     private final GuiInStation faces[] = new GuiInStation[Main.FACE_COUNT];
     private final GuiInStation rolls[] = new GuiInStation[Main.ROLLS_COUNT];
-    private final GuiInStation cleaners[] = new GuiInStation[Main.CLEANER_COUNT];
-    private final GuiCleanerMode cleanersMode[] = new GuiCleanerMode[Main.CLEANER_MODE_COUNT];
+    private final GuiInStation mills[] = new GuiInStation[Main.MILL_COUNT];
     private final GuiInUnidev unidevs[] = new GuiInUnidev[Main.UNIDEV_COUNT];
     private final GuiInBevel bevels[] = new GuiInBevel[Main.BEVEL_COUNT];
 
@@ -35,11 +35,8 @@ public class GuiInMain {
         for (int i = 0; i < Main.ROLLS_COUNT; i++) {
             rolls[i] = new GuiInStation();
         }
-        for (int i = 0; i < Main.CLEANER_COUNT; i++) {
-            cleaners[i] = new GuiInStation();
-        }
-        for (int i = 0; i < Main.CLEANER_MODE_COUNT; i++) {
-            cleanersMode[i] = new GuiCleanerMode();
+        for (int i = 0; i < Main.MILL_COUNT; i++) {
+            mills[i] = new GuiInStation();
         }
         for (int i = 0; i < Main.UNIDEV_COUNT; i++) {
             unidevs[i] = new GuiInUnidev();
@@ -63,6 +60,14 @@ public class GuiInMain {
 
     public void setParamSetName(String paramSetName) {
         this.paramSetName = paramSetName;
+    }
+
+    public double getMatHeight() {
+        return matHeight;
+    }
+
+    public void setMatHeight(double matHeight) {
+        this.matHeight = matHeight;
     }
 
     public double getBeltFeed() {
@@ -93,12 +98,8 @@ public class GuiInMain {
         return bevels;
     }
 
-    public GuiInStation[] getCleaners() {
-        return cleaners;
-    }
-
-    public GuiCleanerMode[] getCleanersMode() {
-        return cleanersMode;
+    public GuiInStation[] getMills() {
+        return mills;
     }
 
     public GuiInStation[] getFaces() {

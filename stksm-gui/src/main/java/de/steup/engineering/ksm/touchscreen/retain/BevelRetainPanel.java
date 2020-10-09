@@ -31,7 +31,7 @@ public class BevelRetainPanel extends JPanel {
 
     private static final int TEXT_FIELD_COLUMNS = 10;
 
-    public BevelRetainPanel(String title, final RetainBevel retainData) {
+    public BevelRetainPanel(String title, final RetainBevel retainData, int motorCount) {
 
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
@@ -67,10 +67,8 @@ public class BevelRetainPanel extends JPanel {
 
         add(globalPanel);
 
-        add(new PosOffsetRetainPanel("Positionierung", retainData.getPosctl()));
-
         RetainFace motors[] = retainData.getMotors();
-        for (int i = 0; i < Main.BEVEL_MOTOR_COUNT; i++) {
+        for (int i = 0; i < motorCount; i++) {
             add(new PosOffsetRetainPanel(String.format("Motor %d", i + 1), motors[i]));
         }
 

@@ -26,11 +26,9 @@ public class GuiOutMain {
     private int errors;
     private boolean running;
     private double feedOverride;
-    private double probePos;
     private final GuiOutWhmStation faces[] = new GuiOutWhmStation[Main.FACE_COUNT];
     private final GuiOutStation rolls[] = new GuiOutStation[Main.ROLLS_COUNT];
-    private final GuiOutWhmStation cleaners[] = new GuiOutWhmStation[Main.CLEANER_COUNT];
-    private final GuiCleanerMode cleanersMode[] = new GuiCleanerMode[Main.CLEANER_MODE_COUNT];
+    private final GuiOutWhmStation mills[] = new GuiOutWhmStation[Main.MILL_COUNT];
     private final GuiOutUnidev unidevs[] = new GuiOutUnidev[Main.UNIDEV_COUNT];
     private final GuiOutBevel bevels[] = new GuiOutBevel[Main.BEVEL_COUNT];
     private final GuiOutWhm whm;
@@ -43,11 +41,8 @@ public class GuiOutMain {
         for (int i = 0; i < Main.ROLLS_COUNT; i++) {
             rolls[i] = new GuiOutStation();
         }
-        for (int i = 0; i < Main.CLEANER_COUNT; i++) {
-            cleaners[i] = new GuiOutWhmStation();
-        }
-        for (int i = 0; i < Main.CLEANER_MODE_COUNT; i++) {
-            cleanersMode[i] = new GuiCleanerMode();
+        for (int i = 0; i < Main.MILL_COUNT; i++) {
+            mills[i] = new GuiOutWhmStation();
         }
         for (int i = 0; i < Main.UNIDEV_COUNT; i++) {
             unidevs[i] = new GuiOutUnidev();
@@ -67,12 +62,10 @@ public class GuiOutMain {
         errors = src.errors;
         running = src.running;
         feedOverride = src.feedOverride;
-        probePos = src.probePos;
 
         GuiOutWhmStation.update(faces, src.faces);
         GuiOutStation.update(rolls, src.rolls);
-        GuiOutWhmStation.update(cleaners, src.cleaners);
-        GuiCleanerMode.update(cleanersMode, src.cleanersMode);
+        GuiOutWhmStation.update(mills, src.mills);
         GuiOutUnidev.update(unidevs, src.unidevs);
         GuiOutBevel.update(bevels, src.bevels);
         
@@ -88,10 +81,6 @@ public class GuiOutMain {
         return feedOverride;
     }
 
-    public double getProbePos() {
-        return probePos;
-    }
-
     public boolean isRunning() {
         return running;
     }
@@ -100,12 +89,8 @@ public class GuiOutMain {
         return bevels;
     }
 
-    public GuiOutWhmStation[] getCleaners() {
-        return cleaners;
-    }
-
-    public GuiCleanerMode[] getCleanersMode() {
-        return cleanersMode;
+    public GuiOutWhmStation[] getMills() {
+        return mills;
     }
 
     public GuiOutWhmStation[] getFaces() {
