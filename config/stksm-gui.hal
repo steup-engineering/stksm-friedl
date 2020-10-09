@@ -1,4 +1,5 @@
 net reset-error <= json.GuiInMain.resetError
+net mat-height => json.GuiInMain.matHeight
 net belt-speed-cmd <= json.GuiInMain.beltFeed
 net rolls-0-manu <= json.GuiInMain.rolls-0.manu
 net rolls-1-manu <= json.GuiInMain.rolls-1.manu
@@ -69,7 +70,6 @@ net bevel-1-mot-2-manu <= json.GuiInMain.bevels-1.motors-2.manu
 net error-mask => json.GuiOutMain.errors
 net automatic-running => json.GuiOutMain.running
 net belt-speed-ovr => json.GuiOutMain.feedOverride
-net matprobe-pos => json.GuiOutMain.probePos
 net rolls-0-active => json.GuiOutMain.rolls-0.active
 net rolls-1-active => json.GuiOutMain.rolls-1.active
 net rolls-2-active => json.GuiOutMain.rolls-2.active

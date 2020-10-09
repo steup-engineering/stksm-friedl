@@ -49,6 +49,7 @@
   
   <halJsonRoot path="GuiInMain">
     <halJsonPin name="resetError" type="bit" dir="out"/>
+    <halJsonPin name="matHeight" type="float" dir="out"/>
     <halJsonPin name="beltFeed" type="float" dir="out"/>
     <halJsonPin name="whmJobReset" type="bit" dir="out"/>
     <halJsonArray name="faces" size="4">
