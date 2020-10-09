@@ -92,7 +92,7 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
 
         DevPanel dp;
 
-        JPanel uniPanel = new JPanel(new GridLayout(0, 3));
+        JPanel uniPanel = new JPanel(new GridLayout(0, 2));
 
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new GridLayout(0, 1));
