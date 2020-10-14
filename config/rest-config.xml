@@ -17,8 +17,8 @@
     <halJsonArray name="mills" size="4">
       <halJsonPin name="active" type="bit" dir="in"/>
       <halJsonArray name="axis" size="2">
-        <halJsonPin name="posMach" type="bit" dir="in"/>
-        <halJsonPin name="posTool" type="bit" dir="in"/>
+        <halJsonPin name="posMach" type="float" dir="in"/>
+        <halJsonPin name="posTool" type="float" dir="in"/>
         <halJsonPin name="errCode" type="u32" dir="in"/>
       </halJsonArray>
       <halJsonObject name="whm">
