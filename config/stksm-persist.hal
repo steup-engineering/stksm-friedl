@@ -87,6 +87,21 @@ retain mill-1-pers-off
 retain mill-2-pers-off
 retain mill-3-pers-off
 
+retain mill-0-pers-zref
+retain mill-1-pers-zref
+retain mill-2-pers-zref
+retain mill-3-pers-zref
+
+retain mill-0-pers-y-toff
+retain mill-1-pers-y-toff
+retain mill-2-pers-y-toff
+retain mill-3-pers-y-toff
+
+retain mill-0-pers-z-toff
+retain mill-1-pers-z-toff
+retain mill-2-pers-z-toff
+retain mill-3-pers-z-toff
+
 retain mill-0-pers-whm-dcms
 retain mill-1-pers-whm-dcms
 retain mill-2-pers-whm-dcms

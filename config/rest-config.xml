@@ -1,5 +1,6 @@
 <halJson>
   <halJsonRoot path="GuiOutMain">
+    <halJsonPin name="homed" type="bit" dir="in"/>
     <halJsonPin name="errors" type="u32" dir="in"/>
     <halJsonPin name="running" type="bit" dir="in"/>
     <halJsonPin name="feedOverride" type="float" dir="in"/>
@@ -15,6 +16,11 @@
     </halJsonArray>
     <halJsonArray name="mills" size="4">
       <halJsonPin name="active" type="bit" dir="in"/>
+      <halJsonArray name="axis" size="2">
+        <halJsonPin name="posMach" type="bit" dir="in"/>
+        <halJsonPin name="posTool" type="bit" dir="in"/>
+        <halJsonPin name="errCode" type="u32" dir="in"/>
+      </halJsonArray>
       <halJsonObject name="whm">
         <halJsonPin name="secs" type="u32" dir="in"/>
         <halJsonPin name="dcms" type="u32" dir="in"/>
@@ -48,6 +54,7 @@
   </halJsonRoot>
   
   <halJsonRoot path="GuiInMain">
+    <halJsonPin name="home" type="bit" dir="out"/>
     <halJsonPin name="resetError" type="bit" dir="out"/>
     <halJsonPin name="matHeight" type="float" dir="out"/>
     <halJsonPin name="beltFeed" type="float" dir="out"/>
@@ -63,6 +70,11 @@
     <halJsonArray name="mills" size="4">
       <halJsonPin name="manu" type="bit" dir="out"/>
       <halJsonPin name="ena" type="bit" dir="out"/>
+      <halJsonArray name="axis" size="2">
+        <halJsonPin name="jogPos" type="bit" dir="out"/>
+        <halJsonPin name="jogNeg" type="bit" dir="out"/>
+        <halJsonPin name="dest" type="float" dir="out"/>
+      </halJsonArray>
     </halJsonArray>
     <halJsonArray name="unidevs" size="1">
       <halJsonPin name="manu" type="bit" dir="out"/>
@@ -91,6 +103,10 @@
       <halJsonPin name="pos" type="float" dir="io"/>
       <halJsonPin name="onOffset" type="float" dir="io"/>
       <halJsonPin name="offOffset" type="float" dir="io"/>
+      <halJsonPin name="zReference" type="s32" dir="io"/>
+      <halJsonArray name="axis" size="2">
+        <halJsonPin name="toolOffset" type="float" dir="io"/>
+      </halJsonArray>
     </halJsonArray>
     <halJsonArray name="unidevs" size="1">
       <halJsonPin name="pos" type="float" dir="io"/>
