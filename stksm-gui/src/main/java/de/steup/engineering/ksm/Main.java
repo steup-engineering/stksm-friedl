@@ -19,6 +19,7 @@ public class Main {
 
     public static final int FACE_COUNT = 4;
     public static final int MILL_COUNT = 4;
+    public static final int MILL_AXIS_COUNT = 2;
     public static final int ROLLS_COUNT = 25;
     public static final int UNIDEV_COUNT = 1;
     public static final int BEVEL_COUNT = 2;

@@ -23,12 +23,13 @@ public class GuiOutMain {
     public static final int ERR_BEVEL_UPPER = 0x00000100;
     public static final int ERR_BUS = 0x00000200;
 
+    private boolean homed;
     private int errors;
     private boolean running;
     private double feedOverride;
     private final GuiOutWhmStation faces[] = new GuiOutWhmStation[Main.FACE_COUNT];
     private final GuiOutStation rolls[] = new GuiOutStation[Main.ROLLS_COUNT];
-    private final GuiOutWhmStation mills[] = new GuiOutWhmStation[Main.MILL_COUNT];
+    private final GuiOutMill mills[] = new GuiOutMill[Main.MILL_COUNT];
     private final GuiOutUnidev unidevs[] = new GuiOutUnidev[Main.UNIDEV_COUNT];
     private final GuiOutBevel bevels[] = new GuiOutBevel[Main.BEVEL_COUNT];
     private final GuiOutWhm whm;
@@ -42,7 +43,7 @@ public class GuiOutMain {
             rolls[i] = new GuiOutStation();
         }
         for (int i = 0; i < Main.MILL_COUNT; i++) {
-            mills[i] = new GuiOutWhmStation();
+            mills[i] = new GuiOutMill();
         }
         for (int i = 0; i < Main.UNIDEV_COUNT; i++) {
             unidevs[i] = new GuiOutUnidev();
@@ -59,18 +60,23 @@ public class GuiOutMain {
             return;
         }
 
+        homed = src.homed;
         errors = src.errors;
         running = src.running;
         feedOverride = src.feedOverride;
 
         GuiOutWhmStation.update(faces, src.faces);
         GuiOutStation.update(rolls, src.rolls);
-        GuiOutWhmStation.update(mills, src.mills);
+        GuiOutMill.update(mills, src.mills);
         GuiOutUnidev.update(unidevs, src.unidevs);
         GuiOutBevel.update(bevels, src.bevels);
-        
+
         whm.update(src.whm);
         whmJob.update(src.whmJob);
+    }
+
+    public boolean isHomed() {
+        return homed;
     }
 
     public int getErrors() {
@@ -89,7 +95,7 @@ public class GuiOutMain {
         return bevels;
     }
 
-    public GuiOutWhmStation[] getMills() {
+    public GuiOutMill[] getMills() {
         return mills;
     }
 

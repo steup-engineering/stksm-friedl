@@ -18,13 +18,14 @@ public class GuiInMain {
     @JsonIgnore
     private String paramSetName = null;
 
+    private boolean home;
     private boolean resetError;
     private double matHeight;
     private double beltFeed;
     private boolean whmJobReset;
     private final GuiInStation faces[] = new GuiInStation[Main.FACE_COUNT];
     private final GuiInStation rolls[] = new GuiInStation[Main.ROLLS_COUNT];
-    private final GuiInStation mills[] = new GuiInStation[Main.MILL_COUNT];
+    private final GuiInMill mills[] = new GuiInMill[Main.MILL_COUNT];
     private final GuiInUnidev unidevs[] = new GuiInUnidev[Main.UNIDEV_COUNT];
     private final GuiInBevel bevels[] = new GuiInBevel[Main.BEVEL_COUNT];
 
@@ -36,7 +37,7 @@ public class GuiInMain {
             rolls[i] = new GuiInStation();
         }
         for (int i = 0; i < Main.MILL_COUNT; i++) {
-            mills[i] = new GuiInStation();
+            mills[i] = new GuiInMill();
         }
         for (int i = 0; i < Main.UNIDEV_COUNT; i++) {
             unidevs[i] = new GuiInUnidev();
@@ -78,6 +79,14 @@ public class GuiInMain {
         this.beltFeed = beltFeed;
     }
 
+    public boolean isHome() {
+        return home;
+    }
+
+    public void setHome(boolean home) {
+        this.home = home;
+    }
+
     public boolean isResetError() {
         return resetError;
     }
@@ -98,7 +107,7 @@ public class GuiInMain {
         return bevels;
     }
 
-    public GuiInStation[] getMills() {
+    public GuiInMill[] getMills() {
         return mills;
     }
 

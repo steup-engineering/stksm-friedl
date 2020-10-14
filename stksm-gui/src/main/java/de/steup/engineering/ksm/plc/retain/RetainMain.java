@@ -24,7 +24,7 @@ public class RetainMain implements Serializable {
     @XmlElement(name = "retainFace")
     private final RetainFace faces[] = new RetainFace[Main.FACE_COUNT];
     @XmlElement(name = "mill")
-    private final RetainFace mills[] = new RetainFace[Main.MILL_COUNT];
+    private final RetainMill mills[] = new RetainMill[Main.MILL_COUNT];
     @XmlElement(name = "unidev")
     private final RetainFace unidevs[] = new RetainFace[Main.UNIDEV_COUNT];
     @XmlElement(name = "bevel")
@@ -37,7 +37,7 @@ public class RetainMain implements Serializable {
             faces[i] = new RetainFace();
         }
         for (int i = 0; i < Main.MILL_COUNT; i++) {
-            mills[i] = new RetainFace();
+            mills[i] = new RetainMill();
         }
         for (int i = 0; i < Main.UNIDEV_COUNT; i++) {
             unidevs[i] = new RetainFace();
@@ -66,7 +66,7 @@ public class RetainMain implements Serializable {
         return bevels;
     }
 
-    public RetainFace[] getMills() {
+    public RetainMill[] getMills() {
         return mills;
     }
 
