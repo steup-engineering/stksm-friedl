@@ -41,6 +41,9 @@ pin out bit softend_limit;
 pin out float act_pos_z;
 pin out float act_pos_y;
 
+pin out float act_tool_pos_z;
+pin out float act_tool_pos_y;
+
 pin out bit error_z;
 pin out bit error_y;
 pin out unsigned error_code_z;
@@ -170,7 +173,7 @@ FUNCTION(_) {
 
     //set position
   if (drives_on && automatic_running && !automatic_running_old && homed) {
-    drv_pos_cmd_z = target_z + home_offset_z - tool_offset_z;
+    drv_pos_cmd_z = target_z - home_offset_z + tool_offset_z;
     if (active) {
       drv_pos_cmd_y = target_y + home_offset_y - tool_offset_y;    
     } else {
@@ -226,13 +229,22 @@ FUNCTION(_) {
       drv_jog_pos_z = 0; 
     }
   }
-  //act position
+  //act machine position
   if (homed) {
-    act_pos_z = drv_act_pos_z - home_offset_z + tool_offset_z;
-    act_pos_y = drv_act_pos_y - home_offset_y + tool_offset_y;        
+    act_pos_z = drv_act_pos_z + home_offset_z;
+    act_pos_y = drv_act_pos_y - home_offset_y;        
   } else {
       act_pos_z = 0;
       act_pos_y = 0;
+  }
+
+  //act tool position
+  if (homed) {
+    act_tool_pos_z = drv_act_pos_z + home_offset_z - tool_offset_z;
+    act_tool_pos_y = drv_act_pos_y - home_offset_y + tool_offset_y;        
+  } else {
+      act_tool_pos_z = 0;
+      act_tool_pos_y = 0;
   }
 
   busy = homing || posi;
@@ -246,6 +258,7 @@ FUNCTION(_) {
     drv_new_setpoint_y =0;
     drv_home_z = 0;
     drv_home_y = 0; 
+    home = 0;
   }
 
 }

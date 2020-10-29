@@ -17,12 +17,12 @@
     <slave idx="13" name="16M4" type="NanoPD4E"/>
     <slave idx="14" name="17M1" type="NanoPD4E"/>
     <slave idx="15" name="17M2" type="NanoPD4E"/>
-    <!--slave idx="16" name="17M3" type="NanoPD4E"/-->
-    <!--slave idx="17" name="17M4" type="NanoPD4E"/-->
+    <slave idx="16" name="17M3" type="NanoPD4E"/>
+    <slave idx="17" name="17M4" type="NanoPD4E"/>
 
-    <slave idx="16" name="S46A3" type="EP2809"/>    
-    <slave idx="17" name="S46A2" type="EP2008"/>
-    <slave idx="18" name="S46A1" type="EP2809"/>
+    <slave idx="18" name="S46A3" type="EP2809"/>    
+    <slave idx="19" name="S46A2" type="EP2008"/>
+    <slave idx="20" name="S46A1" type="EP2809"/>
    </master>
 </masters>
 
