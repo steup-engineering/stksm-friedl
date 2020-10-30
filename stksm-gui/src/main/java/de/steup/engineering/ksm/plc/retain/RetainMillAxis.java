@@ -24,24 +24,6 @@ public class RetainMillAxis implements Serializable {
     @XmlAttribute(name = "toolOffset")
     private double toolOffset;
 
-    public static void update(RetainMillAxis[] dst, RetainMillAxis[] src) {
-        if (src == null) {
-            return;
-        }
-
-        for (int i = 0; i < Math.min(src.length, dst.length); i++) {
-            dst[i].update(src[i]);
-        }
-    }
-
-    public void update(RetainMillAxis src) {
-        if (src == null) {
-            return;
-        }
-
-        toolOffset = src.toolOffset;
-    }
-
     public double getToolOffset() {
         return toolOffset;
     }

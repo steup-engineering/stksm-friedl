@@ -34,15 +34,6 @@ public class RetainMill extends RetainFace {
         }
     }
 
-    public void update(RetainMill src) {
-        if (src == null) {
-            return;
-        }
-
-        zReference = src.zReference;
-        RetainMillAxis.update(axis, src.axis);
-    }
-
     public int getzReference() {
         return zReference;
     }

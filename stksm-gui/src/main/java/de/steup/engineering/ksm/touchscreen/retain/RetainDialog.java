@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import de.steup.engineering.ksm.Main;
+import de.steup.engineering.ksm.plc.retain.RetainMill;
 import java.io.IOException;
 
 /**
@@ -40,12 +41,12 @@ public class RetainDialog extends JDialog {
             return;
         }
 
-        RetainMain retainData = new RetainMain();
-
+        RetainMain retainData;
         try {
-            mach.readRetainData(retainData);
+            retainData = mach.readRetainData();
         } catch (PlcRestException ex) {
             JOptionPane.showMessageDialog(Main.getMainFrame(), String.format("REST-Fehler %d.", ex.getStatus()), "Verbindungsfehler", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         RetainDialog dlg = new RetainDialog(retainData);

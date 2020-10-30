@@ -20,32 +20,12 @@ public class RetainFace implements PosOffsetInterface, Serializable {
 
     private static final long serialVersionUID = -6750150560154553901L;
 
-    @XmlAttribute(name ="pos")
+    @XmlAttribute(name = "pos")
     private double pos;
-    @XmlAttribute(name ="onOffset")
+    @XmlAttribute(name = "onOffset")
     private double onOffset;
-    @XmlAttribute(name ="offOffset")
+    @XmlAttribute(name = "offOffset")
     private double offOffset;
-
-    public static void update(RetainFace[] dst, RetainFace[] src) {
-        if (src == null) {
-            return;
-        }
-
-        for (int i = 0; i < Math.min(src.length, dst.length); i++) {
-            dst[i].update(src[i]);
-        }
-    }
-
-    public void update(RetainFace src) {
-        if (src == null) {
-            return;
-        }
-
-        pos = src.pos;
-        onOffset = src.onOffset;
-        offOffset = src.offOffset;
-    }
 
     @Override
     public double getOffOffset() {

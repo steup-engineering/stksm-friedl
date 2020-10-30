@@ -76,8 +76,8 @@ public class Machine {
         writeGenericData(restUrlRetainMain, data);
     }
 
-    public void readRetainData(RetainMain data) throws PlcRestException {
-        data.update((RetainMain) readGenericData(restUrlRetainMain, RetainMain.class));
+    public RetainMain readRetainData() throws PlcRestException {
+        return (RetainMain) readGenericData(restUrlRetainMain, RetainMain.class);
     }
 
     private Object readGenericData(URL url, Class clazz) throws PlcRestException {
@@ -105,8 +105,8 @@ public class Machine {
                 disconnect();
                 throw new PlcRestException("Unable to read from "
                         + clazz.getSimpleName() + " endpoint", ex);
-            } 
-               
+            }
+
             if (status != 200) {
                 throw new PlcRestException("Server error", status);
             }
@@ -143,7 +143,7 @@ public class Machine {
             OutputStream os;
             try {
                 // TODO timeout ?
-                conn.setRequestProperty("Content-Type","application/json;charset=UTF-8");
+                conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
                 conn.setRequestMethod("POST");
                 conn.setDoOutput(true);
                 os = conn.getOutputStream();

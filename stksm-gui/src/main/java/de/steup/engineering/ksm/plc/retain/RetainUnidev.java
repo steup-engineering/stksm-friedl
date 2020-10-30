@@ -20,26 +20,8 @@ public class RetainUnidev implements Serializable {
 
     private static final long serialVersionUID = 7356938339789650648L;
 
-    @XmlAttribute(name ="pos")
+    @XmlAttribute(name = "pos")
     private double pos;
-
-    public static void update(RetainUnidev[] dst, RetainUnidev[] src) {
-        if (src == null) {
-            return;
-        }
-
-        for (int i = 0; i < Math.min(src.length, dst.length); i++) {
-            dst[i].update(src[i]);
-        }
-    }
-
-    public void update(RetainUnidev src) {
-        if (src == null) {
-            return;
-        }
-
-        pos = src.pos;
-    }
 
     public double getPos() {
         return pos;
