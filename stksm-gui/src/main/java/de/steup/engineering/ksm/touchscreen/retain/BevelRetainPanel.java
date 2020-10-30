@@ -4,9 +4,6 @@
  */
 package de.steup.engineering.ksm.touchscreen.retain;
 
-import de.steup.engineering.ksm.Main;
-import de.steup.engineering.ksm.plc.rest.MachineThread;
-import de.steup.engineering.ksm.plc.entities.GuiInMain;
 import de.steup.engineering.ksm.plc.retain.RetainBevel;
 import de.steup.engineering.ksm.plc.retain.RetainFace;
 import de.steup.engineering.ksm.touchscreen.dialogs.FloatMouseListener;
@@ -56,11 +53,7 @@ public class BevelRetainPanel extends JPanel {
 
             @Override
             public void setValue(double value) {
-
-                GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
-                synchronized (guiInData) {
-                    retainData.setWidthOffset(value);
-                }
+                retainData.setWidthOffset(value);
             }
         };
         addParamItem(globalPanel, labelConst, textConst, "Breiten-Offset [mm]", -10.0, 10.0, retainData.getWidthOffset(), widthOffsetSetter);

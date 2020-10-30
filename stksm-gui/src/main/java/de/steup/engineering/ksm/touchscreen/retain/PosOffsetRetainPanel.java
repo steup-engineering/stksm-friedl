@@ -4,8 +4,6 @@
  */
 package de.steup.engineering.ksm.touchscreen.retain;
 
-import de.steup.engineering.ksm.plc.rest.MachineThread;
-import de.steup.engineering.ksm.plc.entities.GuiInMain;
 import de.steup.engineering.ksm.plc.retain.PosOffsetInterface;
 import de.steup.engineering.ksm.touchscreen.dialogs.FloatMouseListener;
 import de.steup.engineering.ksm.touchscreen.dialogs.FloatSetter;
@@ -28,17 +26,20 @@ public class PosOffsetRetainPanel extends JPanel {
 
     private static final int TEXT_FIELD_COLUMNS = 10;
 
+    protected final GridBagConstraints labelConst;
+    protected final GridBagConstraints textConst;
+
     public PosOffsetRetainPanel(String title, final PosOffsetInterface retainData) {
         GridBagLayout paramLayout = new GridBagLayout();
         setLayout(paramLayout);
 
-        GridBagConstraints labelConst = new GridBagConstraints();
+        labelConst = new GridBagConstraints();
         labelConst.anchor = GridBagConstraints.LINE_START;
         labelConst.fill = GridBagConstraints.HORIZONTAL;
         labelConst.gridx = 0;
         labelConst.gridy = 0;
 
-        GridBagConstraints textConst = new GridBagConstraints();
+        textConst = new GridBagConstraints();
         textConst.anchor = GridBagConstraints.LINE_END;
         textConst.fill = GridBagConstraints.HORIZONTAL;
         textConst.gridx = 1;
@@ -48,11 +49,7 @@ public class PosOffsetRetainPanel extends JPanel {
 
             @Override
             public void setValue(double value) {
-
-                GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
-                synchronized (guiInData) {
-                    retainData.setPos(value);
-                }
+                retainData.setPos(value);
             }
         };
         addParamItem(labelConst, textConst, "Mitte [mm]", 0.0, 6000.0, retainData.getPos(), posSetter);
@@ -61,11 +58,7 @@ public class PosOffsetRetainPanel extends JPanel {
 
             @Override
             public void setValue(double value) {
-
-                GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
-                synchronized (guiInData) {
-                    retainData.setOnOffset(value);
-                }
+                retainData.setOnOffset(value);
             }
         };
         addParamItem(labelConst, textConst, "Offset ein [mm]", -999.0, 999.0, retainData.getOnOffset(), onOffsetSetter);
@@ -74,11 +67,7 @@ public class PosOffsetRetainPanel extends JPanel {
 
             @Override
             public void setValue(double value) {
-
-                GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
-                synchronized (guiInData) {
-                    retainData.setOffOffset(value);
-                }
+                retainData.setOffOffset(value);
             }
         };
         addParamItem(labelConst, textConst, "Offset aus [mm]", -999.0, 999.0, retainData.getOffOffset(), offOffsetSetter);
@@ -86,7 +75,7 @@ public class PosOffsetRetainPanel extends JPanel {
         setBorder(BorderFactory.createTitledBorder(title));
     }
 
-    private JTextField addParamItem(GridBagConstraints labelConst, GridBagConstraints textConst, String labelText, double min, double max, double deflt, FloatSetter setter) {
+    protected JTextField addParamItem(GridBagConstraints labelConst, GridBagConstraints textConst, String labelText, double min, double max, double deflt, FloatSetter setter) {
         JLabel label = new JLabel(labelText + ": ");
         label.setHorizontalAlignment(SwingConstants.RIGHT);
         add(label, labelConst);
