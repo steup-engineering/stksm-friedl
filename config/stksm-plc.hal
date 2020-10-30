@@ -11,7 +11,7 @@
 ###########################################################
 
 setp ksm-main.idle-timeout	[KSM]IDLE_TIMEOUT
-setp ksm-main.ec-slaves		19
+setp ksm-main.ec-slaves		21
 
 setp ksm-main.water-press-ok	1
 setp ksm-main.door-interlock	1

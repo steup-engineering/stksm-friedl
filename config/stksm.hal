@@ -26,7 +26,7 @@ loadrt ksm_unidev names=unidev-0
 loadrt ksm_mill_yz names=mill-yz-0,mill-yz-1,mill-yz-2,mill-yz-3
 loadrt ksm_motor_test
 
-#loadusr -W lcrest rest-config.xml
+loadusr -W lcrest rest-config.xml
 
 ###########################################################
 # Functions

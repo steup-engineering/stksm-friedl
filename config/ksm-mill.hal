@@ -7,16 +7,17 @@ net ctrl-voltage => mill-yz-1.ctrl-voltage
 net ctrl-voltage => mill-yz-2.ctrl-voltage
 net ctrl-voltage => mill-yz-3.ctrl-voltage
 
-#net start0    => mill-yz-0.automatic-running
-#net start1    => mill-yz-1.automatic-running
-#net start2    => mill-yz-2.automatic-running
-#net start3    => mill-yz-3.automatic-running
-net test-start-motors => mill-yz-0.automatic-running => mill-yz-1.automatic-running => mill-yz-2.automatic-running #=> mill-yz-3.automatic-running   
+#net automatic-running    => mill-yz-0.automatic-running
+#net automatic-running    => mill-yz-1.automatic-running
+#net automatic-running    => mill-yz-2.automatic-running
+#net automatic-running    => mill-yz-3.automatic-running
 
-#net active0       => mill-yz-0.active
-#net active1       => mill-yz-1.active
-#net active2       => mill-yz-2.active
-#net active3       => mill-yz-3.active
+net test-start-motors => mill-yz-0.automatic-running => mill-yz-1.automatic-running => mill-yz-2.automatic-running => mill-yz-3.automatic-running   
+
+#net mill-0-ena       => mill-yz-0.active
+#net mill-1-ena       => mill-yz-1.active
+#net mill-2-ena       => mill-yz-2.active
+#net mill-3-ena       => mill-yz-3.active
 net test-active   => mill-yz-0.active => mill-yz-1.active => mill-yz-2.active => mill-yz-3.active
 
 net setup         => mill-yz-0.man-setup
@@ -29,7 +30,7 @@ net home1 => mill-yz-1.home
 net home2 => mill-yz-2.home
 net home3 => mill-yz-3.home
 
-#sets plc-run 1
+
 ######################
 #mill 0 pins
 ######################
@@ -41,8 +42,8 @@ setp mill-yz-0.power-on-delay-time 2
 
 #net mill-0-pos-z => mill-yz-0.target-z
 #net mill-0-pos-y => mill-yz-0.target-y
-net test-pos-z => mill-yz-0.target-z mill-yz-1.target-z mill-yz-2.target-z
-net test-pos-y => mill-yz-0.target-y mill-yz-1.target-y mill-yz-2.target-y
+net test-pos-z => mill-yz-0.target-z mill-yz-1.target-z mill-yz-2.target-z mill-yz-3.target-z
+net test-pos-y => mill-yz-0.target-y mill-yz-1.target-y mill-yz-2.target-y mill-yz-3.target-y
 
 net 0jogp-y  => mill-yz-0.jog-pos-y
 net 0jogn-y  => mill-yz-0.jog-neg-y
@@ -313,31 +314,31 @@ net mill-2-drv-target-reached-z   <= lcec.0.17M2.stat-target-reached
 net mill-2-drv-pos-fb-raw-z       <= lcec.0.17M2.pos-fb-raw
 
 #mill 3  
-#net mill-3-drv-fault-y    => lcec.0.17M3.fault
-#net mill-3-drv-home-y     => lcec.0.17M3.home
-#net mill-3-drv-homed-y    <= lcec.0.17M3.stat-homed
-#net mill-3-drives-enable  => lcec.0.17M3.enable
-#net mill-3-drv-enabled-y  <= lcec.0.17M3.stat-op-enabled
-#net mill-3-drv-pos-cmd-y  <= lcec.0.17M3.pos-cmd
-#net mill-3-drv-act-pos-y  <= lcec.0.17M3.pos-fb
-#net mill-3-drv-jog-pos-y  <= lcec.0.17M3.jog-pos
-#net mill-3-drv-jog-neg-y  <= lcec.0.17M3.jog-neg
-#net mill-3-drv-new-setpoint-y     => lcec.0.17M3.new-setpoint
-#net mill-3-drv-target-reached-y   <= lcec.0.17M3.stat-target-reached
-#net mill-3-drv-pos-fb-raw-y       <= lcec.0.17M3.pos-fb-raw
+net mill-3-drv-fault-y    => lcec.0.17M3.fault
+net mill-3-drv-home-y     => lcec.0.17M3.home
+net mill-3-drv-homed-y    <= lcec.0.17M3.stat-homed
+net mill-3-drives-enable  => lcec.0.17M3.enable
+net mill-3-drv-enabled-y  <= lcec.0.17M3.stat-op-enabled
+net mill-3-drv-pos-cmd-y  <= lcec.0.17M3.pos-cmd
+net mill-3-drv-act-pos-y  <= lcec.0.17M3.pos-fb
+net mill-3-drv-jog-pos-y  <= lcec.0.17M3.jog-pos
+net mill-3-drv-jog-neg-y  <= lcec.0.17M3.jog-neg
+net mill-3-drv-new-setpoint-y     => lcec.0.17M3.new-setpoint
+net mill-3-drv-target-reached-y   <= lcec.0.17M3.stat-target-reached
+net mill-3-drv-pos-fb-raw-y       <= lcec.0.17M3.pos-fb-raw
 
-#net mill-3-drv-fault-z    => lcec.0.17M4.fault
-#net mill-3-drv-home-z     => lcec.0.17M4.home
-#net mill-3-drv-homed-z    <= lcec.0.17M4.stat-homed
-#net mill-3-drives-enable  => lcec.0.17M4.enable
-#net mill-3-drv-enabled-z  <= lcec.0.17M4.stat-op-enabled
-#net mill-3-drv-pos-cmd-z  <= lcec.0.17M4.pos-cmd
-#net mill-3-drv-act-pos-z  <= lcec.0.17M4.pos-fb
-#net mill-3-drv-jog-pos-z  <= lcec.0.17M4.jog-pos
-#net mill-3-drv-jog-neg-z  <= lcec.0.17M4.jog-neg
-#net mill-3-drv-new-setpoint-z     => lcec.0.17M4.new-setpoint
-#net mill-3-drv-target-reached-z   <= lcec.0.17M4.stat-target-reached
-#net mill-3-drv-pos-fb-raw-z       <= lcec.0.17M4.pos-fb-raw
+net mill-3-drv-fault-z    => lcec.0.17M4.fault
+net mill-3-drv-home-z     => lcec.0.17M4.home
+net mill-3-drv-homed-z    <= lcec.0.17M4.stat-homed
+net mill-3-drives-enable  => lcec.0.17M4.enable
+net mill-3-drv-enabled-z  <= lcec.0.17M4.stat-op-enabled
+net mill-3-drv-pos-cmd-z  <= lcec.0.17M4.pos-cmd
+net mill-3-drv-act-pos-z  <= lcec.0.17M4.pos-fb
+net mill-3-drv-jog-pos-z  <= lcec.0.17M4.jog-pos
+net mill-3-drv-jog-neg-z  <= lcec.0.17M4.jog-neg
+net mill-3-drv-new-setpoint-z     => lcec.0.17M4.new-setpoint
+net mill-3-drv-target-reached-z   <= lcec.0.17M4.stat-target-reached
+net mill-3-drv-pos-fb-raw-z       <= lcec.0.17M4.pos-fb-raw
 
 ######### nanotec#########
 # drive Config 
@@ -356,6 +357,7 @@ setp lcec.0.16M1.sdo-pos-softend-max [MILL0]SOFTEND_Z_MAX
 setp lcec.0.16M1.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.16M1.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.16M1.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.16M1.new-setpoint-instant 1
 
 #mill 0 Y
 setp lcec.0.16M2.velocity-cmd [MILLS]JOG_VELO
@@ -387,6 +389,7 @@ setp lcec.0.16M3.sdo-pos-softend-max [MILL1]SOFTEND_Z_MAX
 setp lcec.0.16M3.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.16M3.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.16M3.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.16M3.new-setpoint-instant 1
 
 #mill 1 Y
 setp lcec.0.16M4.velocity-cmd [MILLS]JOG_VELO
@@ -434,34 +437,37 @@ setp lcec.0.17M2.sdo-pos-softend-max [MILL2]SOFTEND_Z_MAX
 setp lcec.0.17M2.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.17M2.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.17M2.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.17M2.new-setpoint-instant 1
 
 #mill 3 Y
-#setp lcec.0.17M3.velocity-cmd [MILLS]JOG_VELO
-#setp lcec.0.17M3.sdo-home-method [MILL3]HOME_METHOD_Y
-#setp lcec.0.17M3.sdo-home-search-velo [MILLS]HOME_SEARCH_VELO
-#setp lcec.0.17M3.sdo-home-latch-velo [MILLS]HOME_LATCH_VELO
+setp lcec.0.17M3.velocity-cmd [MILLS]JOG_VELO
+setp lcec.0.17M3.sdo-home-method [MILL3]HOME_METHOD_Y
+setp lcec.0.17M3.sdo-home-search-velo [MILLS]HOME_SEARCH_VELO
+setp lcec.0.17M3.sdo-home-latch-velo [MILLS]HOME_LATCH_VELO
 
-#setp lcec.0.17M3.sdo-inp-conf-special-function [NANOTEC]INPUT_CONFIG
-#setp lcec.0.17M3.sdo-inp-conf-voltage-range [NANOTEC]INPUT_VOLTAGE
-#setp lcec.0.17M3.pos-scale [MILL3]SCALE_Y
-#setp lcec.0.17M3.sdo-pos-softend-min [MILL3]SOFTEND_Y_MIN
-#setp lcec.0.17M3.sdo-pos-softend-max [MILL3]SOFTEND_Y_MAX
-#setp lcec.0.17M3.sdo-pos-profile-velo [MILLS]POSI_VELO
-#setp lcec.0.17M3.sdo-pos-deccel [MILLS]POSI_DECCEL
-#setp lcec.0.17M3.sdo-velo-deccel [MILLS]VELO_DECCEL
-#setp lcec.0.17M3.new-setpoint-instant 1
+setp lcec.0.17M3.sdo-inp-conf-special-function [NANOTEC]INPUT_CONFIG
+setp lcec.0.17M3.sdo-inp-conf-voltage-range [NANOTEC]INPUT_VOLTAGE
+setp lcec.0.17M3.pos-scale [MILL3]SCALE_Y
+setp lcec.0.17M3.sdo-pos-softend-min [MILL3]SOFTEND_Y_MIN
+setp lcec.0.17M3.sdo-pos-softend-max [MILL3]SOFTEND_Y_MAX
+setp lcec.0.17M3.sdo-pos-profile-velo [MILLS]POSI_VELO
+setp lcec.0.17M3.sdo-pos-deccel [MILLS]POSI_DECCEL
+setp lcec.0.17M3.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.17M3.new-setpoint-instant 1
 
 #mill 3 Z
-#setp lcec.0.17M4.velocity-cmd [MILLS]JOG_VELO
-#setp lcec.0.17M4.sdo-home-method [MILL3]HOME_METHOD_Z
-#setp lcec.0.17M4.sdo-home-search-velo [MILLS]HOME_SEARCH_VELO
-#setp lcec.0.17M4.sdo-home-latch-velo [MILLS]HOME_LATCH_VELO
+setp lcec.0.17M4.velocity-cmd [MILLS]JOG_VELO
+setp lcec.0.17M4.sdo-home-method [MILL3]HOME_METHOD_Z
+setp lcec.0.17M4.sdo-home-search-velo [MILLS]HOME_SEARCH_VELO
+setp lcec.0.17M4.sdo-home-latch-velo [MILLS]HOME_LATCH_VELO
 
-#setp lcec.0.17M4.sdo-inp-conf-special-function [NANOTEC]INPUT_CONFIG
-#setp lcec.0.17M4.sdo-inp-conf-voltage-range [NANOTEC]INPUT_VOLTAGE
-#setp lcec.0.17M4.pos-scale [MILL3]SCALE_Z
-#setp lcec.0.17M4.sdo-pos-softend-min [MILL3]SOFTEND_Z_MIN
-#setp lcec.0.17M4.sdo-pos-softend-max [MILL3]SOFTEND_Z_MAX
-#setp lcec.0.17M4.sdo-pos-profile-velo [MILLS]POSI_VELO
-#setp lcec.0.17M4.sdo-pos-deccel [MILLS]POSI_DECCEL
-#setp lcec.0.17M4.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.17M4.sdo-inp-conf-special-function [NANOTEC]INPUT_CONFIG
+setp lcec.0.17M4.sdo-inp-conf-voltage-range [NANOTEC]INPUT_VOLTAGE
+setp lcec.0.17M4.pos-scale [MILL3]SCALE_Z
+setp lcec.0.17M4.sdo-pos-softend-min [MILL3]SOFTEND_Z_MIN
+setp lcec.0.17M4.sdo-pos-softend-max [MILL3]SOFTEND_Z_MAX
+setp lcec.0.17M4.sdo-pos-profile-velo [MILLS]POSI_VELO
+setp lcec.0.17M4.sdo-pos-deccel [MILLS]POSI_DECCEL
+setp lcec.0.17M4.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.17M4.new-setpoint-instant 1
+
