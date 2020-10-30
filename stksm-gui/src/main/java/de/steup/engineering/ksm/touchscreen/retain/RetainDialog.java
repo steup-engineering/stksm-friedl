@@ -172,9 +172,9 @@ public class RetainDialog extends JDialog {
             spc.add(new PosOffsetRetainPanel(String.format("Flächenmotor %d", i + 1), faces[i]));
         }
 
-        RetainFace mills[] = retainData.getMills();
+        RetainMill mills[] = retainData.getMills();
         for (int i = 0; i < Main.MILL_COUNT; i++) {
-            spc.add(new PosOffsetRetainPanel(String.format("Fräse %d", i + 1), mills[i]));
+            spc.add(new MillRetainPanel(String.format("Fräse %d", i + 1), mills[i]));
         }
 
         RetainFace unidevs[] = retainData.getUnidevs();
