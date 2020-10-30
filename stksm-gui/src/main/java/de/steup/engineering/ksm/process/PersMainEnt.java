@@ -29,7 +29,7 @@ public class PersMainEnt implements Serializable {
     @XmlElement(name = "face")
     private ArrayList<PersMotorEnt> faces;
     @XmlElement(name = "mill")
-    private ArrayList<PersMotorEnt> mills;
+    private ArrayList<PersMillEnt> mills;
     @XmlElement(name = "unidev")
     private ArrayList<PersUnidevEnt> unidevs;
     @XmlElement(name = "bevel")
@@ -61,11 +61,11 @@ public class PersMainEnt implements Serializable {
         this.bevels = bevels;
     }
 
-    public ArrayList<PersMotorEnt> getMills() {
+    public ArrayList<PersMillEnt> getMills() {
         return mills;
     }
 
-    public void setMills(ArrayList<PersMotorEnt> mills) {
+    public void setMills(ArrayList<PersMillEnt> mills) {
         this.mills = mills;
     }
 

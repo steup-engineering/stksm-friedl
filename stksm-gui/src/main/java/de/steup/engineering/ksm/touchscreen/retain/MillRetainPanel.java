@@ -11,6 +11,7 @@ import de.steup.engineering.ksm.touchscreen.dialogs.FloatSetter;
 import de.steup.engineering.ksm.touchscreen.dialogs.IntegerSetter;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
@@ -57,8 +58,8 @@ public class MillRetainPanel extends PosOffsetRetainPanel {
         }
     }
 
-    public MillRetainPanel(String title, final RetainMill retainData) {
-        super(title, retainData);
+    public MillRetainPanel(Window owner, String title, final RetainMill retainData) {
+        super(owner, title, retainData);
 
         final RetainMillAxis[] axis = retainData.getAxis();
 
@@ -76,7 +77,7 @@ public class MillRetainPanel extends PosOffsetRetainPanel {
                 axis[0].setToolOffset(value);
             }
         };
-        addParamItem(labelConst, textConst, "Werkzeug-Offset Y [mm]", -999.0, 999.0, axis[0].getToolOffset(), toolXOffsetSetter);
+        addParamItem(owner, labelConst, textConst, "Werkzeug-Offset Y [mm]", -999.0, 999.0, axis[0].getToolOffset(), toolXOffsetSetter);
 
         FloatSetter toolYOffsetSetter = new FloatSetter() {
             @Override
@@ -84,7 +85,7 @@ public class MillRetainPanel extends PosOffsetRetainPanel {
                 axis[1].setToolOffset(value);
             }
         };
-        addParamItem(labelConst, textConst, "Werkzeug-Offset Z [mm]", -999.0, 999.0, axis[1].getToolOffset(), toolYOffsetSetter);
+        addParamItem(owner, labelConst, textConst, "Werkzeug-Offset Z [mm]", -999.0, 999.0, axis[1].getToolOffset(), toolYOffsetSetter);
 
     }
 

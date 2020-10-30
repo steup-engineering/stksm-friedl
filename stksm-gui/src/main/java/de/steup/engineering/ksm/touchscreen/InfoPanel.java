@@ -14,6 +14,7 @@ import de.steup.engineering.ksm.touchscreen.dialogs.FloatSetter;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Window;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,7 +36,7 @@ public class InfoPanel extends JPanel implements UpdatePanelInterface {
     private final JTextField heightText;
     private final JTextField feedText;
 
-    public InfoPanel(String title) {
+    public InfoPanel(Window owner, String title) {
         super();
         setBorder(BorderFactory.createTitledBorder(title));
 
@@ -65,7 +66,7 @@ public class InfoPanel extends JPanel implements UpdatePanelInterface {
                 }
             }
         };
-        heightText = addParamItem(this, labelConst, textConst, "Materialhöhe [mm]", 1.0, 200.0, 0.0, heightSetter);
+        heightText = addParamItem(owner, this, labelConst, textConst, "Materialhöhe [mm]", 1.0, 200.0, 0.0, heightSetter);
 
         FloatSetter feedSetter = new FloatSetter() {
 
@@ -78,7 +79,7 @@ public class InfoPanel extends JPanel implements UpdatePanelInterface {
                 }
             }
         };
-        feedText = addParamItem(this, labelConst, textConst, "Bandvorschub [m/min]", 0.2, 3.0, 1.0, feedSetter);
+        feedText = addParamItem(owner, this, labelConst, textConst, "Bandvorschub [m/min]", 0.2, 3.0, 1.0, feedSetter);
 
         final JTextField feedOvrField = addDisplayItem(this, labelConst, textConst, "Übersteuerung [%]");
         MachineThread.getInstance().addUpdateListener(new Runnable() {
@@ -156,7 +157,7 @@ public class InfoPanel extends JPanel implements UpdatePanelInterface {
         });
     }
 
-    private JTextField addParamItem(JPanel panel, GridBagConstraints labelConst, GridBagConstraints textConst, String labelText, double min, double max, double deflt, FloatSetter setter) {
+    private JTextField addParamItem(Window owner, JPanel panel, GridBagConstraints labelConst, GridBagConstraints textConst, String labelText, double min, double max, double deflt, FloatSetter setter) {
         JLabel label = new JLabel(labelText + ": ");
         label.setHorizontalAlignment(SwingConstants.RIGHT);
         panel.add(label, labelConst);
@@ -166,7 +167,7 @@ public class InfoPanel extends JPanel implements UpdatePanelInterface {
         textField.setEditable(false);
         textField.setBackground(Color.WHITE);
         textField.setText(Double.toString(deflt));
-        textField.addMouseListener(new FloatMouseListener(labelText, textField, min, max, setter));
+        textField.addMouseListener(new FloatMouseListener(owner, labelText, textField, min, max, setter));
         panel.add(textField, textConst);
         textConst.gridy++;
 

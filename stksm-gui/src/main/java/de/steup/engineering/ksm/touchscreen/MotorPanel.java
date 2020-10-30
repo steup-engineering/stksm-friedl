@@ -13,6 +13,7 @@ import de.steup.engineering.ksm.touchscreen.dialogs.StringMouseListener;
 import de.steup.engineering.ksm.touchscreen.dialogs.StringSetter;
 import de.steup.engineering.ksm.touchscreen.util.MotorData;
 import java.awt.Color;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -37,9 +38,9 @@ public class MotorPanel extends MotorBasePanel implements UpdatePanelInterface {
     private final List<MotorData> motors;
     private Color buttonDefaultColor = null;
 
-    public MotorPanel(String title, List<MotorData> motors, boolean hasLabel, boolean hasEnable) {
+    public MotorPanel(Window owner, String title, List<MotorData> motors, boolean hasLabel, boolean hasEnable) {
         super(title, motors.size());
-        
+
         motors = new ArrayList<>(motors);
         if (Main.RIGHT_TO_LEFT) {
             Collections.reverse(motors);
@@ -62,7 +63,7 @@ public class MotorPanel extends MotorBasePanel implements UpdatePanelInterface {
                             motor.setCaption(value);
                         }
                     };
-                    nt.addMouseListener(new StringMouseListener("Motor Name", nt, 1, 16, setter));
+                    nt.addMouseListener(new StringMouseListener(owner, "Motor Name", nt, 1, 16, setter));
                 }
                 captionText.add(nt);
                 add(nt);
@@ -71,6 +72,8 @@ public class MotorPanel extends MotorBasePanel implements UpdatePanelInterface {
 
         if (hasEnable) {
             for (int i = 0; i < motors.size(); i++) {
+                final MotorData motor = motors.get(i);
+
                 final JButton nb = new JButton("aktiv");
                 if (buttonDefaultColor == null) {
                     buttonDefaultColor = nb.getBackground();
@@ -78,7 +81,7 @@ public class MotorPanel extends MotorBasePanel implements UpdatePanelInterface {
                 enaButton.add(nb);
                 add(nb);
 
-                final GuiInStationInterface stationIn = motors.get(i).getInData();
+                final GuiInStationInterface stationIn = motor.getInData();
                 nb.addActionListener(new ActionListener() {
 
                     @Override
@@ -96,13 +99,20 @@ public class MotorPanel extends MotorBasePanel implements UpdatePanelInterface {
             }
         }
 
+        boolean hasSetupAction = false;
         for (int i = 0; i < motors.size(); i++) {
+            final MotorData motor = motors.get(i);
+
+            if (motor.getSetupAction() != null) {
+                hasSetupAction = true;
+            }
+
             final JButton nb = new JButton("manu");
             final Color defaultColor = nb.getBackground();
             add(nb);
 
-            final GuiInStationInterface stationIn = motors.get(i).getInData();
-            final GuiOutStationInterface stationOut = motors.get(i).getOutData();
+            final GuiInStationInterface stationIn = motor.getInData();
+            final GuiOutStationInterface stationOut = motor.getOutData();
             nb.addMouseListener(new MouseListener() {
 
                 @Override
@@ -155,6 +165,17 @@ public class MotorPanel extends MotorBasePanel implements UpdatePanelInterface {
                 }
             });
         }
+
+        if (hasSetupAction) {
+            for (int i = 0; i < motors.size(); i++) {
+                final MotorData motor = motors.get(i);
+
+                JButton setupButton = new JButton("Einrichten ...");
+                setupButton.addActionListener(motor.getSetupAction());
+                add(setupButton);
+            }
+        }
+
     }
 
     @Override

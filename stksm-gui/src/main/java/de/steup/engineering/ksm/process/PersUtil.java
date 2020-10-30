@@ -4,11 +4,13 @@
  */
 package de.steup.engineering.ksm.process;
 
-import de.steup.engineering.ksm.Main;
 import de.steup.engineering.ksm.plc.entities.GuiInBevel;
 import de.steup.engineering.ksm.plc.entities.GuiInMain;
+import de.steup.engineering.ksm.plc.entities.GuiInMill;
+import de.steup.engineering.ksm.plc.entities.GuiInMillAxis;
 import de.steup.engineering.ksm.plc.entities.GuiInStationInterface;
 import de.steup.engineering.ksm.plc.entities.GuiInUnidev;
+import java.awt.Window;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -27,14 +29,14 @@ public class PersUtil {
     private final Log logger
             = LogFactory.getLog(PersUtil.class.toString());
 
-    public PersMainEnt loadProcess(File file) {
+    public PersMainEnt loadProcess(Window owner, File file) {
         try {
             JAXBContext context = JAXBContext.newInstance(PersMainEnt.class);
             Unmarshaller u = context.createUnmarshaller();
             return (PersMainEnt) u.unmarshal(file);
         } catch (Exception ex) {
             logger.error("Fehler beim laden der Prozessdaten", ex);
-            JOptionPane.showMessageDialog(Main.getMainFrame(),
+            JOptionPane.showMessageDialog(owner,
                     String.format("Datei %s kann nicht gelesen werden.", file.getName()),
                     "Fehler beim Laden",
                     JOptionPane.ERROR_MESSAGE);
@@ -42,7 +44,7 @@ public class PersUtil {
         }
     }
 
-    public void saveProcess(PersMainEnt process, File file) {
+    public void saveProcess(Window owner, PersMainEnt process, File file) {
         try {
             JAXBContext context = JAXBContext.newInstance(PersMainEnt.class);
             Marshaller m = context.createMarshaller();
@@ -50,7 +52,7 @@ public class PersUtil {
             m.marshal(process, file);
         } catch (Exception ex) {
             logger.error("Fehler beim speichern der Prozessdaten", ex);
-            JOptionPane.showMessageDialog(Main.getMainFrame(),
+            JOptionPane.showMessageDialog(owner,
                     String.format("Datei %s kann nicht geschrieben werden.", file.getName()),
                     "Fehler beim Speichern",
                     JOptionPane.ERROR_MESSAGE);
@@ -80,6 +82,39 @@ public class PersUtil {
                 GuiInStationInterface plcMotor = plcMotors[i];
                 plcMotor.setEna(motor.isEna());
                 plcMotor.setCaption(motor.getCaption());
+            }
+        }
+    }
+
+    private ArrayList<PersMillEnt> millsPlcToPers(GuiInMill plcMills[]) {
+        ArrayList<PersMillEnt> mills = new ArrayList<>();
+        for (int i = 0; i < plcMills.length; i++) {
+            GuiInMill plcMill = plcMills[i];
+            GuiInMillAxis[] plcMillAxis = plcMill.getAxis();
+            PersMillEnt mill = new PersMillEnt();
+            mill.setIndex(i);
+            mill.setEna(plcMill.isEna());
+            mill.setCaption(plcMill.getCaption());
+            mill.setDestY(plcMillAxis[0].getDest());
+            mill.setDestZ(plcMillAxis[1].getDest());
+            mills.add(mill);
+        }
+        return mills;
+    }
+
+    private void millsPersToPlc(ArrayList<PersMillEnt> mills, GuiInMill plcMills[]) {
+        if (mills == null) {
+            return;
+        }
+        for (PersMillEnt mill : mills) {
+            int i = mill.getIndex();
+            if (i >= 0 && i < plcMills.length) {
+                GuiInMill plcMill = plcMills[i];
+                GuiInMillAxis[] plcMillAxis = plcMill.getAxis();
+                plcMill.setEna(mill.isEna());
+                plcMill.setCaption(mill.getCaption());
+                plcMillAxis[0].setDest(mill.getDestY());
+                plcMillAxis[1].setDest(mill.getDestZ());
             }
         }
     }
@@ -144,8 +179,8 @@ public class PersUtil {
         }
     }
 
-    public void loadProcess(GuiInMain plcData, File file) {
-        PersMainEnt process = loadProcess(file);
+    public void loadProcess(Window owner, GuiInMain plcData, File file) {
+        PersMainEnt process = loadProcess(owner, file);
         if (process == null) {
             return;
         }
@@ -153,21 +188,21 @@ public class PersUtil {
         plcData.setMatHeight(process.getMatHeight());
         plcData.setBeltFeed(process.getBeltFeed());
         motorsPersToPlc(process.getFaces(), plcData.getFaces());
-        motorsPersToPlc(process.getMills(), plcData.getMills());
+        millsPersToPlc(process.getMills(), plcData.getMills());
         unidevsPersToPlc(process.getUnidevs(), plcData.getUnidevs());
         bevelsPersToPlc(process.getBevels(), plcData.getBevels());
         plcData.setParamSetName(process.getParamSetName());
     }
 
-    public void saveProcess(GuiInMain plcData, File file) {
+    public void saveProcess(Window owner, GuiInMain plcData, File file) {
         PersMainEnt process = new PersMainEnt();
         process.setMatHeight(plcData.getMatHeight());
         process.setBeltFeed(plcData.getBeltFeed());
         process.setFaces(motorsPlcToPers(plcData.getFaces()));
-        process.setMills(motorsPlcToPers(plcData.getMills()));
+        process.setMills(millsPlcToPers(plcData.getMills()));
         process.setUnidevs(unidevsPlcToPers(plcData.getUnidevs()));
         process.setBevels(bevelsPlcToPers(plcData.getBevels()));
         process.setParamSetName(plcData.getParamSetName());
-        saveProcess(process, file);
+        saveProcess(owner, process, file);
     }
 }

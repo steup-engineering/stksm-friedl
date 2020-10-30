@@ -27,13 +27,8 @@ public class Main {
 
     public static final boolean RIGHT_TO_LEFT = true;
 
-    private static JFrame mainFrame;
     private static PathConfig processPath;
     private static PathConfig paramPath;
-
-    public static JFrame getMainFrame() {
-        return mainFrame;
-    }
 
     public static PathConfig getProcessPath() {
         return processPath;
@@ -70,7 +65,7 @@ public class Main {
                 mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 mainFrame.setUndecorated(true);
 
-                MainPanel mp = new MainPanel();
+                MainPanel mp = new MainPanel(mainFrame);
 
                 mainFrame.add(mp);
 

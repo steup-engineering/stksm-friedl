@@ -6,6 +6,7 @@ package de.steup.engineering.ksm.touchscreen.util;
 
 import de.steup.engineering.ksm.plc.entities.GuiInStationInterface;
 import de.steup.engineering.ksm.plc.entities.GuiOutStationInterface;
+import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,11 +20,17 @@ public class MotorData {
     private final GuiInStationInterface inData;
     private final GuiOutStationInterface outData;
     private final Set<CaptionChangeListener> captionChangeListeners = new HashSet<>();
+    private final ActionListener setupAction;
 
     public MotorData(String defaultCaption, GuiInStationInterface inData, GuiOutStationInterface outData) {
+        this(defaultCaption, inData, outData, null);
+    }
+
+    public MotorData(String defaultCaption, GuiInStationInterface inData, GuiOutStationInterface outData, ActionListener setupAction) {
         this.defaultCaption = defaultCaption;
         this.inData = inData;
         this.outData = outData;
+        this.setupAction = setupAction;
     }
 
     public String getDefaultCaption() {
@@ -63,6 +70,10 @@ public class MotorData {
 
     public GuiOutStationInterface getOutData() {
         return outData;
+    }
+
+    public ActionListener getSetupAction() {
+        return setupAction;
     }
 
 }

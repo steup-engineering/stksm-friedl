@@ -8,9 +8,11 @@ import de.steup.engineering.ksm.Main;
 import de.steup.engineering.ksm.plc.rest.MachineThread;
 import de.steup.engineering.ksm.plc.entities.GuiInMain;
 import de.steup.engineering.ksm.plc.entities.GuiOutMain;
+import de.steup.engineering.ksm.touchscreen.dialogs.MillSetupDialog;
 import de.steup.engineering.ksm.touchscreen.util.MotorData;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -27,7 +29,7 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
 
     private final List<UpdatePanelInterface> updatePanels = new ArrayList<>();
 
-    public ProcessPanel() {
+    public ProcessPanel(Window owner) {
         super();
         setBorder(BorderFactory.createEtchedBorder());
 
@@ -41,9 +43,25 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
         GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
         GuiOutMain guiOutData = MachineThread.getInstance().getGuiOutData();
 
-        ParamSetNamePanel paramPanel = new ParamSetNamePanel("Maschinenparameter");
+        ParamSetNamePanel paramPanel = new ParamSetNamePanel(owner, "Maschinenparameter");
         updatePanels.add(paramPanel);
         contentPanel.add(paramPanel);
+
+        JPanel facePanel = new JPanel(new GridLayout(0, 2));
+
+        List<MotorData> millsMotors = new ArrayList<>();
+        for (int i = 0; i < Main.MILL_COUNT; i++) {
+            MillSetupDialog msd = new MillSetupDialog(
+                    owner,
+                    String.format("Fräse %d", i + 1),
+                    guiInData.getMills()[i],
+                    guiOutData.getMills()[i]);
+            millsMotors.add(msd.getMotorData());
+            updatePanels.add(msd);
+        }
+        MotorPanel mp = new MotorPanel(owner, "Fräsen", millsMotors, true, true);
+        updatePanels.add(mp);
+        facePanel.add(mp);
 
         List<MotorData> faceMotors = new ArrayList<>();
         for (int i = 0; i < Main.FACE_COUNT; i++) {
@@ -52,18 +70,11 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
                     guiInData.getFaces()[i],
                     guiOutData.getFaces()[i]));
         }
-        MotorData millMotors[] = new MotorData[Main.MILL_COUNT];
-        for (int i = 0; i < Main.MILL_COUNT; i++) {
-            MotorData md = new MotorData(
-                    String.format("Fräse %d", i + 1),
-                    guiInData.getMills()[i],
-                    guiOutData.getMills()[i]);
-            millMotors[i] = md;
-            faceMotors.add(md);
-        }
-        MotorPanel fp = new MotorPanel("Köpfe", faceMotors, true, true);
+        MotorPanel fp = new MotorPanel(owner, "Köpfe", faceMotors, true, true);
         updatePanels.add(fp);
-        contentPanel.add(fp);
+        facePanel.add(fp);
+
+        contentPanel.add(facePanel);
 
         JPanel rp = new MotorBasePanel("Rollen", 1);
         contentPanel.add(rp);
@@ -75,7 +86,7 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
                     guiInData.getRolls()[i],
                     guiOutData.getRolls()[i]));
         }
-        MotorPanel rop = new MotorPanel(null, rollMotorsOdd, true, false);
+        MotorPanel rop = new MotorPanel(owner, null, rollMotorsOdd, true, false);
         updatePanels.add(rop);
         rp.add(rop);
 
@@ -86,7 +97,7 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
                     guiInData.getRolls()[i],
                     guiOutData.getRolls()[i]));
         }
-        MotorPanel rep = new MotorPanel(null, rollMotorsEven, true, false);
+        MotorPanel rep = new MotorPanel(owner, null, rollMotorsEven, true, false);
         updatePanels.add(rep);
         rp.add(rep);
 
@@ -97,13 +108,13 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new GridLayout(0, 1));
 
-        InfoPanel bp = new InfoPanel("Prozesswerte");
+        InfoPanel bp = new InfoPanel(owner, "Prozesswerte");
         updatePanels.add(bp);
         uniPanel.add(bp);
 
         List<MotorData> uniMotors = new ArrayList<>();
         uniMotors.add(new MotorData("Multifnk", guiInData.getUnidevs()[0], guiOutData.getUnidevs()[0]));
-        dp = new DevPanel("Armierung/Wassernase", uniMotors, null, null, false, guiInData.getUnidevs()[0]);
+        dp = new DevPanel(owner, "Armierung/Wassernase", uniMotors, null, null, false, guiInData.getUnidevs()[0]);
         updatePanels.add(dp);
         uniPanel.add(dp);
 
@@ -116,14 +127,14 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
         bevelUpperMotors.add(new MotorData("Fräser", guiInData.getBevels()[1].getMotors()[0], guiOutData.getBevels()[1].getMotors()[0]));
         bevelUpperMotors.add(new MotorData("Poli 1", guiInData.getBevels()[1].getMotors()[1], guiOutData.getBevels()[1].getMotors()[1]));
         bevelUpperMotors.add(new MotorData("Poli 2", guiInData.getBevels()[1].getMotors()[2], guiOutData.getBevels()[1].getMotors()[2]));
-        dp = new DevPanel("Fase oben", bevelUpperMotors, null, "Fasenbreite [mm]", true, guiInData.getBevels()[1]);
+        dp = new DevPanel(owner, "Fase oben", bevelUpperMotors, null, "Fasenbreite [mm]", true, guiInData.getBevels()[1]);
         updatePanels.add(dp);
         bevelPanel.add(dp);
 
         List<MotorData> bevelLowerMotors = new ArrayList<>();
         bevelLowerMotors.add(new MotorData("Fräser", guiInData.getBevels()[0].getMotors()[0], guiOutData.getBevels()[0].getMotors()[0]));
         bevelLowerMotors.add(new MotorData("Poli 1", guiInData.getBevels()[0].getMotors()[1], guiOutData.getBevels()[0].getMotors()[1]));
-        dp = new DevPanel("Fase unten", bevelLowerMotors, null, "Fasenbreite [mm]", true, guiInData.getBevels()[0]);
+        dp = new DevPanel(owner, "Fase unten", bevelLowerMotors, null, "Fasenbreite [mm]", true, guiInData.getBevels()[0]);
         updatePanels.add(dp);
         bevelPanel.add(dp);
 

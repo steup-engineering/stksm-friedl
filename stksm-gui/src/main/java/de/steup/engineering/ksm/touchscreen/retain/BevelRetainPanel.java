@@ -11,6 +11,7 @@ import de.steup.engineering.ksm.touchscreen.dialogs.FloatSetter;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Window;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -28,7 +29,7 @@ public class BevelRetainPanel extends JPanel {
 
     private static final int TEXT_FIELD_COLUMNS = 10;
 
-    public BevelRetainPanel(String title, final RetainBevel retainData, int motorCount) {
+    public BevelRetainPanel(Window owner, String title, final RetainBevel retainData, int motorCount) {
 
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
@@ -56,19 +57,19 @@ public class BevelRetainPanel extends JPanel {
                 retainData.setWidthOffset(value);
             }
         };
-        addParamItem(globalPanel, labelConst, textConst, "Breiten-Offset [mm]", -10.0, 10.0, retainData.getWidthOffset(), widthOffsetSetter);
+        addParamItem(owner, globalPanel, labelConst, textConst, "Breiten-Offset [mm]", -10.0, 10.0, retainData.getWidthOffset(), widthOffsetSetter);
 
         add(globalPanel);
 
         RetainFace motors[] = retainData.getMotors();
         for (int i = 0; i < motorCount; i++) {
-            add(new PosOffsetRetainPanel(String.format("Motor %d", i + 1), motors[i]));
+            add(new PosOffsetRetainPanel(owner, String.format("Motor %d", i + 1), motors[i]));
         }
 
         setBorder(BorderFactory.createTitledBorder(title));
     }
 
-    private JTextField addParamItem(JPanel panel, GridBagConstraints labelConst, GridBagConstraints textConst, String labelText, double min, double max, double deflt, FloatSetter setter) {
+    private JTextField addParamItem(Window owner, JPanel panel, GridBagConstraints labelConst, GridBagConstraints textConst, String labelText, double min, double max, double deflt, FloatSetter setter) {
         JLabel label = new JLabel(labelText + ": ");
         label.setHorizontalAlignment(SwingConstants.RIGHT);
         panel.add(label, labelConst);
@@ -78,7 +79,7 @@ public class BevelRetainPanel extends JPanel {
         textField.setEditable(false);
         textField.setBackground(Color.WHITE);
         textField.setText(Double.toString(deflt));
-        textField.addMouseListener(new FloatMouseListener(labelText, textField, min, max, setter));
+        textField.addMouseListener(new FloatMouseListener(owner, labelText, textField, min, max, setter));
         panel.add(textField, textConst);
         textConst.gridy++;
 
