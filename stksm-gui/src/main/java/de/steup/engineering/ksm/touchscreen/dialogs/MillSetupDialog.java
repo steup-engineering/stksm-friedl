@@ -14,6 +14,7 @@ import de.steup.engineering.ksm.plc.entities.GuiOutMill;
 import de.steup.engineering.ksm.plc.entities.GuiOutMillAxis;
 import de.steup.engineering.ksm.plc.rest.MachineThread;
 import de.steup.engineering.ksm.touchscreen.UpdatePanelInterface;
+import de.steup.engineering.ksm.touchscreen.util.MachButtonListener;
 import de.steup.engineering.ksm.touchscreen.util.MotorData;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -21,8 +22,6 @@ import java.awt.Label;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -68,69 +67,19 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface {
             jogPanel.setLayout(layout);
 
             JButton jogNegBtn = new JButton("-");
-            jogNegBtn.addMouseListener(new MouseListener() {
-
+            jogNegBtn.addMouseListener(new MachButtonListener() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    // NOP
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    synchronized (MachineThread.getInstance().getGuiInData()) {
-                        inData.setJogNeg(true);
-                    }
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    synchronized (MachineThread.getInstance().getGuiInData()) {
-                        inData.setJogNeg(false);
-                    }
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    // NOP
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    // NOP
+                protected void stateChanged(GuiInMain guiInData, boolean pressed) {
+                    inData.setJogNeg(pressed);
                 }
             });
             jogPanel.add(jogNegBtn);
 
             JButton jogPosBtn = new JButton("+");
-            jogPosBtn.addMouseListener(new MouseListener() {
-
+            jogPosBtn.addMouseListener(new MachButtonListener() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    // NOP
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    synchronized (MachineThread.getInstance().getGuiInData()) {
-                        inData.setJogPos(true);
-                    }
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    synchronized (MachineThread.getInstance().getGuiInData()) {
-                        inData.setJogPos(false);
-                    }
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    // NOP
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    // NOP
+                protected void stateChanged(GuiInMain guiInData, boolean pressed) {
+                    inData.setJogPos(pressed);
                 }
             });
             jogPanel.add(jogPosBtn);

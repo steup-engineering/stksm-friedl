@@ -22,9 +22,8 @@ import de.steup.engineering.ksm.plc.entities.GuiInMain;
 import de.steup.engineering.ksm.process.LoadDialog;
 import de.steup.engineering.ksm.process.PersUtil;
 import de.steup.engineering.ksm.process.SaveDialog;
+import de.steup.engineering.ksm.touchscreen.util.MachButtonListener;
 import java.awt.Window;
-import java.awt.event.MouseEvent;
-import javax.swing.event.MouseInputListener;
 
 /**
  *
@@ -40,7 +39,7 @@ public class FooterPanel extends JPanel {
         super();
         setBorder(BorderFactory.createEtchedBorder());
 
-        GridLayout layout = new GridLayout(0, 6);
+        GridLayout layout = new GridLayout(0, 7);
         layout.setHgap(10);
         setLayout(layout);
 
@@ -50,6 +49,8 @@ public class FooterPanel extends JPanel {
         final Color errorDefaultColor = errorButton.getBackground();
         final JButton settingsButton = new JButton("Einstellungen ...");
         final JButton jobResetButton = new JButton("Auftrag Null");
+        final JButton homeButton = new JButton("Referenzfahrt");
+        final Color homeDefaultColor = homeButton.getBackground();
         final JButton shutdownButton = new JButton("Ausschalten");
 
         add(loadButton);
@@ -57,6 +58,7 @@ public class FooterPanel extends JPanel {
         add(errorButton);
         add(settingsButton);
         add(jobResetButton);
+        add(homeButton);
         add(shutdownButton);
 
         loadButton.addActionListener(new ActionListener() {
@@ -84,46 +86,17 @@ public class FooterPanel extends JPanel {
             }
         });
 
-        jobResetButton.addMouseListener(new MouseInputListener() {
+        jobResetButton.addMouseListener(new MachButtonListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                // NOP
+            protected void stateChanged(GuiInMain guiInData, boolean pressed) {
+                guiInData.setWhmJobReset(pressed);
             }
+        });
 
+        homeButton.addMouseListener(new MachButtonListener() {
             @Override
-            public void mousePressed(MouseEvent e) {
-                final GuiInMain gi = MachineThread.getInstance().getGuiInData();
-                synchronized (gi) {
-                    gi.setWhmJobReset(true);
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                final GuiInMain gi = MachineThread.getInstance().getGuiInData();
-                synchronized (gi) {
-                    gi.setWhmJobReset(false);
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // NOP
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // NOP
-            }
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                // NOP
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                // NOP
+            protected void stateChanged(GuiInMain guiInData, boolean pressed) {
+                guiInData.setHome(pressed);
             }
         });
 
@@ -165,9 +138,11 @@ public class FooterPanel extends JPanel {
                 GuiOutMain outData = MachineThread.getInstance().getGuiOutData();
                 final boolean errors;
                 final boolean running;
+                final boolean homed;
                 synchronized (outData) {
                     errors = (outData.getErrors() != 0);
                     running = outData.isRunning();
+                    homed = outData.isHomed();
                 }
 
                 SwingUtilities.invokeLater(new Runnable() {
@@ -180,7 +155,14 @@ public class FooterPanel extends JPanel {
                             errorButton.setBackground(errorDefaultColor);
                         }
 
+                        if (homed) {
+                            homeButton.setBackground(Color.green);
+                        } else {
+                            homeButton.setBackground(homeDefaultColor);
+                        }
+
                         loadButton.setEnabled(!running);
+                        homeButton.setEnabled(!running);
                         shutdownButton.setEnabled(!running);
                     }
                 });
