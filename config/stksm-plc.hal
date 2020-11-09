@@ -37,6 +37,15 @@ net calib-interlock		=> ksm-main.calib-interlock
 net bevel-amps-ena		=> ksm-main.bevel-amps-ena
 net unidevs-0-error		=> ksm-main.unidev-error
 
+net mills-homed     <= ksm-main.mills-homed
+net mill-0-error    => ksm-main.mill-error-0
+net mill-1-error    => ksm-main.mill-error-1
+net mill-2-error    => ksm-main.mill-error-2
+net mill-3-error    => ksm-main.mill-error-3
+net mill-0-homed    => ksm-main.mill-homed-0
+net mill-1-homed    => ksm-main.mill-homed-1
+net mill-2-homed    => ksm-main.mill-homed-2
+net mill-3-homed    => ksm-main.mill-homed-3
 ###########################################################
 # inlet
 ###########################################################

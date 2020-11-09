@@ -11,24 +11,32 @@ net ctrl-voltage => mill-yz-3.ctrl-voltage
 #net automatic-running    => mill-yz-1.automatic-running
 #net automatic-running    => mill-yz-2.automatic-running
 #net automatic-running    => mill-yz-3.automatic-running
+net test0    => mill-yz-0.automatic-running
+net test1    => mill-yz-1.automatic-running
+net test2    => mill-yz-2.automatic-running
+net test3    => mill-yz-3.automatic-running
 
-net test-start-motors => mill-yz-0.automatic-running => mill-yz-1.automatic-running => mill-yz-2.automatic-running => mill-yz-3.automatic-running   
+#net test-start-motors => mill-yz-0.automatic-running => mill-yz-1.automatic-running => mill-yz-2.automatic-running => mill-yz-3.automatic-running   
 
-#net mill-0-ena       => mill-yz-0.active
-#net mill-1-ena       => mill-yz-1.active
-#net mill-2-ena       => mill-yz-2.active
-#net mill-3-ena       => mill-yz-3.active
-net test-active   => mill-yz-0.active => mill-yz-1.active => mill-yz-2.active => mill-yz-3.active
+net mill-0-ena       => mill-yz-0.active
+net mill-1-ena       => mill-yz-1.active
+net mill-2-ena       => mill-yz-2.active
+net mill-3-ena       => mill-yz-3.active
+
+#net test-active   => mill-yz-0.active => mill-yz-1.active => mill-yz-2.active => mill-yz-3.active
 
 net setup         => mill-yz-0.man-setup
 net setup         => mill-yz-1.man-setup
 net setup         => mill-yz-2.man-setup
 net setup         => mill-yz-3.man-setup
 
-net home0 => mill-yz-0.home
-net home1 => mill-yz-1.home
-net home2 => mill-yz-2.home
-net home3 => mill-yz-3.home
+net home => mill-yz-0.home
+net home => mill-yz-1.home
+net home => mill-yz-2.home
+net home => mill-yz-3.home
+
+#net test-pos-z => mill-yz-0.target-z mill-yz-1.target-z mill-yz-2.target-z mill-yz-3.target-z
+#net test-pos-y => mill-yz-0.target-y mill-yz-1.target-y mill-yz-2.target-y mill-yz-3.target-y
 
 
 ######################
@@ -40,19 +48,33 @@ setp mill-yz-0.drv-softend-min-y [MILL0]SOFTEND_Y_MIN
 setp mill-yz-0.drv-softend-min-z [MILL0]SOFTEND_Z_MIN
 setp mill-yz-0.power-on-delay-time 2
 
-#net mill-0-pos-z => mill-yz-0.target-z
-#net mill-0-pos-y => mill-yz-0.target-y
-net test-pos-z => mill-yz-0.target-z mill-yz-1.target-z mill-yz-2.target-z mill-yz-3.target-z
-net test-pos-y => mill-yz-0.target-y mill-yz-1.target-y mill-yz-2.target-y mill-yz-3.target-y
+net mill-0-z-dest => mill-yz-0.target-z
+net mill-0-y-dest => mill-yz-0.target-y
 
-net 0jogp-y  => mill-yz-0.jog-pos-y
-net 0jogn-y  => mill-yz-0.jog-neg-y
-net 0jogp-z  => mill-yz-0.jog-pos-z
-net 0jogn-z  => mill-yz-0.jog-neg-z
+net mill-0-y-jog-pos  => mill-yz-0.jog-pos-y
+net mill-0-y-jog-neg  => mill-yz-0.jog-neg-y
+net mill-0-z-jog-pos  => mill-yz-0.jog-pos-z
+net mill-0-z-jog-neg  => mill-yz-0.jog-neg-z
+
+net mill-0-y-pos-mach <= mill-yz-0.act-pos-y
+net mill-0-y-pos-tool <= mill-yz-0.act-tool-pos-y
+net mill-0-y-err-code <= lcec.0.16M2.stat-error-code
+net mill-0-z-pos-mach <= mill-yz-0.act-pos-z
+net mill-0-z-pos-tool <= mill-yz-0.act-tool-pos-z
+net mill-0-z-err-code <= lcec.0.16M1.stat-error-code
 
 net mill-0-drives-enable     <= mill-yz-0.drives-enable
 net mill-0-homed <= mill-yz-0.homed
 net mill-0-ready <= mill-yz-0.ready
+net mill-0-error <= mill-yz-0.error
+
+net mill-0-pers-zref   => mill-yz-0.tool-ref-z
+net mill-0-pers-y-toff => mill-yz-0.tool-offset-y
+net mill-0-pers-z-toff => mill-yz-0.tool-offset-z
+net mat-height         => mill-yz-0.mat-heigth
+
+setp mill-yz-0.home-offset-z [MILL0]HOME_OFFSET_Z
+setp mill-yz-0.home-offset-y [MILL0]HOME_OFFSET_Y
 
 ######################
 #mill 1 pins
@@ -63,18 +85,33 @@ setp mill-yz-1.drv-softend-min-y [MILL1]SOFTEND_Y_MIN
 setp mill-yz-1.drv-softend-min-z [MILL1]SOFTEND_Z_MIN
 setp mill-yz-1.power-on-delay-time 2
 
-#net mill-1-pos-z => mill-yz-1.target-z
-#net mill-1-pos-y => mill-yz-1.target-y
+net mill-1-z-dest => mill-yz-1.target-z
+net mill-1-y-dest => mill-yz-1.target-y
 
-net 1jogn-y  => mill-yz-1.jog-pos-y
-net 1jogp-y  => mill-yz-1.jog-neg-y
-net 1jogn-z  => mill-yz-1.jog-pos-z
-net 1jogp-z  => mill-yz-1.jog-neg-z
+net mill-1-y-jog-neg  => mill-yz-1.jog-pos-y
+net mill-1-y-jog-pos  => mill-yz-1.jog-neg-y
+net mill-1-z-jog-neg  => mill-yz-1.jog-pos-z
+net mill-1-z-jog-pos  => mill-yz-1.jog-neg-z
 
+net mill-1-y-pos-mach <= mill-yz-1.act-pos-y
+net mill-1-y-pos-tool <= mill-yz-1.act-tool-pos-y
+net mill-1-y-err-code <= lcec.0.16M4.stat-error-code
+net mill-1-z-pos-mach <= mill-yz-1.act-pos-z
+net mill-1-z-pos-tool <= mill-yz-1.act-tool-pos-z
+net mill-1-z-err-code <= lcec.0.16M3.stat-error-code
 
 net mill-1-drives-enable     <= mill-yz-1.drives-enable
 net mill-1-homed <= mill-yz-1.homed
 net mill-1-ready <= mill-yz-1.ready
+net mill-1-error <= mill-yz-1.error
+
+net mill-1-pers-zref   => mill-yz-1.tool-ref-z
+net mill-1-pers-y-toff => mill-yz-1.tool-offset-y
+net mill-1-pers-z-toff => mill-yz-1.tool-offset-z
+net mat-height         => mill-yz-1.mat-heigth
+
+setp mill-yz-1.home-offset-z [MILL1]HOME_OFFSET_Z
+setp mill-yz-1.home-offset-y [MILL1]HOME_OFFSET_Y
 
 ######################
 #mill 2 pins
@@ -85,19 +122,33 @@ setp mill-yz-2.drv-softend-min-y [MILL2]SOFTEND_Y_MIN
 setp mill-yz-2.drv-softend-min-z [MILL2]SOFTEND_Z_MIN
 setp mill-yz-2.power-on-delay-time 2
 
-#net mill-2-pos-z => mill-yz-2.target-z
-#net mill-2-pos-y => mill-yz-2.target-y
+net mill-2-z-dest => mill-yz-2.target-z
+net mill-2-y-dest => mill-yz-2.target-y
 
+net mill-2-y-jog-neg  => mill-yz-2.jog-pos-y
+net mill-2-y-jog-pos  => mill-yz-2.jog-neg-y
+net mill-2-z-jog-neg  => mill-yz-2.jog-pos-z
+net mill-2-z-jog-pos  => mill-yz-2.jog-neg-z
 
-net 2jogn-y  => mill-yz-2.jog-pos-y
-net 2jogp-y  => mill-yz-2.jog-neg-y
-net 2jogn-z  => mill-yz-2.jog-pos-z
-net 2jogp-z  => mill-yz-2.jog-neg-z
+net mill-2-y-pos-mach <= mill-yz-2.act-pos-y
+net mill-2-y-pos-tool <= mill-yz-2.act-tool-pos-y
+net mill-2-y-err-code <= lcec.0.17M1.stat-error-code
+net mill-2-z-pos-mach <= mill-yz-2.act-pos-z
+net mill-2-z-pos-tool <= mill-yz-2.act-tool-pos-z
+net mill-2-z-err-code <= lcec.0.17M2.stat-error-code
 
 net mill-2-drives-enable     <= mill-yz-2.drives-enable
 net mill-2-homed <= mill-yz-2.homed
 net mill-2-ready <= mill-yz-2.ready
+net mill-2-error <= mill-yz-2.error
 
+net mill-2-pers-zref   => mill-yz-2.tool-ref-z
+net mill-2-pers-y-toff => mill-yz-2.tool-offset-y
+net mill-2-pers-z-toff => mill-yz-2.tool-offset-z
+net mat-height         => mill-yz-2.mat-heigth
+
+setp mill-yz-2.home-offset-z [MILL2]HOME_OFFSET_Z
+setp mill-yz-2.home-offset-y [MILL2]HOME_OFFSET_Y
 
 ######################
 #mill 3 pins
@@ -108,18 +159,33 @@ setp mill-yz-3.drv-softend-min-y [MILL3]SOFTEND_Y_MIN
 setp mill-yz-3.drv-softend-min-z [MILL3]SOFTEND_Z_MIN
 setp mill-yz-3.power-on-delay-time 2
 
-#net mill-3-pos-z => mill-yz-3.target-z
-#net mill-3-pos-y => mill-yz-3.target-y
+net mill-3-z-dest => mill-yz-3.target-z
+net mill-3-y-dest => mill-yz-3.target-y
 
+net mill-3-y-jog-neg  => mill-yz-3.jog-pos-y
+net mill-3-y-jog-pos  => mill-yz-3.jog-neg-y
+net mill-3-z-jog-neg  => mill-yz-3.jog-pos-z
+net mill-3-z-jog-pos  => mill-yz-3.jog-neg-z
 
-net 3jogn-y  => mill-yz-3.jog-pos-y
-net 3jogp-y  => mill-yz-3.jog-neg-y
-net 3jogn-z  => mill-yz-3.jog-pos-z
-net 3jogp-z  => mill-yz-3.jog-neg-z
+net mill-3-y-pos-mach <= mill-yz-3.act-pos-y
+net mill-3-y-pos-tool <= mill-yz-3.act-tool-pos-y
+net mill-3-y-err-code <= lcec.0.17M3.stat-error-code
+net mill-3-z-pos-mach <= mill-yz-3.act-pos-z
+net mill-3-z-pos-tool <= mill-yz-3.act-tool-pos-z
+net mill-3-z-err-code <= lcec.0.17M4.stat-error-code
 
 net mill-3-drives-enable     <= mill-yz-3.drives-enable
 net mill-3-homed <= mill-yz-3.homed
 net mill-3-ready <= mill-yz-3.ready
+net mill-3-error <= mill-yz-3.error
+
+net mill-3-pers-zref   => mill-yz-3.tool-ref-z
+net mill-3-pers-y-toff => mill-yz-3.tool-offset-y
+net mill-3-pers-z-toff => mill-yz-3.tool-offset-z
+net mat-height         => mill-yz-3.mat-heigth
+
+setp mill-yz-3.home-offset-z [MILL3]HOME_OFFSET_Z
+setp mill-yz-3.home-offset-y [MILL3]HOME_OFFSET_Y
 
 ######################
 #mill 0 drive io
@@ -357,6 +423,8 @@ setp lcec.0.16M1.sdo-pos-softend-max [MILL0]SOFTEND_Z_MAX
 setp lcec.0.16M1.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.16M1.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.16M1.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.16M1.sdo-pos-following-err-window [MILLS]MAX_FOLLOWING_ERROR
+setp lcec.0.16M1.sdo-pos-following-err-time [MILLS]FOLLOWING_ERROR_TIME
 setp lcec.0.16M1.new-setpoint-instant 1
 
 #mill 0 Y
@@ -373,6 +441,8 @@ setp lcec.0.16M2.sdo-pos-softend-max [MILL0]SOFTEND_Y_MAX
 setp lcec.0.16M2.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.16M2.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.16M2.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.16M2.sdo-pos-following-err-window [MILLS]MAX_FOLLOWING_ERROR
+setp lcec.0.16M2.sdo-pos-following-err-time [MILLS]FOLLOWING_ERROR_TIME
 setp lcec.0.16M2.new-setpoint-instant 1
 
 #mill 1 Z 
@@ -389,6 +459,8 @@ setp lcec.0.16M3.sdo-pos-softend-max [MILL1]SOFTEND_Z_MAX
 setp lcec.0.16M3.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.16M3.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.16M3.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.16M3.sdo-pos-following-err-window [MILLS]MAX_FOLLOWING_ERROR
+setp lcec.0.16M3.sdo-pos-following-err-time [MILLS]FOLLOWING_ERROR_TIME
 setp lcec.0.16M3.new-setpoint-instant 1
 
 #mill 1 Y
@@ -405,6 +477,8 @@ setp lcec.0.16M4.sdo-pos-softend-max [MILL1]SOFTEND_Y_MAX
 setp lcec.0.16M4.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.16M4.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.16M4.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.16M4.sdo-pos-following-err-window [MILLS]MAX_FOLLOWING_ERROR
+setp lcec.0.16M4.sdo-pos-following-err-time [MILLS]FOLLOWING_ERROR_TIME
 setp lcec.0.16M4.new-setpoint-instant 1
 
 #mill 2 Y
@@ -421,6 +495,8 @@ setp lcec.0.17M1.sdo-pos-softend-max [MILL2]SOFTEND_Y_MAX
 setp lcec.0.17M1.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.17M1.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.17M1.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.17M1.sdo-pos-following-err-window [MILLS]MAX_FOLLOWING_ERROR
+setp lcec.0.17M1.sdo-pos-following-err-time [MILLS]FOLLOWING_ERROR_TIME
 setp lcec.0.17M1.new-setpoint-instant 1
 
 #mill 2 Z
@@ -437,6 +513,8 @@ setp lcec.0.17M2.sdo-pos-softend-max [MILL2]SOFTEND_Z_MAX
 setp lcec.0.17M2.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.17M2.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.17M2.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.17M2.sdo-pos-following-err-window [MILLS]MAX_FOLLOWING_ERROR
+setp lcec.0.17M2.sdo-pos-following-err-time [MILLS]FOLLOWING_ERROR_TIME
 setp lcec.0.17M2.new-setpoint-instant 1
 
 #mill 3 Y
@@ -453,6 +531,8 @@ setp lcec.0.17M3.sdo-pos-softend-max [MILL3]SOFTEND_Y_MAX
 setp lcec.0.17M3.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.17M3.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.17M3.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.17M3.sdo-pos-following-err-window [MILLS]MAX_FOLLOWING_ERROR
+setp lcec.0.17M3.sdo-pos-following-err-time [MILLS]FOLLOWING_ERROR_TIME
 setp lcec.0.17M3.new-setpoint-instant 1
 
 #mill 3 Z
@@ -469,5 +549,7 @@ setp lcec.0.17M4.sdo-pos-softend-max [MILL3]SOFTEND_Z_MAX
 setp lcec.0.17M4.sdo-pos-profile-velo [MILLS]POSI_VELO
 setp lcec.0.17M4.sdo-pos-deccel [MILLS]POSI_DECCEL
 setp lcec.0.17M4.sdo-velo-deccel [MILLS]VELO_DECCEL
+setp lcec.0.17M4.sdo-pos-following-err-window [MILLS]MAX_FOLLOWING_ERROR
+setp lcec.0.17M4.sdo-pos-following-err-time [MILLS]FOLLOWING_ERROR_TIME
 setp lcec.0.17M4.new-setpoint-instant 1
 

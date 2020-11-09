@@ -9,7 +9,7 @@ option singleton no;
 //PLC Interface
 pin in bit ctrl_voltage;
 pin in bit automatic_running;
-pin io bit home;
+pin in bit home;
 
 
 pin out bit done;
@@ -23,7 +23,8 @@ pin in float home_offset_z;
 pin in float home_offset_y;
 pin in float tool_offset_z;
 pin in float tool_offset_y;
-
+pin in signed tool_ref_z;
+pin in float  mat_heigth; 
 
 pin in float target_z;
 pin in float target_y;
@@ -152,8 +153,8 @@ FUNCTION(_) {
   //homing
   homed = drv_homed_z && drv_homed_y;     //homed state
 
-  if (home && homed && homing) {         //reset home input
-    home = 0;
+  if (/*home &&*/ homed && homing) {         //reset home input
+    //home = 0;
     homing = 0;
   } 
 
@@ -171,11 +172,23 @@ FUNCTION(_) {
     done = 1; 
   }
 
-    //set position
+  //set position
   if (drives_on && automatic_running && !automatic_running_old && homed) {
-    drv_pos_cmd_z = target_z - home_offset_z + tool_offset_z;
+    //Z pos
+    // tool ref center
+    if (tool_ref_z == 0) {
+      drv_pos_cmd_z = target_z - home_offset_z + tool_offset_z + (mat_heigth /2);
+      //tool ref bottom
+    } else if (tool_ref_z < 0) {
+        drv_pos_cmd_z = target_z - home_offset_z + tool_offset_z;
+      //toll ref upper      
+      } else if (tool_ref_z >0) {
+         drv_pos_cmd_z = target_z - home_offset_z + tool_offset_z + mat_heigth;
+      }
+
+    //Y pos
     if (active) {
-      drv_pos_cmd_y = target_y + home_offset_y - tool_offset_y;    
+      drv_pos_cmd_y = target_y + home_offset_y - (tool_offset_y /2);    
     } else {
         drv_pos_cmd_y = 0;
       }
@@ -190,7 +203,7 @@ FUNCTION(_) {
   //active state
   if (automatic_running && homed && (active != active_old)) {
     if (active) {
-      drv_pos_cmd_y = target_y + home_offset_y - tool_offset_y;    
+      drv_pos_cmd_y = target_y + home_offset_y - (tool_offset_y / 2);    
     } else {
         drv_pos_cmd_y = 0;
       }
@@ -240,8 +253,21 @@ FUNCTION(_) {
 
   //act tool position
   if (homed) {
-    act_tool_pos_z = drv_act_pos_z + home_offset_z - tool_offset_z;
-    act_tool_pos_y = drv_act_pos_y - home_offset_y + tool_offset_y;        
+    //Z pos
+    // tool ref center
+    if (tool_ref_z == 0) {
+      act_tool_pos_z = drv_act_pos_z + home_offset_z - tool_offset_z - (mat_heigth /2);
+      //tool ref bottom
+    } else if (tool_ref_z < 0) {
+        act_tool_pos_z = drv_act_pos_z + home_offset_z - tool_offset_z;
+      //toll ref upper      
+      } else if (tool_ref_z >0) {
+         act_tool_pos_z = drv_act_pos_z + home_offset_z - tool_offset_z - mat_heigth;
+      }
+    
+    //Y tool pos
+    act_tool_pos_y = drv_act_pos_y - home_offset_y + (tool_offset_y /2);        
+
   } else {
       act_tool_pos_z = 0;
       act_tool_pos_y = 0;
@@ -253,12 +279,13 @@ FUNCTION(_) {
   if (!ctrl_voltage) {
     error = 0; 
     busy = 0;
+    posi = 0; 
     done = 0; 
     drv_new_setpoint_z =0;
     drv_new_setpoint_y =0;
     drv_home_z = 0;
     drv_home_y = 0; 
-    home = 0;
+    //home = 0;
   }
 
 }

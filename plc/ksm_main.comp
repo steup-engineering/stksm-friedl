@@ -23,6 +23,16 @@ pin in bit bevel_lower_error;
 pin in bit bevel_upper_error;
 pin in bit cleaner_0_error;
 
+pin in bit mill_error_0;
+pin in bit mill_error_1;
+pin in bit mill_error_2;
+pin in bit mill_error_3;
+pin in bit mill_homed_0;
+pin in bit mill_homed_1;
+pin in bit mill_homed_2;
+pin in bit mill_homed_3;
+pin out bit mills_homed;
+
 pin in bit reset_error;
 pin out bit error_lamp;
 pin out u32 error_mask;
@@ -81,10 +91,17 @@ variable double idle_timer = 0.0;
 #define ERR_BEVEL_UPPER		(1 << 8)
 #define ERR_BUS_SYSTEM		(1 << 9)
 #define ERR_CLEANER_0		(1 << 10)
+#define ERR_MILLS   		(1 << 11)
 
 #define ERROR_BLINK_PERIOD	0.5
 
 FUNCTION(_) {
+  bool mills_error;
+
+  // mills status
+  mills_homed = mill_homed_0 && mill_homed_1 && mill_homed_2 && mill_homed_3;
+  mills_error = mill_error_0 || mill_error_1 || mill_error_2 || mill_error_3;
+  
 	// plc run status
 	plc_run = 1;
 	ctrl_voltage_lamp = ctrl_voltage;
@@ -172,6 +189,14 @@ FUNCTION(_) {
 			error_mask |= ERR_CLEANER_0;
 			no_error = 0;
 		}
+		if (mills_error) {
+			if (!(error_mask & ERR_MILLS)) {
+				rtapi_print_msg(RTAPI_MSG_ERR, "Mills positioning Stations error!\n");
+			}
+			error_mask |= ERR_MILLS;
+			no_error = 0;
+		}
+
 		if (!ec_all_op || ec_slaves_responding != ec_slaves) {
 			if (!(error_mask & ERR_BUS_SYSTEM)) {
 				rtapi_print_msg(RTAPI_MSG_ERR, "Bus system error!\n");
@@ -194,7 +219,7 @@ FUNCTION(_) {
 	}
 
 	// handle start/stop
-	if (!no_error || calib_interlock) {
+	if (!no_error || calib_interlock || !mills_homed) {
 		automatic_running = 0;
 	} else {
 		automatic_running = belt_stop & (automatic_running | belt_start);

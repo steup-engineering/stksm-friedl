@@ -93,7 +93,7 @@ net bevel-1-mot-2-ena <= json.GuiInMain.bevels-1.motors-2.ena
 net bevel-1-mot-2-manu <= json.GuiInMain.bevels-1.motors-2.manu
 
 
-net homed <= json.GuiOutMain.homed
+net mills-homed <= json.GuiOutMain.homed
 net error-mask => json.GuiOutMain.errors
 net automatic-running => json.GuiOutMain.running
 net belt-speed-ovr => json.GuiOutMain.feedOverride
