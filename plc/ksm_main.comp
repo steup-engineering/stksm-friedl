@@ -27,10 +27,15 @@ pin in bit mill_error_0;
 pin in bit mill_error_1;
 pin in bit mill_error_2;
 pin in bit mill_error_3;
-pin in bit mill_softend_error_0;
-pin in bit mill_softend_error_1;
-pin in bit mill_softend_error_2;
-pin in bit mill_softend_error_3;
+pin in bit mill_softend_error_0_y;
+pin in bit mill_softend_error_1_y;
+pin in bit mill_softend_error_2_y;
+pin in bit mill_softend_error_3_y;
+pin in bit mill_softend_error_0_z;
+pin in bit mill_softend_error_1_z;
+pin in bit mill_softend_error_2_z;
+pin in bit mill_softend_error_3_z;
+
 pin in bit mill_homed_0;
 pin in bit mill_homed_1;
 pin in bit mill_homed_2;
@@ -106,7 +111,9 @@ FUNCTION(_) {
   // mills status
   mills_homed = mill_homed_0 && mill_homed_1 && mill_homed_2 && mill_homed_3;
   mills_error = mill_error_0 || mill_error_1 || mill_error_2 || mill_error_3;
-  mills_softend_error = mill_softend_error_0 || mill_softend_error_1 || mill_softend_error_2 || mill_softend_error_3;
+  mills_softend_error = mill_softend_error_0_y || mill_softend_error_1_y || mill_softend_error_2_y || mill_softend_error_3_y
+    || mill_softend_error_0_z || mill_softend_error_1_z || mill_softend_error_2_z || mill_softend_error_3_z;
+
 	// plc run status
 	plc_run = 1;
 	ctrl_voltage_lamp = ctrl_voltage;
