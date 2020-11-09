@@ -67,6 +67,7 @@ net mill-0-drives-enable     <= mill-yz-0.drives-enable
 net mill-0-homed <= mill-yz-0.homed
 net mill-0-ready <= mill-yz-0.ready
 net mill-0-error <= mill-yz-0.error
+net mill-0-softend-error <= mill-yz-0.stat-soft-end-active
 
 net mill-0-pers-zref   => mill-yz-0.tool-ref-z
 net mill-0-pers-y-toff => mill-yz-0.tool-offset-y
@@ -104,6 +105,7 @@ net mill-1-drives-enable     <= mill-yz-1.drives-enable
 net mill-1-homed <= mill-yz-1.homed
 net mill-1-ready <= mill-yz-1.ready
 net mill-1-error <= mill-yz-1.error
+net mill-1-softend-error <= mill-yz-1.stat-soft-end-active
 
 net mill-1-pers-zref   => mill-yz-1.tool-ref-z
 net mill-1-pers-y-toff => mill-yz-1.tool-offset-y
@@ -141,6 +143,7 @@ net mill-2-drives-enable     <= mill-yz-2.drives-enable
 net mill-2-homed <= mill-yz-2.homed
 net mill-2-ready <= mill-yz-2.ready
 net mill-2-error <= mill-yz-2.error
+net mill-2-softend-error <= mill-yz-2.stat-soft-end-active
 
 net mill-2-pers-zref   => mill-yz-2.tool-ref-z
 net mill-2-pers-y-toff => mill-yz-2.tool-offset-y
@@ -178,6 +181,7 @@ net mill-3-drives-enable     <= mill-yz-3.drives-enable
 net mill-3-homed <= mill-yz-3.homed
 net mill-3-ready <= mill-yz-3.ready
 net mill-3-error <= mill-yz-3.error
+net mill-3-softend-error <= mill-yz-3.stat-soft-end-active
 
 net mill-3-pers-zref   => mill-yz-3.tool-ref-z
 net mill-3-pers-y-toff => mill-yz-3.tool-offset-y

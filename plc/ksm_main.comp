@@ -27,6 +27,10 @@ pin in bit mill_error_0;
 pin in bit mill_error_1;
 pin in bit mill_error_2;
 pin in bit mill_error_3;
+pin in bit mill_softend_error_0;
+pin in bit mill_softend_error_1;
+pin in bit mill_softend_error_2;
+pin in bit mill_softend_error_3;
 pin in bit mill_homed_0;
 pin in bit mill_homed_1;
 pin in bit mill_homed_2;
@@ -92,16 +96,17 @@ variable double idle_timer = 0.0;
 #define ERR_BUS_SYSTEM		(1 << 9)
 #define ERR_CLEANER_0		(1 << 10)
 #define ERR_MILLS   		(1 << 11)
+#define ERR_SOFTEND_MILLS (1 << 12)
 
 #define ERROR_BLINK_PERIOD	0.5
 
 FUNCTION(_) {
-  bool mills_error;
+  bool mills_error, mills_softend_error;
 
   // mills status
   mills_homed = mill_homed_0 && mill_homed_1 && mill_homed_2 && mill_homed_3;
   mills_error = mill_error_0 || mill_error_1 || mill_error_2 || mill_error_3;
-  
+  mills_softend_error = mill_softend_error_0 || mill_softend_error_1 || mill_softend_error_2 || mill_softend_error_3;
 	// plc run status
 	plc_run = 1;
 	ctrl_voltage_lamp = ctrl_voltage;
@@ -196,8 +201,15 @@ FUNCTION(_) {
 			error_mask |= ERR_MILLS;
 			no_error = 0;
 		}
-
-		if (!ec_all_op || ec_slaves_responding != ec_slaves) {
+    if (mills_softend_error) {
+			if (!(error_mask & ERR_SOFTEND_MILLS)) {
+				rtapi_print_msg(RTAPI_MSG_ERR, "Mills position out of Range!\n");
+			}
+			error_mask |= ERR_SOFTEND_MILLS;
+			no_error = 0;
+		}
+ 	
+    if (!ec_all_op || ec_slaves_responding != ec_slaves) {
 			if (!(error_mask & ERR_BUS_SYSTEM)) {
 				rtapi_print_msg(RTAPI_MSG_ERR, "Bus system error!\n");
 			}
