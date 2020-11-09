@@ -23,6 +23,8 @@ pin in bit bevel_lower_error;
 pin in bit bevel_upper_error;
 pin in bit cleaner_0_error;
 
+pin in float mat_heigth;
+
 pin in bit mill_error_0;
 pin in bit mill_error_1;
 pin in bit mill_error_2;
@@ -102,6 +104,7 @@ variable double idle_timer = 0.0;
 #define ERR_CLEANER_0		(1 << 10)
 #define ERR_MILLS   		(1 << 11)
 #define ERR_SOFTEND_MILLS (1 << 12)
+#define ERR_NO_MAT_HEIGHT (1 << 13)
 
 #define ERROR_BLINK_PERIOD	0.5
 
@@ -215,6 +218,14 @@ FUNCTION(_) {
 			error_mask |= ERR_SOFTEND_MILLS;
 			no_error = 0;
 		}
+    if (belt_start && mat_heigth == 0) {
+			if (!(error_mask & ERR_NO_MAT_HEIGHT)) {
+				rtapi_print_msg(RTAPI_MSG_ERR, "No Material Height set!\n");
+			}
+			error_mask |= ERR_NO_MAT_HEIGHT;
+			no_error = 0;
+		}
+
  	
     if (!ec_all_op || ec_slaves_responding != ec_slaves) {
 			if (!(error_mask & ERR_BUS_SYSTEM)) {

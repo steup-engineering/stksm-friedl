@@ -299,7 +299,7 @@ net mill-3-drv-pos-fb-raw-z     => mill-yz-3.drv-pos-fb-raw-z
 ## drives io
 ############
 #mill 0
-net mill-0-drv-fault-y    => lcec.0.16M2.fault
+net mill-0-drv-fault-y    <= lcec.0.16M2.fault
 net mill-0-drv-home-y     => lcec.0.16M2.home
 net mill-0-drv-homed-y    <= lcec.0.16M2.stat-homed
 net mill-0-drives-enable  => lcec.0.16M2.enable
@@ -312,6 +312,7 @@ net mill-0-drv-new-setpoint-y     => lcec.0.16M2.new-setpoint
 net mill-0-drv-target-reached-y   <= lcec.0.16M2.stat-target-reached
 net mill-0-drv-pos-fb-raw-y       <= lcec.0.16M2.pos-fb-raw
 net mill-0-softend-y-error <= lcec.0.16M2.stat-soft-end-active
+net reset-error           => lcec.0.16M2.fault-reset
 
 net mill-0-drv-fault-z    => lcec.0.16M1.fault
 net mill-0-drv-home-z     => lcec.0.16M1.home
@@ -326,6 +327,7 @@ net mill-0-drv-new-setpoint-z     => lcec.0.16M1.new-setpoint
 net mill-0-drv-target-reached-z   <= lcec.0.16M1.stat-target-reached
 net mill-0-drv-pos-fb-raw-z       <= lcec.0.16M1.pos-fb-raw
 net mill-0-softend-z-error <= lcec.0.16M1.stat-soft-end-active
+net reset-error           => lcec.0.16M1.fault-reset
 
 #mill 1
 net mill-1-drv-fault-y    => lcec.0.16M4.fault
@@ -341,6 +343,7 @@ net mill-1-drv-new-setpoint-y     => lcec.0.16M4.new-setpoint
 net mill-1-drv-target-reached-y   <= lcec.0.16M4.stat-target-reached
 net mill-1-drv-pos-fb-raw-y       <= lcec.0.16M4.pos-fb-raw
 net mill-1-softend-y-error <= lcec.0.16M4.stat-soft-end-active
+net reset-error           => lcec.0.16M4.fault-reset
 
 net mill-1-drv-fault-z    => lcec.0.16M3.fault
 net mill-1-drv-home-z     => lcec.0.16M3.home
@@ -355,6 +358,7 @@ net mill-1-drv-new-setpoint-z     => lcec.0.16M3.new-setpoint
 net mill-1-drv-target-reached-z   <= lcec.0.16M3.stat-target-reached
 net mill-1-drv-pos-fb-raw-z       <= lcec.0.16M3.pos-fb-raw
 net mill-1-softend-z-error <= lcec.0.16M3.stat-soft-end-active
+net reset-error           => lcec.0.16M3.fault-reset
 
 #mill 2  
 net mill-2-drv-fault-y    => lcec.0.17M1.fault
@@ -370,6 +374,7 @@ net mill-2-drv-new-setpoint-y     => lcec.0.17M1.new-setpoint
 net mill-2-drv-target-reached-y   <= lcec.0.17M1.stat-target-reached
 net mill-2-drv-pos-fb-raw-y       <= lcec.0.17M1.pos-fb-raw
 net mill-2-softend-y-error <= lcec.0.17M1.stat-soft-end-active
+net reset-error           => lcec.0.17M1.fault-reset
 
 net mill-2-drv-fault-z    => lcec.0.17M2.fault
 net mill-2-drv-home-z     => lcec.0.17M2.home
@@ -384,6 +389,7 @@ net mill-2-drv-new-setpoint-z     => lcec.0.17M2.new-setpoint
 net mill-2-drv-target-reached-z   <= lcec.0.17M2.stat-target-reached
 net mill-2-drv-pos-fb-raw-z       <= lcec.0.17M2.pos-fb-raw
 net mill-2-softend-z-error <= lcec.0.17M2.stat-soft-end-active
+net reset-error           => lcec.0.17M2.fault-reset
 
 #mill 3  
 net mill-3-drv-fault-y    => lcec.0.17M3.fault
@@ -399,6 +405,7 @@ net mill-3-drv-new-setpoint-y     => lcec.0.17M3.new-setpoint
 net mill-3-drv-target-reached-y   <= lcec.0.17M3.stat-target-reached
 net mill-3-drv-pos-fb-raw-y       <= lcec.0.17M3.pos-fb-raw
 net mill-3-softend-y-error <= lcec.0.17M3.stat-soft-end-active
+net reset-error           => lcec.0.17M3.fault-reset
 
 net mill-3-drv-fault-z    => lcec.0.17M4.fault
 net mill-3-drv-home-z     => lcec.0.17M4.home
@@ -413,6 +420,7 @@ net mill-3-drv-new-setpoint-z     => lcec.0.17M4.new-setpoint
 net mill-3-drv-target-reached-z   <= lcec.0.17M4.stat-target-reached
 net mill-3-drv-pos-fb-raw-z       <= lcec.0.17M4.pos-fb-raw
 net mill-3-softend-z-error <= lcec.0.17M4.stat-soft-end-active
+net reset-error           => lcec.0.17M4.fault-reset
 
 ######### nanotec#########
 # drive Config 
