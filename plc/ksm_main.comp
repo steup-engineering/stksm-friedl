@@ -7,6 +7,7 @@ option singleton yes;
 
 param rw float idle_timeout = 120.0;
 param rw u32 ec_slaves = 0;
+param rw float min_mat_height = 10.0;
 
 pin out bit plc_run;
 
@@ -23,7 +24,7 @@ pin in bit bevel_lower_error;
 pin in bit bevel_upper_error;
 pin in bit cleaner_0_error;
 
-pin in float mat_heigth;
+pin in float mat_height;
 
 pin in bit mill_error_0;
 pin in bit mill_error_1;
@@ -218,9 +219,9 @@ FUNCTION(_) {
 			error_mask |= ERR_SOFTEND_MILLS;
 			no_error = 0;
 		}
-    if (belt_start && mat_heigth == 0) {
+    if (belt_start && mat_height < min_mat_height) {
 			if (!(error_mask & ERR_NO_MAT_HEIGHT)) {
-				rtapi_print_msg(RTAPI_MSG_ERR, "No Material Height set!\n");
+				rtapi_print_msg(RTAPI_MSG_ERR, "No Material Height set or out of range!\n");
 			}
 			error_mask |= ERR_NO_MAT_HEIGHT;
 			no_error = 0;

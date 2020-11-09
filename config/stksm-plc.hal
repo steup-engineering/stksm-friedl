@@ -12,6 +12,7 @@
 
 setp ksm-main.idle-timeout	[KSM]IDLE_TIMEOUT
 setp ksm-main.ec-slaves		21
+setp ksm-main.min-mat-height [KSM]MIN_MATERIAL_HEIGHT
 
 setp ksm-main.water-press-ok	1
 setp ksm-main.door-interlock	1
@@ -29,6 +30,8 @@ net no-error			<= ksm-main.no-error
 net error-lamp			<= ksm-main.error-lamp
 net error-mask			<= ksm-main.error-mask
 net has-material		=> ksm-main.has-material
+net mat-height      => ksm-main.mat-height
+
 net motor-protection-ok		=> ksm-main.motor-prot-ok
 net plc-run			<= ksm-main.plc-run
 net reset-error			=> ksm-main.reset-error
