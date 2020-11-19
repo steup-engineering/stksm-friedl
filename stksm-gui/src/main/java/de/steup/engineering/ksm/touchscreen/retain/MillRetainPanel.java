@@ -77,7 +77,7 @@ public class MillRetainPanel extends PosOffsetRetainPanel {
                 axis[0].setToolOffset(value);
             }
         };
-        addParamItem(owner, labelConst, textConst, "Werkzeug-Offset Y [mm]", -999.0, 999.0, axis[0].getToolOffset(), toolXOffsetSetter);
+        addParamItem(owner, labelConst, textConst, "Werkzeug-Radius [mm]", -999.0, 999.0, axis[0].getToolOffset(), toolXOffsetSetter);
 
         FloatSetter toolYOffsetSetter = new FloatSetter() {
             @Override
@@ -85,7 +85,7 @@ public class MillRetainPanel extends PosOffsetRetainPanel {
                 axis[1].setToolOffset(value);
             }
         };
-        addParamItem(owner, labelConst, textConst, "Werkzeug-Offset Z [mm]", -999.0, 999.0, axis[1].getToolOffset(), toolYOffsetSetter);
+        addParamItem(owner, labelConst, textConst, "Werkzeug-Bezugspunkt Z [mm]", -999.0, 999.0, axis[1].getToolOffset(), toolYOffsetSetter);
 
     }
 
