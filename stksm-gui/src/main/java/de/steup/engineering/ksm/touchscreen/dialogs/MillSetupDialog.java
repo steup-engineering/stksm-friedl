@@ -18,14 +18,15 @@ import de.steup.engineering.ksm.touchscreen.util.MachButtonListener;
 import de.steup.engineering.ksm.touchscreen.util.MotorData;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Label;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 /**
@@ -45,10 +46,10 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface {
         final GuiInMillAxis inData;
         final GuiOutMillAxis outData;
 
-        final Label nameLabel;
-        final Label posMachLabel;
-        final Label posToolLabel;
-        final Label errLabel;
+        final JLabel nameLabel;
+        final JLabel posMachLabel;
+        final JLabel posToolLabel;
+        final JLabel errLabel;
         final JPanel jogPanel;
         final JTextField destField;
 
@@ -56,10 +57,10 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface {
             this.inData = inData;
             this.outData = outData;
 
-            nameLabel = new Label(name);
-            posMachLabel = new Label();
-            posToolLabel = new Label();
-            errLabel = new Label();
+            nameLabel = new JLabel(name);
+            posMachLabel = new JLabel();
+            posToolLabel = new JLabel();
+            errLabel = new JLabel();
 
             jogPanel = new JPanel();
             GridLayout layout = new GridLayout(0, 2);
@@ -153,8 +154,8 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface {
         GuiInMillAxis[] inAxis = inData.getAxis();
         GuiOutMillAxis[] outAxis = outData.getAxis();
 
-        yControls = new AxisControls(this, inAxis[0], outAxis[0], "Y");
-        zControls = new AxisControls(this, inAxis[1], outAxis[1], "Z");
+        yControls = new AxisControls(this, inAxis[0], outAxis[0], "Y-Achse");
+        zControls = new AxisControls(this, inAxis[1], outAxis[1], "Z-Achse");
 
         MachineThread.getInstance().addUpdateListener(new Runnable() {
 
@@ -165,27 +166,27 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface {
             }
         });
 
-        add(new Label());
+        add(rightAlligned(new JLabel()));
         add(yControls.nameLabel);
         add(zControls.nameLabel);
 
-        add(new Label("Fehler:"));
+        add(rightAlligned(new JLabel("Fehler:")));
         add(yControls.errLabel);
         add(zControls.errLabel);
 
-        add(new Label("Maschinenposition:"));
+        add(rightAlligned(new JLabel("Maschinenposition:")));
         add(yControls.posMachLabel);
         add(zControls.posMachLabel);
 
-        add(new Label("Werkzeugposition:"));
+        add(rightAlligned(new JLabel("Werkzeugposition:")));
         add(yControls.posToolLabel);
         add(zControls.posToolLabel);
 
-        add(new Label("Manuell verfahren:"));
+        add(rightAlligned(new JLabel("Manuell verfahren:")));
         add(yControls.jogPanel);
         add(zControls.jogPanel);
 
-        add(new Label("Zielposition:"));
+        add(rightAlligned(new JLabel("Zielposition:")));
         add(yControls.destField);
         add(zControls.destField);
 
@@ -202,14 +203,19 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface {
             }
         });
 
-        add(new Label());
-        add(new Label());
+        add(new JLabel());
+        add(new JLabel());
         add(closeButton);
 
         closeButton.requestFocus();
 
         pack();
         setLocationRelativeTo(owner);
+    }
+
+    private JLabel rightAlligned(JLabel label) {
+        label.setHorizontalAlignment(SwingConstants.RIGHT);
+        return label;
     }
 
     public MotorData getMotorData() {
