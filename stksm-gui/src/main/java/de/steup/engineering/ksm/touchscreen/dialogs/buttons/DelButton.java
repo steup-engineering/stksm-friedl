@@ -2,7 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.steup.engineering.ksm.touchscreen.dialogs;
+package de.steup.engineering.ksm.touchscreen.dialogs.buttons;
+
+import de.steup.engineering.ksm.touchscreen.dialogs.DialogActionListener;
+import de.steup.engineering.ksm.touchscreen.dialogs.KeyButtonAction;
+import java.text.DecimalFormatSymbols;
 
 /**
  *
@@ -15,7 +19,7 @@ public class DelButton extends KeyButtonAction {
     }
 
     @Override
-    public String execute(DialogActionListener dialogActions, String currentText) {
+    public String execute(DecimalFormatSymbols decimalFormatSymbols, DialogActionListener dialogActions, String currentText) {
         if (!currentText.isEmpty()) {
             currentText = currentText.substring(0, currentText.length() - 1);
         }

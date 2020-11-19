@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Window;
+import java.text.DecimalFormat;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,6 +25,8 @@ import javax.swing.SwingConstants;
 public class PosOffsetRetainPanel extends JPanel {
 
     private static final long serialVersionUID = 6950515801162545923L;
+
+    private final static DecimalFormat DIST_FORMAT = new DecimalFormat("#0.0");
 
     private static final int TEXT_FIELD_COLUMNS = 10;
 
@@ -53,7 +56,7 @@ public class PosOffsetRetainPanel extends JPanel {
                 retainData.setPos(value);
             }
         };
-        addParamItem(owner, labelConst, textConst, "Mitte [mm]", 0.0, 6000.0, retainData.getPos(), posSetter);
+        addParamItem(owner, labelConst, textConst, "Mitte [mm]", 0.0, 6000.0, retainData.getPos(), DIST_FORMAT, posSetter);
 
         FloatSetter onOffsetSetter = new FloatSetter() {
 
@@ -62,7 +65,7 @@ public class PosOffsetRetainPanel extends JPanel {
                 retainData.setOnOffset(value);
             }
         };
-        addParamItem(owner, labelConst, textConst, "Offset ein [mm]", -999.0, 999.0, retainData.getOnOffset(), onOffsetSetter);
+        addParamItem(owner, labelConst, textConst, "Offset ein [mm]", -999.0, 999.0, retainData.getOnOffset(), DIST_FORMAT, onOffsetSetter);
 
         FloatSetter offOffsetSetter = new FloatSetter() {
 
@@ -71,12 +74,12 @@ public class PosOffsetRetainPanel extends JPanel {
                 retainData.setOffOffset(value);
             }
         };
-        addParamItem(owner, labelConst, textConst, "Offset aus [mm]", -999.0, 999.0, retainData.getOffOffset(), offOffsetSetter);
+        addParamItem(owner, labelConst, textConst, "Offset aus [mm]", -999.0, 999.0, retainData.getOffOffset(), DIST_FORMAT, offOffsetSetter);
 
         setBorder(BorderFactory.createTitledBorder(title));
     }
 
-    protected JTextField addParamItem(Window owner, GridBagConstraints labelConst, GridBagConstraints textConst, String labelText, double min, double max, double deflt, FloatSetter setter) {
+    protected JTextField addParamItem(Window owner, GridBagConstraints labelConst, GridBagConstraints textConst, String labelText, double min, double max, double deflt, DecimalFormat format, FloatSetter setter) {
         JLabel label = new JLabel(labelText + ": ");
         label.setHorizontalAlignment(SwingConstants.RIGHT);
         add(label, labelConst);
@@ -85,8 +88,8 @@ public class PosOffsetRetainPanel extends JPanel {
         final JTextField textField = new JTextField(TEXT_FIELD_COLUMNS);
         textField.setEditable(false);
         textField.setBackground(Color.WHITE);
-        textField.setText(Double.toString(deflt));
-        textField.addMouseListener(new FloatMouseListener(owner, labelText, textField, min, max, setter));
+        textField.setText(format.format(deflt));
+        textField.addMouseListener(new FloatMouseListener(owner, labelText, textField, min, max, format, setter));
         add(textField, textConst);
         textConst.gridy++;
 
