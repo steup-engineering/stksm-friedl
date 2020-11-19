@@ -129,30 +129,41 @@ net faces-2-active => json.GuiOutMain.faces-2.active
 net faces-3-active => json.GuiOutMain.faces-3.active
 
 net mill-0-active => json.GuiOutMain.mills-0.active
+setp json.GuiOutMain.mills-0.axis-0.destJogInc [MILL0]DEST_JOG_INC_Y
 net mill-0-y-pos-mach => json.GuiOutMain.mills-0.axis-0.posMach
 net mill-0-y-pos-tool => json.GuiOutMain.mills-0.axis-0.posTool
 net mill-0-y-err-code => json.GuiOutMain.mills-0.axis-0.errCode
+setp json.GuiOutMain.mills-0.axis-1.destJogInc [MILL0]DEST_JOG_INC_Z
 net mill-0-z-pos-mach => json.GuiOutMain.mills-0.axis-1.posMach
 net mill-0-z-pos-tool => json.GuiOutMain.mills-0.axis-1.posTool
 net mill-0-z-err-code => json.GuiOutMain.mills-0.axis-1.errCode
+
 net mill-1-active => json.GuiOutMain.mills-1.active
+setp json.GuiOutMain.mills-1.axis-0.destJogInc [MILL1]DEST_JOG_INC_Y
 net mill-1-y-pos-mach => json.GuiOutMain.mills-1.axis-0.posMach
 net mill-1-y-pos-tool => json.GuiOutMain.mills-1.axis-0.posTool
 net mill-1-y-err-code => json.GuiOutMain.mills-1.axis-0.errCode
+setp json.GuiOutMain.mills-1.axis-1.destJogInc [MILL1]DEST_JOG_INC_Z
 net mill-1-z-pos-mach => json.GuiOutMain.mills-1.axis-1.posMach
 net mill-1-z-pos-tool => json.GuiOutMain.mills-1.axis-1.posTool
 net mill-1-z-err-code => json.GuiOutMain.mills-1.axis-1.errCode
+
 net mill-2-active => json.GuiOutMain.mills-2.active
+setp json.GuiOutMain.mills-2.axis-0.destJogInc [MILL2]DEST_JOG_INC_Y
 net mill-2-y-pos-mach => json.GuiOutMain.mills-2.axis-0.posMach
 net mill-2-y-pos-tool => json.GuiOutMain.mills-2.axis-0.posTool
 net mill-2-y-err-code => json.GuiOutMain.mills-2.axis-0.errCode
+setp json.GuiOutMain.mills-2.axis-1.destJogInc [MILL2]DEST_JOG_INC_Z
 net mill-2-z-pos-mach => json.GuiOutMain.mills-2.axis-1.posMach
 net mill-2-z-pos-tool => json.GuiOutMain.mills-2.axis-1.posTool
 net mill-2-z-err-code => json.GuiOutMain.mills-2.axis-1.errCode
+
 net mill-3-active => json.GuiOutMain.mills-3.active
+setp json.GuiOutMain.mills-3.axis-0.destJogInc [MILL3]DEST_JOG_INC_Y
 net mill-3-y-pos-mach => json.GuiOutMain.mills-3.axis-0.posMach
 net mill-3-y-pos-tool => json.GuiOutMain.mills-3.axis-0.posTool
 net mill-3-y-err-code => json.GuiOutMain.mills-3.axis-0.errCode
+setp json.GuiOutMain.mills-3.axis-1.destJogInc [MILL3]DEST_JOG_INC_Z
 net mill-3-z-pos-mach => json.GuiOutMain.mills-3.axis-1.posMach
 net mill-3-z-pos-tool => json.GuiOutMain.mills-3.axis-1.posTool
 net mill-3-z-err-code => json.GuiOutMain.mills-3.axis-1.errCode

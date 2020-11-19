@@ -15,6 +15,7 @@ import de.steup.engineering.ksm.plc.entities.GuiOutMillAxis;
 import de.steup.engineering.ksm.plc.rest.MachineThread;
 import de.steup.engineering.ksm.touchscreen.UpdatePanelInterface;
 import de.steup.engineering.ksm.touchscreen.util.CaptionChangeListener;
+import de.steup.engineering.ksm.touchscreen.util.EnableMouseListener;
 import de.steup.engineering.ksm.touchscreen.util.MachButtonListener;
 import de.steup.engineering.ksm.touchscreen.util.MotorData;
 import java.awt.Color;
@@ -22,6 +23,7 @@ import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -38,11 +40,16 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface, Ca
 
     private static final int TEXT_FIELD_COLUMNS = 10;
 
+    private final static DecimalFormat DIST_FORMAT = new DecimalFormat("#0.0");
+
     private final MotorData motorData;
     private final AxisControls yControls;
     private final AxisControls zControls;
 
     private static class AxisControls {
+
+        private static final double DEST_MIN = -999.0;
+        private static final double DEST_MAX = 999.0;
 
         final GuiInMillAxis inData;
         final GuiOutMillAxis outData;
@@ -53,6 +60,10 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface, Ca
         final JLabel errLabel;
         final JPanel jogPanel;
         final JTextField destField;
+        final EnableMouseListener destFieldLsnr;
+
+        private boolean running = false;
+        private double destJogInc = 0.0;
 
         public AxisControls(Window owner, GuiInMillAxis inData, GuiOutMillAxis outData, String name) {
             this.inData = inData;
@@ -72,7 +83,14 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface, Ca
             jogNegBtn.addMouseListener(new MachButtonListener() {
                 @Override
                 protected void stateChanged(GuiInMain guiInData, boolean pressed) {
-                    inData.setJogNeg(pressed);
+                    if (running) {
+                        inData.setJogNeg(false);
+                        if (pressed) {
+                            incDest(-destJogInc);
+                        }
+                    } else {
+                        inData.setJogNeg(pressed);
+                    }
                 }
             });
             jogPanel.add(jogNegBtn);
@@ -81,7 +99,14 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface, Ca
             jogPosBtn.addMouseListener(new MachButtonListener() {
                 @Override
                 protected void stateChanged(GuiInMain guiInData, boolean pressed) {
-                    inData.setJogPos(pressed);
+                    if (running) {
+                        inData.setJogPos(false);
+                        if (pressed) {
+                            incDest(destJogInc);
+                        }
+                    } else {
+                        inData.setJogPos(pressed);
+                    }
                 }
             });
             jogPanel.add(jogPosBtn);
@@ -99,9 +124,22 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface, Ca
             destField = new JTextField(TEXT_FIELD_COLUMNS);
             destField.setEditable(false);
             destField.setBackground(Color.WHITE);
-            destField.addMouseListener(new FloatMouseListener(owner, "Zielposition " + name, destField, -999.0, 999.0, destSetter));
+            destFieldLsnr = new EnableMouseListener(new FloatMouseListener(owner, "Zielposition " + name, destField, DEST_MIN, DEST_MAX, DIST_FORMAT, destSetter));
+            destField.addMouseListener(destFieldLsnr);
 
             // force initial update
+            update();
+        }
+
+        private void incDest(double delta) {
+            double dest = inData.getDest() + delta;
+            if (dest < DEST_MIN) {
+                dest = DEST_MIN;
+            }
+            if (dest > DEST_MAX) {
+                dest = DEST_MAX;
+            }
+            inData.setDest(dest);
             update();
         }
 
@@ -111,9 +149,15 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface, Ca
                 public void run() {
                     GuiOutMain guiOutData = MachineThread.getInstance().getGuiOutData();
                     synchronized (guiOutData) {
-                        errLabel.setText(String.format("%d", outData.getErrCode()));
-                        posMachLabel.setText(String.format("%.0f", outData.getPosMach()));
-                        posToolLabel.setText(String.format("%.1f", outData.getPosTool()));
+                        running = guiOutData.isRunning();
+                        destJogInc = outData.getDestJogInc();
+
+                        errLabel.setText(Integer.toString(outData.getErrCode()));
+                        posMachLabel.setText(DIST_FORMAT.format(outData.getPosMach()));
+                        posToolLabel.setText(DIST_FORMAT.format(outData.getPosTool()));
+
+                        destField.setEnabled(!running);
+                        destFieldLsnr.setEnabled(!running);
                     }
                 }
             });
@@ -125,7 +169,7 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface, Ca
                 public void run() {
                     GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
                     synchronized (guiInData) {
-                        destField.setText(Double.toString(inData.getDest()));
+                        destField.setText(DIST_FORMAT.format(inData.getDest()));
                     }
                 }
             });
