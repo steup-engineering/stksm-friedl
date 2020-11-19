@@ -14,6 +14,7 @@ import de.steup.engineering.ksm.plc.entities.GuiOutMill;
 import de.steup.engineering.ksm.plc.entities.GuiOutMillAxis;
 import de.steup.engineering.ksm.plc.rest.MachineThread;
 import de.steup.engineering.ksm.touchscreen.UpdatePanelInterface;
+import de.steup.engineering.ksm.touchscreen.util.CaptionChangeListener;
 import de.steup.engineering.ksm.touchscreen.util.MachButtonListener;
 import de.steup.engineering.ksm.touchscreen.util.MotorData;
 import java.awt.Color;
@@ -33,7 +34,7 @@ import javax.swing.SwingUtilities;
  *
  * @author sascha
  */
-public class MillSetupDialog extends JDialog implements UpdatePanelInterface {
+public class MillSetupDialog extends JDialog implements UpdatePanelInterface, CaptionChangeListener {
 
     private static final int TEXT_FIELD_COLUMNS = 10;
 
@@ -142,6 +143,7 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface {
         };
 
         this.motorData = new MotorData(defaultCaption, inData, outData, setupAction);
+        this.motorData.addCaptionChangeListener(this);
 
         setResizable(false);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -228,4 +230,8 @@ public class MillSetupDialog extends JDialog implements UpdatePanelInterface {
         zControls.update();
     }
 
+    @Override
+    public void updateCaption() {
+        setTitle(motorData.getEffCaption());
+    }
 }
