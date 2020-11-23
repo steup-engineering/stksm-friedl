@@ -8,6 +8,8 @@ net air-press-ok <= lcec.0.S45A2.din-3
 net mat-switch-top <= lcec.0.S45A2.din-5
 net mat-switch-side <= lcec.0.S45A2.din-6
 
+#net mills-ctrl-voltage  <= lcec.0.S45A2.din-
+
 net belt-stop <= lcec.0.S45A3.din-0
 net belt-start <= lcec.0.S45A3.din-1
 net speed-inc <= lcec.0.S45A3.din-2
