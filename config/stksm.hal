@@ -24,7 +24,6 @@ loadrt ksm_inlet names=inlet
 
 loadrt ksm_unidev names=unidev-0
 loadrt ksm_mill_yz names=mill-yz-0,mill-yz-1,mill-yz-2,mill-yz-3
-loadrt ksm_motor_test
 
 loadusr -W lcrest rest-config.xml
 
@@ -44,8 +43,6 @@ addf mill-yz-0 servo-thread
 addf mill-yz-1 servo-thread
 addf mill-yz-2 servo-thread
 addf mill-yz-3 servo-thread
-
-addf ksm-motor-test servo-thread
 
 addf inlet servo-thread
 
