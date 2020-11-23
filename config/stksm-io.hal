@@ -1,14 +1,14 @@
 net ec-slaves-responding <= lcec.slaves-responding 
 net ec-all-op <= lcec.all-op 
 
-net ctrl-voltage <= lcec.0.S45A2.din-0
+net ctrl-voltage <= lcec.0.S45A4.din-0
 net motor-protection-ok <= lcec.0.S45A2.din-1-not
 net amp-ready <= lcec.0.S45A2.din-2
 net air-press-ok <= lcec.0.S45A2.din-3
 net mat-switch-top <= lcec.0.S45A2.din-5
 net mat-switch-side <= lcec.0.S45A2.din-6
-
-#net mills-ctrl-voltage  <= lcec.0.S45A2.din-
+net door-interlock <= lcec.0.S45A3.din-7-not
+net mills-ctrl-voltage  <= lcec.0.S45A2.din-0
 
 net belt-stop <= lcec.0.S45A3.din-0
 net belt-start <= lcec.0.S45A3.din-1
@@ -18,9 +18,9 @@ net inlet-roll-up <= lcec.0.S45A3.din-4
 net inlet-roll-down <= lcec.0.S45A3.din-5
 net inlet-roll-ack <= lcec.0.S45A3.din-6
 
-net calib-inc <= lcec.0.S45A4.din-0
-net calib-dec <= lcec.0.S45A4.din-1
-net calib-ok <= lcec.0.S45A4.din-2
+#net calib-inc <= lcec.0.S45A4.din-0
+#net calib-dec <= lcec.0.S45A4.din-1
+#net calib-ok <= lcec.0.S45A4.din-2
 net inlet-roll-at-top <= lcec.0.S45A4.din-3
 net inlet-roll-at-bot <= lcec.0.S45A4.din-4
 net unidevs-0-pos-2 <= lcec.0.S45A4.din-5

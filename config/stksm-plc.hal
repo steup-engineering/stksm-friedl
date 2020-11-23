@@ -15,7 +15,7 @@ setp ksm-main.ec-slaves		21
 setp ksm-main.min-mat-height [KSM]MIN_MATERIAL_HEIGHT
 
 setp ksm-main.water-press-ok	1
-setp ksm-main.door-interlock	1
+net door-interlock => ksm-main.door-interlock
 
 net ec-slaves-responding	=> ksm-main.ec-slaves-responding 
 net ec-all-op			=> ksm-main.ec-all-op 
