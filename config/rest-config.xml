@@ -20,6 +20,7 @@
         <halJsonPin name="posMach" type="float" dir="in"/>
         <halJsonPin name="posTool" type="float" dir="in"/>
         <halJsonPin name="errCode" type="u32" dir="in"/>
+        <halJsonPin name="destJogInc" type="float" dir="in"/>
       </halJsonArray>
       <halJsonObject name="whm">
         <halJsonPin name="secs" type="u32" dir="in"/>

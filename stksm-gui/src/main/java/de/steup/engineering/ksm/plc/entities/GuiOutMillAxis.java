@@ -14,6 +14,7 @@ public class GuiOutMillAxis {
     private double posMach;
     private double posTool;
     private int errCode;
+    private double destJogInc;
 
     public static void update(GuiOutMillAxis[] dst, GuiOutMillAxis[] src) {
         if (src == null) {
@@ -33,6 +34,7 @@ public class GuiOutMillAxis {
         posMach = src.posMach;
         posTool = src.posTool;
         errCode = src.errCode;
+        destJogInc = src.destJogInc;
     }
 
     public double getPosMach() {
@@ -57,6 +59,10 @@ public class GuiOutMillAxis {
 
     public void setErrCode(int errCode) {
         this.errCode = errCode;
+    }
+
+    public double getDestJogInc() {
+        return destJogInc;
     }
 
 }
