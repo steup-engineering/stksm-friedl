@@ -227,7 +227,7 @@ FUNCTION(_) {
     }
 
   //jog soft limits
-  if (!ctrl_voltage) {
+  if (ctrl_voltage) {
 
     if (drv_pos_fb_raw_y <= drv_softend_min_y) {
       drv_jog_neg_y = 0; 
