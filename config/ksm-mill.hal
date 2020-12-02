@@ -7,6 +7,11 @@ net ctrl-voltage => mill-yz-1.ctrl-voltage
 net ctrl-voltage => mill-yz-2.ctrl-voltage
 net ctrl-voltage => mill-yz-3.ctrl-voltage
 
+net mills-ctrl-voltage => mill-yz-0.motor-ctrl-voltage
+net mills-ctrl-voltage => mill-yz-1.motor-ctrl-voltage
+net mills-ctrl-voltage => mill-yz-2.motor-ctrl-voltage
+net mills-ctrl-voltage => mill-yz-3.motor-ctrl-voltage
+
 #net automatic-running    => mill-yz-0.automatic-running
 #net automatic-running    => mill-yz-1.automatic-running
 #net automatic-running    => mill-yz-2.automatic-running
@@ -16,14 +21,10 @@ net test1    => mill-yz-1.automatic-running
 net test2    => mill-yz-2.automatic-running
 net test3    => mill-yz-3.automatic-running
 
-#net test-start-motors => mill-yz-0.automatic-running => mill-yz-1.automatic-running => mill-yz-2.automatic-running => mill-yz-3.automatic-running   
-
 net mill-0-ena       => mill-yz-0.active
 net mill-1-ena       => mill-yz-1.active
 net mill-2-ena       => mill-yz-2.active
 net mill-3-ena       => mill-yz-3.active
-
-#net test-active   => mill-yz-0.active => mill-yz-1.active => mill-yz-2.active => mill-yz-3.active
 
 net setup         => mill-yz-0.man-setup
 net setup         => mill-yz-1.man-setup
@@ -34,9 +35,6 @@ net home => mill-yz-0.home
 net home => mill-yz-1.home
 net home => mill-yz-2.home
 net home => mill-yz-3.home
-
-#net test-pos-z => mill-yz-0.target-z mill-yz-1.target-z mill-yz-2.target-z mill-yz-3.target-z
-#net test-pos-y => mill-yz-0.target-y mill-yz-1.target-y mill-yz-2.target-y mill-yz-3.target-y
 
 
 ######################

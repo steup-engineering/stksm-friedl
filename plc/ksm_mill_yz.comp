@@ -8,6 +8,7 @@ option singleton no;
 
 //PLC Interface
 pin in bit ctrl_voltage;
+pin in bit motor_ctrl_voltage;
 pin in bit automatic_running;
 pin in bit home;
 
@@ -113,7 +114,7 @@ variable bool automatic_running_old =0;
 variable bool active_old =0;
 variable bool homing =0;
 variable bool posi =0;
-variable bool ctrl_voltage_old = 0; 
+variable bool motor_ctrl_voltage_old = 0; 
 variable float pon_timer = 0; 
 
 function _;
@@ -135,17 +136,17 @@ FUNCTION(_) {
 
   //enable
   
-  if (ctrl_voltage && !ctrl_voltage_old) {
+  if (motor_ctrl_voltage && !motor_ctrl_voltage_old) {
     pon_timer = power_on_delay_time; 
   }
 
   if (pon_timer <= 0) {
-    drives_enable = ctrl_voltage;
+    drives_enable = motor_ctrl_voltage;
   } else {
     pon_timer -= period_sec;
   }
   
-  ctrl_voltage_old = ctrl_voltage; 
+  motor_ctrl_voltage_old = motor_ctrl_voltage; 
 
   
   drives_on = drv_enabled_z && drv_enabled_y; 
@@ -158,7 +159,7 @@ FUNCTION(_) {
     homing = 0;
   } 
 
-  if (home && !home_old && drives_on) {   //start homing
+  if (home && !home_old && drives_on && ctrl_voltage) {   //start homing
     drv_home_z = 1;
     drv_home_y = 1;
     homing = 1; 
@@ -213,7 +214,7 @@ FUNCTION(_) {
 
 
   //jogging  
-  if (!automatic_running && !homing && !posi && (homed || man_setup)) {
+  if (!automatic_running && !homing && !posi && (homed || (motor_ctrl_voltage && drives_on))) {
     drv_jog_pos_y = jog_pos_y;
     drv_jog_neg_y = jog_neg_y;
     drv_jog_pos_z = jog_pos_z;
@@ -226,7 +227,7 @@ FUNCTION(_) {
     }
 
   //jog soft limits
-  if (!man_setup) {
+  if (!ctrl_voltage) {
 
     if (drv_pos_fb_raw_y <= drv_softend_min_y) {
       drv_jog_neg_y = 0; 
@@ -276,7 +277,7 @@ FUNCTION(_) {
   busy = homing || posi;
   ready = drives_on;
 
-  if (!ctrl_voltage) {
+  if (!ctrl_voltage && !motor_ctrl_voltage) {
     error = 0; 
     busy = 0;
     posi = 0; 
