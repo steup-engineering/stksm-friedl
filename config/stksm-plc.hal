@@ -26,6 +26,7 @@ net belt-start-int		=> ksm-main.belt-start
 net belt-stop			=> ksm-main.belt-stop
 net ctrl-voltage		=> ksm-main.ctrl-voltage
 net ctrl-voltage-lamp		<= ksm-main.ctrl-voltage-lamp
+net mills-lamp		    <= ksm-main.mills-lamp
 net no-error			<= ksm-main.no-error
 net error-lamp			<= ksm-main.error-lamp
 net error-mask			<= ksm-main.error-mask
@@ -58,6 +59,17 @@ net mill-0-homed    => ksm-main.mill-homed-0
 net mill-1-homed    => ksm-main.mill-homed-1
 net mill-2-homed    => ksm-main.mill-homed-2
 net mill-3-homed    => ksm-main.mill-homed-3
+
+net mill-0-belt-start-enable  => ksm-main.mill-belt-start-enable-0
+net mill-1-belt-start-enable  => ksm-main.mill-belt-start-enable-1
+net mill-2-belt-start-enable  => ksm-main.mill-belt-start-enable-2
+net mill-3-belt-start-enable  => ksm-main.mill-belt-start-enable-3
+
+net mill-0-busy  =>  ksm-main.mill-busy-0
+net mill-1-busy  =>  ksm-main.mill-busy-1
+net mill-2-busy  =>  ksm-main.mill-busy-2
+net mill-3-busy  =>  ksm-main.mill-busy-3
+
 ###########################################################
 # inlet
 ###########################################################

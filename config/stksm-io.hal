@@ -37,6 +37,7 @@ net amp-speed => lcec.0.S45A6.aout-0-value
 net plc-run => lcec.0.S45A7.dout-0
 net water-face-on => lcec.0.S45A7.dout-1
 net water-bevel-on => lcec.0.S45A7.dout-2
+net mills-lamp => lcec.0.S45A7.dout-3
 net automatic-running => lcec.0.S45A7.dout-4
 net inlet-roll-lamp => lcec.0.S45A7.dout-5
 net error-lamp => lcec.0.S45A7.dout-6

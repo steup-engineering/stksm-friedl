@@ -12,14 +12,20 @@ net mills-ctrl-voltage => mill-yz-1.motor-ctrl-voltage
 net mills-ctrl-voltage => mill-yz-2.motor-ctrl-voltage
 net mills-ctrl-voltage => mill-yz-3.motor-ctrl-voltage
 
-#net automatic-running    => mill-yz-0.automatic-running
-#net automatic-running    => mill-yz-1.automatic-running
-#net automatic-running    => mill-yz-2.automatic-running
-#net automatic-running    => mill-yz-3.automatic-running
-net test0    => mill-yz-0.automatic-running
-net test1    => mill-yz-1.automatic-running
-net test2    => mill-yz-2.automatic-running
-net test3    => mill-yz-3.automatic-running
+net automatic-running    => mill-yz-0.automatic-running
+net automatic-running    => mill-yz-1.automatic-running
+net automatic-running    => mill-yz-2.automatic-running
+net automatic-running    => mill-yz-3.automatic-running
+
+net belt-start-int      => mill-yz-0.belt-start
+net belt-start-int      => mill-yz-1.belt-start
+net belt-start-int      => mill-yz-2.belt-start
+net belt-start-int      => mill-yz-3.belt-start
+
+#net test0    => mill-yz-0.automatic-running
+#net test1    => mill-yz-1.automatic-running
+#net test2    => mill-yz-2.automatic-running
+#net test3    => mill-yz-3.automatic-running
 
 net mill-0-ena       => mill-yz-0.active
 net mill-1-ena       => mill-yz-1.active
@@ -65,6 +71,8 @@ net mill-0-drives-enable     <= mill-yz-0.drives-enable
 net mill-0-homed <= mill-yz-0.homed
 net mill-0-ready <= mill-yz-0.ready
 net mill-0-error <= mill-yz-0.error
+net mill-0-busy  <= mill-yz-0.busy
+net mill-0-belt-start-enable <= mill-yz-0.belt-start-enable
 
 net mill-0-pers-zref   => mill-yz-0.tool-ref-z
 net mill-0-pers-y-toff => mill-yz-0.tool-offset-y
@@ -102,6 +110,8 @@ net mill-1-drives-enable     <= mill-yz-1.drives-enable
 net mill-1-homed <= mill-yz-1.homed
 net mill-1-ready <= mill-yz-1.ready
 net mill-1-error <= mill-yz-1.error
+net mill-1-busy  <= mill-yz-1.busy
+net mill-1-belt-start-enable <= mill-yz-1.belt-start-enable
 
 net mill-1-pers-zref   => mill-yz-1.tool-ref-z
 net mill-1-pers-y-toff => mill-yz-1.tool-offset-y
@@ -139,6 +149,8 @@ net mill-2-drives-enable     <= mill-yz-2.drives-enable
 net mill-2-homed <= mill-yz-2.homed
 net mill-2-ready <= mill-yz-2.ready
 net mill-2-error <= mill-yz-2.error
+net mill-2-busy  <= mill-yz-2.busy
+net mill-2-belt-start-enable <= mill-yz-2.belt-start-enable
 
 net mill-2-pers-zref   => mill-yz-2.tool-ref-z
 net mill-2-pers-y-toff => mill-yz-2.tool-offset-y
@@ -176,6 +188,8 @@ net mill-3-drives-enable     <= mill-yz-3.drives-enable
 net mill-3-homed <= mill-yz-3.homed
 net mill-3-ready <= mill-yz-3.ready
 net mill-3-error <= mill-yz-3.error
+net mill-3-busy  <= mill-yz-3.busy
+net mill-3-belt-start-enable <= mill-yz-3.belt-start-enable
 
 net mill-3-pers-zref   => mill-yz-3.tool-ref-z
 net mill-3-pers-y-toff => mill-yz-3.tool-offset-y
