@@ -43,6 +43,14 @@ pin in bit mill_homed_0;
 pin in bit mill_homed_1;
 pin in bit mill_homed_2;
 pin in bit mill_homed_3;
+pin in bit mill_belt_start_enable_0;
+pin in bit mill_belt_start_enable_1;
+pin in bit mill_belt_start_enable_2;
+pin in bit mill_belt_start_enable_3;
+pin in bit mill_busy_0;
+pin in bit mill_busy_1;
+pin in bit mill_busy_2;
+pin in bit mill_busy_3;
 pin out bit mills_homed;
 
 pin in bit reset_error;
@@ -52,6 +60,7 @@ pin out bit no_error;
 
 pin in bit belt_start;
 pin in bit belt_stop;
+pin out bit mills_lamp; 
 pin out bit automatic_running;
 pin in bit calib_interlock;
 pin in bit has_material;
@@ -88,6 +97,7 @@ function _ fp;
 variable int ctrl_voltage_old = 0;
 variable hal_u32_t reset_error_old = 0;
 variable double error_blink = 0.0;
+variable double mills_blink = 0.0;
 variable double idle_timer = 0.0;
 
 ;;
@@ -110,9 +120,11 @@ variable double idle_timer = 0.0;
 #define ERROR_BLINK_PERIOD	0.5
 
 FUNCTION(_) {
-  bool mills_error, mills_softend_error;
+  bool mills_error, mills_softend_error, mills_belt_start_enable, mills_busy;
 
   // mills status
+  mills_busy = mill_busy_0 || mill_busy_1 || mill_busy_2 || mill_busy_3;
+  mills_belt_start_enable = mill_belt_start_enable_0 && mill_belt_start_enable_1 && mill_belt_start_enable_2 && mill_belt_start_enable_3;
   mills_homed = mill_homed_0 && mill_homed_1 && mill_homed_2 && mill_homed_3;
   mills_error = mill_error_0 || mill_error_1 || mill_error_2 || mill_error_3;
   mills_softend_error = mill_softend_error_0_y || mill_softend_error_1_y || mill_softend_error_2_y || mill_softend_error_3_y
@@ -253,8 +265,23 @@ FUNCTION(_) {
 	if (!no_error || calib_interlock || !mills_homed) {
 		automatic_running = 0;
 	} else {
-		automatic_running = belt_stop & (automatic_running | belt_start);
+		automatic_running = belt_stop & (automatic_running | (belt_start && mills_belt_start_enable));
 	}
+
+  // handle mills indicator
+	if (!mills_belt_start_enable && ctrl_voltage && mills_homed) {
+		mills_blink += fperiod;
+		if (mills_blink >= ERROR_BLINK_PERIOD) {
+			mills_lamp = !mills_lamp;
+			mills_blink -= ERROR_BLINK_PERIOD;
+		}
+	} else {
+		mills_blink = ERROR_BLINK_PERIOD;
+        mills_lamp = 0;
+	}
+    if (mills_busy) {
+        mills_lamp = 1;
+    } 
 
 	// handle water
 	water_on = automatic_running && has_material;
