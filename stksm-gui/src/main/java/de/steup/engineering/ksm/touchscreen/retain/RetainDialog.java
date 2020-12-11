@@ -23,6 +23,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import de.steup.engineering.ksm.Main;
+import de.steup.engineering.ksm.plc.entities.GuiInBevel;
+import de.steup.engineering.ksm.plc.entities.GuiInMain;
+import de.steup.engineering.ksm.plc.entities.GuiInStationInterface;
 import de.steup.engineering.ksm.plc.retain.RetainMill;
 import java.awt.Window;
 import java.io.IOException;
@@ -159,32 +162,60 @@ public class RetainDialog extends JDialog {
         super.setLocationRelativeTo(owner);
     }
 
+    static public String getCaption(int index, String name, GuiInStationInterface guiInterface) {
+        String guiCaption = guiInterface.getCaption();
+        if (guiCaption == null) {
+            return String.format("%s %d", name, index + 1);
+        }
+
+        return String.format("%s %d [%s]", name, index + 1, guiCaption);
+    }
+
     public final void setRetainData(RetainMain retainData) {
         this.retainData = retainData;
         this.spc.removeAll();
 
+        GuiInMain guiInData = MachineThread.getInstance().getGuiInData();
+
         RetainFace faces[] = this.retainData.getFaces();
+        GuiInStationInterface guiFaces[] = guiInData.getFaces();
         for (int i = 0; i < Main.FACE_COUNT; i++) {
-            spc.add(new PosOffsetRetainPanel(this, String.format("Flächenmotor %d", i + 1), faces[i]));
+            spc.add(new PosOffsetRetainPanel(
+                    this,
+                    getCaption(i, "Flächenmotor", guiFaces[i]),
+                    faces[i]));
         }
 
         RetainMill mills[] = retainData.getMills();
+        GuiInStationInterface guiMills[] = guiInData.getMills();
         for (int i = 0; i < Main.MILL_COUNT; i++) {
-            spc.add(new MillRetainPanel(this, String.format("Fräse %d", i + 1), mills[i]));
+            spc.add(new MillRetainPanel(
+                    this,
+                    getCaption(i, "Fräse", guiMills[i]),
+                    mills[i]));
         }
 
         RetainFace unidevs[] = retainData.getUnidevs();
+        GuiInStationInterface guiUnidevs[] = guiInData.getUnidevs();
         for (int i = 0; i < Main.UNIDEV_COUNT; i++) {
-            spc.add(new PosOffsetRetainPanel(this, String.format("Universalaggregat %d", i + 1), unidevs[i]));
+            spc.add(new PosOffsetRetainPanel(
+                    this,
+                    getCaption(i, "Universalaggregat", guiUnidevs[i]),
+                    unidevs[i]));
         }
 
         RetainBevel bevels[] = retainData.getBevels();
-        spc.add(new BevelRetainPanel(this, "Fase unten", bevels[0], 2));
-        spc.add(new BevelRetainPanel(this, "Fase open", bevels[1], 3));
+        GuiInBevel guiBevels[] = guiInData.getBevels();
+        spc.add(new BevelRetainPanel(this, "Fase unten", bevels[0], guiBevels[0], 2));
+        spc.add(new BevelRetainPanel(this, "Fase open", bevels[1], guiBevels[1], 3));
 
         RetainFace rolls[] = retainData.getRolls();
+        GuiInStationInterface guiRolls[] = guiInData.getRolls();
         for (int i = 0; i < Main.ROLLS_COUNT; i++) {
-            spc.add(new PosOffsetRetainPanel(this, String.format("Rolle %d", i + 1), rolls[i]));
+            spc.add(new PosOffsetRetainPanel(
+                    this,
+                    getCaption(i, "Rolle", guiRolls[i]),
+                    rolls[i]));
         }
 
         super.validate();
