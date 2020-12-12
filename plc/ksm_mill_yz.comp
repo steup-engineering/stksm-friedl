@@ -3,7 +3,7 @@ component ksm_mill_yz "KSM Profil Mills";
 author "Dominik Braun ";
 license "GPL";
 
-include "stdlib.h";
+include "math.h";
 
 option singleton no;
 
@@ -99,6 +99,7 @@ pin in signed drv_pos_fb_raw_y;
 
 //parameter
 param rw float power_on_delay_time = 0.1 "Power on delay for 48V";
+param rw float safty_pos = 2.0 "safty pos for inactive Mill";
 param rw float drv_softend_max_z "Softend max z raw"; 
 param rw float drv_softend_max_y "Softend max y raw"; 
 param rw float drv_softend_min_z "Softend min z raw"; 
@@ -106,8 +107,6 @@ param rw float drv_softend_min_y "Softend min y raw";
 
 //instance data
 variable bool home_old =0;
-variable bool automatic_running_old =0;
-variable bool active_old =0;
 variable bool belt_start_old =0;
 variable bool homing =0;
 variable bool posi_z =0;
@@ -188,8 +187,8 @@ FUNCTION(_) {
        drv_pos_cmd_z = target_z - home_offset_z + tool_offset_z + mat_heigth;
     }
 
-    //Y pos
-    drv_pos_cmd_y = target_y + home_offset_y - (tool_offset_y /2);    
+  //Y pos
+  drv_pos_cmd_y = target_y + home_offset_y - (tool_offset_y /2);    
 
   //reset belt enable 
   belt_start_enable = 0; 
@@ -200,26 +199,32 @@ FUNCTION(_) {
     drv_new_setpoint_y = 1; 
     done = 0; 
   }
-  automatic_running_old = automatic_running;
-  belt_start_old = belt_start;  
  
   //handle belt start enable 
-  if (active && abs(target_z - act_tool_pos_z) < 0.05 && abs(target_y - act_tool_pos_y) < 0.05) {
+  if (active && fabsf(target_z - act_tool_pos_z) < 0.05 && fabsf(target_y - act_tool_pos_y) < 0.05) {
     belt_start_enable = 1; 
   } else if (!active) { 
       belt_start_enable = 1;
   }
+  //belt start for inactive mill
+  if (!active && drv_act_pos_y > safty_pos ) {
+    if (belt_start && !belt_start_old) {
+      drv_pos_cmd_y= 0; 
+      drv_new_setpoint_y = 1;
+    }    
+  belt_start_enable =0; 
+  }      
+
+  belt_start_old = belt_start;  
 
   //active state
-  if (automatic_running && homed && (active != active_old)) {
+  if (automatic_running && homed && active) {
     if (active) {
       drv_pos_cmd_y = target_y + home_offset_y - (tool_offset_y / 2);    
     } else {
         drv_pos_cmd_y = 0;
       }
   drv_new_setpoint_y = 1; 
-  belt_start_enable = 0;
-  active_old = active;  
   }
   
 
