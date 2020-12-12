@@ -34,7 +34,7 @@ public class HeaderPanel extends JPanel implements UpdatePanelInterface {
 
         LogoLabel logoLabel = new LogoLabel();
 
-        JLabel titleLabel = new JLabel("Kantenschleifautomat STKSM 10-6B/1+3 Modell SIRIUS");
+        JLabel titleLabel = new JLabel("Kantenschleifautomat Type STKSM 4-5+4NA/SOA");
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 

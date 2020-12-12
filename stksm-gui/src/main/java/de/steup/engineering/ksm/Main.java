@@ -61,7 +61,7 @@ public class Main {
                 MachineThread machineThread = MachineThread.getInstance();
                 machineThread.setRestBaseUrl(restBaseUrl);
 
-                JFrame mainFrame = new JFrame("STKSM 10-6B/1+3");
+                JFrame mainFrame = new JFrame("STKSM 4-5+4NA/SOA");
                 mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 mainFrame.setUndecorated(true);
 
