@@ -116,6 +116,7 @@ public class FooterPanel extends JPanel {
                 Runtime rt = Runtime.getRuntime();
                 try {
                     rt.exec("sudo shutdown -h now");
+                    System.exit(0);
                 } catch (IOException ex) {
                     // NOP
                 }
