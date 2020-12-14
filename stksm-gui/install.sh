@@ -1,6 +1,10 @@
 #!/bin/sh
 
 if [ -z "$LINUXCNC_HOME" ]; then
+  LINUXCNC_HOME="$EMC2_HOME"
+fi
+
+if [ -z "$LINUXCNC_HOME" ]; then
   echo 'ERROR: LINUXCNC_HOME not set (rip-environment not called?)'
   exit 1
 fi
