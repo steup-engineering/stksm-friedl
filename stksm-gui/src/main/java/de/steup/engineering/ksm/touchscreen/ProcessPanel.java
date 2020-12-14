@@ -127,14 +127,14 @@ public class ProcessPanel extends JPanel implements UpdatePanelInterface {
         bevelUpperMotors.add(new MotorData("Fräser", guiInData.getBevels()[1].getMotors()[0], guiOutData.getBevels()[1].getMotors()[0]));
         bevelUpperMotors.add(new MotorData("Poli 1", guiInData.getBevels()[1].getMotors()[1], guiOutData.getBevels()[1].getMotors()[1]));
         bevelUpperMotors.add(new MotorData("Poli 2", guiInData.getBevels()[1].getMotors()[2], guiOutData.getBevels()[1].getMotors()[2]));
-        dp = new DevPanel(owner, "Fase oben", bevelUpperMotors, null, "Fasenbreite [mm]", true, guiInData.getBevels()[1]);
+        dp = new DevPanel(owner, "Fase unten", bevelUpperMotors, null, "Fasenbreite [mm]", true, guiInData.getBevels()[1]);
         updatePanels.add(dp);
         bevelPanel.add(dp);
 
         List<MotorData> bevelLowerMotors = new ArrayList<>();
         bevelLowerMotors.add(new MotorData("Fräser", guiInData.getBevels()[0].getMotors()[0], guiOutData.getBevels()[0].getMotors()[0]));
         bevelLowerMotors.add(new MotorData("Poli 1", guiInData.getBevels()[0].getMotors()[1], guiOutData.getBevels()[0].getMotors()[1]));
-        dp = new DevPanel(owner, "Fase unten", bevelLowerMotors, null, "Fasenbreite [mm]", true, guiInData.getBevels()[0]);
+        dp = new DevPanel(owner, "Fase oben", bevelLowerMotors, null, "Fasenbreite [mm]", true, guiInData.getBevels()[0]);
         updatePanels.add(dp);
         bevelPanel.add(dp);
 

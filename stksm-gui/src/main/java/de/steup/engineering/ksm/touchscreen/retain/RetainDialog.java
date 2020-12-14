@@ -206,8 +206,8 @@ public class RetainDialog extends JDialog {
 
         RetainBevel bevels[] = retainData.getBevels();
         GuiInBevel guiBevels[] = guiInData.getBevels();
-        spc.add(new BevelRetainPanel(this, "Fase unten", bevels[0], guiBevels[0], 2));
-        spc.add(new BevelRetainPanel(this, "Fase open", bevels[1], guiBevels[1], 3));
+        spc.add(new BevelRetainPanel(this, "Fase oben", bevels[0], guiBevels[0], 2));
+        spc.add(new BevelRetainPanel(this, "Fase unten", bevels[1], guiBevels[1], 3));
 
         RetainFace rolls[] = retainData.getRolls();
         GuiInStationInterface guiRolls[] = guiInData.getRolls();
