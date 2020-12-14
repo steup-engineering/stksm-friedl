@@ -146,6 +146,7 @@ public class RetainDialog extends JDialog {
                 Runtime rt = Runtime.getRuntime();
                 try {
                     rt.exec("/usr/local/bin/start_remote_session.sh");
+                    System.exit(0);
                 } catch (IOException ex) {
                     // NOP
                 }
