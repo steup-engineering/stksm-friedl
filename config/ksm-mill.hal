@@ -1,7 +1,6 @@
 ########################################
 # PLC IO
 ########################################
-
 net ctrl-voltage => mill-yz-0.ctrl-voltage
 net ctrl-voltage => mill-yz-1.ctrl-voltage
 net ctrl-voltage => mill-yz-2.ctrl-voltage
@@ -21,11 +20,6 @@ net belt-start-int      => mill-yz-0.belt-start
 net belt-start-int      => mill-yz-1.belt-start
 net belt-start-int      => mill-yz-2.belt-start
 net belt-start-int      => mill-yz-3.belt-start
-
-#net test0    => mill-yz-0.automatic-running
-#net test1    => mill-yz-1.automatic-running
-#net test2    => mill-yz-2.automatic-running
-#net test3    => mill-yz-3.automatic-running
 
 net mill-0-ena       => mill-yz-0.active
 net mill-1-ena       => mill-yz-1.active
