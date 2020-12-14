@@ -70,7 +70,7 @@ public class InfoPanel extends JPanel implements UpdatePanelInterface {
                 }
             }
         };
-        heightText = addParamItem(owner, this, labelConst, textConst, "Materialhöhe [mm]", 1.0, 200.0, 0.0, DIST_FORMAT, heightSetter);
+        heightText = addParamItem(owner, this, labelConst, textConst, "Materialhöhe [mm]", 10.0, 200.0, 0.0, DIST_FORMAT, heightSetter);
 
         FloatSetter feedSetter = new FloatSetter() {
 

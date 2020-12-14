@@ -64,7 +64,7 @@ public class ErrorDialog extends JDialog {
         new ErrorItem(GuiOutMain.ERR_BUS_SYSTEM, "Fehler Bussystem"),
         new ErrorItem(GuiOutMain.ERR_MILLS, "Störung Antriebe Fräser"),
         new ErrorItem(GuiOutMain.ERR_SOFTEND_MILLS, "Ungültige Zielposition Fräser"),
-        new ErrorItem(GuiOutMain.ERR_NO_MAT_HEIGHT, "Keine Materialhöhe eingegeben")
+        new ErrorItem(GuiOutMain.ERR_NO_MAT_HEIGHT, "Materialhöhe ungültig")
     };
 
     private final JCheckBox errorBoxes[];
