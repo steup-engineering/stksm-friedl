@@ -7,7 +7,7 @@ PARAM_DIR="$HOME/linuxcnc/ksm/param"
 
 mkdir -p "$PROC_DIR" "$PARAM_DIR"
 
-JAVADIR="$EMC2_HOME/java"
+JAVADIR="$LINUXCNC_HOME/java"
 
 cd $JAVADIR
 java \
