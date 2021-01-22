@@ -478,7 +478,7 @@ static void update_fifo(belt_data_t *belt, fifo_data_t *fifo, long period)
 			probe_enable = 1;
 		}
 	} else {
-		fifo->probe_delay_timer = *(fifo->probe_offset) * 10000000LL;
+		fifo->probe_delay_timer = *(fifo->probe_delay) * 1000000LL;
 	}
 
 	// fill in measured values (only process forward move)
@@ -787,7 +787,7 @@ static int export_fifo(fifo_data_t *data, int index)
 
 	*(data->probe_position) = 0.0;
 	*(data->probe_offset) = 0.0;
-	*(data->probe_delay) = 0.0;
+	*(data->probe_delay) = 0;
 
 	*(data->enabled) = 0;
 	*(data->material_switch) = 0;
