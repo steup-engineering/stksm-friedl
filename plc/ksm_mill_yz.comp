@@ -54,15 +54,6 @@ pin out bit error_y;
 pin out unsigned error_code_z;
 pin out unsigned error_code_y;
 
-/*
-jog-velo
-
-pos-velo
-
-softend-min
-
-softend-max
-*/
 //drives interface
 pin out bit drives_enable;
 
@@ -148,13 +139,16 @@ FUNCTION(_) {
   drives_on = drv_enabled_z && drv_enabled_y; 
 
   //homing
-  homed = drv_homed_z && drv_homed_y;     //homed state
+  //homed state
+  homed = drv_homed_z && drv_homed_y;
 
-  if (homed && homing) {         //reset home input
+  //reset home input
+  if (homed && homing) {
     homing = 0;
   } 
 
-  if (home && !home_old && drives_on && ctrl_voltage) {   //start homing
+  //start homing
+  if (home && !home_old && drives_on && ctrl_voltage) {
     drv_home_z = 1;
     drv_home_y = 1;
     homing = 1; 
@@ -338,7 +332,6 @@ FUNCTION(_) {
     drv_new_setpoint_y =0;
     drv_home_z = 0;
     drv_home_y = 0; 
-    //home = 0;
   }
 
 }

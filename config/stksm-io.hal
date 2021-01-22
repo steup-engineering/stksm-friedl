@@ -2,7 +2,7 @@ net ec-slaves-responding <= lcec.slaves-responding
 net ec-all-op <= lcec.all-op 
 
 net ctrl-voltage <= lcec.0.S45A4.din-0
-net motor-protection-ok <= lcec.0.S45A2.din-1-not
+net motor-protection-ok <= lcec.0.S45A2.din-1
 net amp-ready <= lcec.0.S45A2.din-2
 net air-press-ok <= lcec.0.S45A2.din-3
 net mat-switch-top <= lcec.0.S45A2.din-5
