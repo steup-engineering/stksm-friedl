@@ -415,7 +415,7 @@ net unidevs-0-pos-1 => unidev-0.pos-1
 net unidevs-0-pos-2 => unidev-0.pos-2
 
 net automatic-running => unidev-0.automatic-running
-net unidevs-0-height => unidev-0.height
+net mat-height => unidev-0.height
 net unidevs-0-sel-pos <= unidev-0.selected
 net unidevs-0-error <= unidev-0.error
 net unidevs-0-req => unidev-0.in
