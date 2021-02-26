@@ -187,19 +187,21 @@ FUNCTION(_) {
   //reset belt enable 
   belt_start_enable = 0; 
   
-  //set start position
-  if (active && drives_on && homed && mat_heigth !=0 && belt_start && !belt_start_old) {
-    drv_new_setpoint_z = 1;
-    drv_new_setpoint_y = 1; 
-    done = 0; 
-  }
- 
+  
   //handle belt start enable 
   if (active && fabsf(target_z - act_tool_pos_z) < 0.05 && fabsf(target_y - act_tool_pos_y) < 0.05) {
     belt_start_enable = 1; 
   } else if (!active) { 
       belt_start_enable = 1;
   }
+
+  //set start position
+  if (active && drives_on && homed && mat_heigth !=0 && belt_start && !belt_start_old && !belt_start_enable) {
+    drv_new_setpoint_z = 1;
+    drv_new_setpoint_y = 1; 
+    done = 0; 
+  }
+ 
   //belt start for inactive mill
   if (!active && drv_act_pos_y > safty_pos ) {
     if (belt_start && !belt_start_old) {
@@ -212,13 +214,13 @@ FUNCTION(_) {
   belt_start_old = belt_start;  
 
   //active state
-  if (automatic_running && homed && active) {
+  if (automatic_running && homed  ) {
     if (active) {
       drv_pos_cmd_y = target_y + home_offset_y - (tool_offset_y / 2);    
-    } else {
+    } else if (!active && drv_act_pos_y > safty_pos) {
         drv_pos_cmd_y = 0;
+        drv_new_setpoint_y = 1; 
       }
-  drv_new_setpoint_y = 1; 
   }
   
 
